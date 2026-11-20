@@ -1309,6 +1309,8 @@ function generateAirportAndReviewPages() {
     const prevAirport = index > 0 ? airports[index - 1] : airports[airports.length - 1];
     const nextAirport = index < airports.length - 1 ? airports[index + 1] : airports[0];
     const couponNotice = airport.coupon ? `<div class="alert-box alert-tip"><strong>专属优惠码：</strong> 结算时输入 <code>${airport.coupon}</code> 可享受专属折扣优惠！</div>` : '';
+    const brandShortName = airport.name.split(' ')[0].replace(/（.*）/, '').trim();
+    const brandGoUrl = `${brandShortName}官方前往 ↗`;
 
     // 资料页
     const profileHtml = renderHtmlPage({
@@ -1333,7 +1335,7 @@ function generateAirportAndReviewPages() {
                 <span>最后核验日期：${airport.lastVerified}</span>
               </div>
               <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:6px 18px; font-size:0.875rem; font-weight:700; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.25); display:inline-flex; align-items:center; gap:6px;">
-                <span>前往官网 ↗</span>
+                <span>${brandGoUrl}</span>
               </a>
             </div>
           </header>
@@ -1454,7 +1456,7 @@ function generateAirportAndReviewPages() {
                 <span>综合评分：<strong style="color:#2563eb;">${airport.summaryRating.stability} / 10.0</strong></span>
               </div>
               <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:6px 18px; font-size:0.875rem; font-weight:700; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.25); display:inline-flex; align-items:center; gap:6px;">
-                <span>前往官网 ↗</span>
+                <span>${brandGoUrl}</span>
               </a>
             </div>
           </header>
