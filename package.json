@@ -1,0 +1,27 @@
+{
+  "name": "fanqiangvpn-blog",
+  "version": "3.0.0",
+  "description": "2026中文机场与VPN推荐评测资讯系统 - 专为 Bing SEO 优化设计",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate-site.js && node scripts/audit-seo.js && node scripts/check-links.js",
+    "generate": "node scripts/generate-site.js",
+    "audit": "node scripts/audit-seo.js",
+    "check-links": "node scripts/check-links.js",
+    "validate": "node scripts/validate-content.js",
+    "indexnow": "node scripts/indexnow.js"
+  },
+  "keywords": [
+    "机场推荐",
+    "机场节点",
+    "性价比机场",
+    "梯子推荐",
+    "vpn",
+    "vpn机场",
+    "vpn节点",
+    "vpn推荐"
+  ],
+  "author": "fanqiangvpn.blog",
+  "license": "MIT"
+}

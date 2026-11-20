@@ -1,0 +1,21 @@
+Keyword,Intent,Target URL,Page Type,Priority,Title,H1
+机场推荐,Transactional/Commercial,https://fanqiangvpn.blog/,Home,P0,2026专业机场推荐与VPN节点评测导航 · 精选高性价比梯子节点,2026精选机场推荐与VPN节点测评指南
+性价比机场,Commercial,https://fanqiangvpn.blog/ranking/value/,Ranking,P0,2026性价比机场推荐排行榜 · 单GB成本与便宜稳定梯子测算,2026高性价比机场与梯子节点排行
+机场节点,Informational/Commercial,https://fanqiangvpn.blog/airport/,Database,P0,优质机场节点大全 · 常用节点国家线路与节点测速分类,全网优质机场节点大全与线路解析
+梯子推荐,Commercial/Transactional,https://fanqiangvpn.blog/recommend/,Recommend,P0,2026优质稳定梯子推荐与翻墙机场节点精选指南,优质好用梯子推荐与翻墙方案对比
+vpn,Informational,https://fanqiangvpn.blog/blog/vpn-vs-airport-difference/,Blog,P1,VPN是什么？传统VPN与代理机场节点的本质区别深度对比,VPN与机场节点全面区别解析：原理与选型建议
+vpn机场,Commercial,https://fanqiangvpn.blog/recommend/stable/,Recommend,P0,高稳定VPN机场推荐 · IEPL/IPLC专线抗封锁晚高峰不卡顿,稳定不掉线VPN机场精选推荐
+vpn节点,Informational/Tutorial,https://fanqiangvpn.blog/guides/,Guide,P0,VPN节点导入与客户端订阅使用教程汇总 (全平台指南),VPN节点与机场订阅客户端配置新手教程
+vpn推荐,Commercial,https://fanqiangvpn.blog/ranking/overall/,Ranking,P0,2026年度VPN推荐与综合机场实力榜单TOP精选,2026年度翻墙VPN与机场节点综合实力排行榜
+平价低预算机场,Commercial,https://fanqiangvpn.blog/recommend/budget/,Recommend,P1,便宜平价低预算机场推荐 · 几元起步高性价比轻量梯子,低预算便宜机场与实用节点推荐
+高端专线机场,Commercial,https://fanqiangvpn.blog/recommend/premium/,Recommend,P1,高端IEPL/IPLC专线机场推荐 · 4K秒开游戏低延迟大带宽,高端专线机场与企业级节点精选
+新手入门机场,Tutorial/Commercial,https://fanqiangvpn.blog/recommend/beginner/,Recommend,P1,新手友好机场推荐 · 一键导入零配置小白翻墙梯子教程,新手小白零门槛机场与梯子推荐
+AI专用机场节点,Informational/Commercial,https://fanqiangvpn.blog/recommend/ai/,Recommend,P1,ChatGPT与Claude专用解锁机场节点推荐 · 解除区域封锁,AI原生支持与防风控机场节点精选
+流媒体解锁机场,Commercial,https://fanqiangvpn.blog/recommend/streaming/,Recommend,P1,Netflix/Disney+/YouTube 4K流媒体原生解锁机场推荐,流媒体全解锁机场与超清视频节点
+机场横向比较,Commercial/Decision,https://fanqiangvpn.blog/compare/,Tool,P0,机场节点横向对比工具 · 价格/流量/专线/协议一键横评,在线机场横向对比工具与多维度比选
+Windows翻墙教程,Tutorial,https://fanqiangvpn.blog/guides/windows/,Guide,P1,Windows系统Clash与v2rayN客户端节点订阅使用全教程,Windows系统Clash Verge与节点配置指南
+Android翻墙教程,Tutorial,https://fanqiangvpn.blog/guides/android/,Guide,P1,Android安卓手机Clash与v2rayNG节点订阅图文教程,Android安卓平台机场节点客户端配置教程
+iOS翻墙教程,Tutorial,https://fanqiangvpn.blog/guides/ios/,Guide,P1,苹果iOS小火箭Shadowrocket与Loon节点订阅配置教学,苹果iOS小火箭与圈叉节点订阅配置教程
+macOS翻墙教程,Tutorial,https://fanqiangvpn.blog/guides/macos/,Guide,P1,苹果Mac系统Clash与Surge节点订阅配置详细教程,macOS系统Clash与节点配置指南
+机场协议解析,Informational,https://fanqiangvpn.blog/glossary/protocols-ss-v2ray-trojan-hysteria/,Glossary,P2,Shadowsocks/V2Ray/Trojan/Hysteria2协议区别科普,常用机场代理协议区别与特点详解
+IPLC/IEPL内网专线,Informational,https://fanqiangvpn.blog/glossary/iplc-iepl-leased-lines/,Glossary,P2,什么是IPLC和IEPL专线？与普通公网中转节点有何区别,IPLC/IEPL内网专线原理解析与优势科普

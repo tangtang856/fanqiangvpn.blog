@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# Bing 与各大搜索引擎专属站点地图声明
+Sitemap: https://fanqiangvpn.blog/sitemap.xml
