@@ -292,15 +292,14 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
     <table class="data-table">
       <thead>
         <tr>
-          <th>排名</th>
+          <th style="width:48px; text-align:center;">排名</th>
           <th>机场品牌</th>
           <th>线路类型</th>
           <th>起步套餐</th>
           <th>折算单价</th>
           <th>适合人群</th>
-          <th>优惠码</th>
-          <th>实测状态</th>
-          <th>操作</th>
+          <th>优惠与实测</th>
+          <th style="text-align:center;">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -308,23 +307,32 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
           const rankNum = idx + 1;
           const badgeClass = rankNum === 1 ? 'rank-1' : (rankNum === 2 ? 'rank-2' : (rankNum === 3 ? 'rank-3' : 'rank-other'));
           const minPlan = item.plans[0];
-          const couponText = item.coupon ? `<span style="color:#e11d48; font-weight:700; font-family:monospace;">${item.coupon}</span>` : '<span style="color:#94a3b8;">无</span>';
+          const couponMarkup = item.coupon
+            ? `<span class="coupon-badge" title="专属优惠码：${item.coupon}">券: ${item.coupon}</span>`
+            : `<span class="coupon-badge-none">无券</span>`;
+
           return `
           <tr>
-            <td><span class="rank-badge ${badgeClass}">${rankNum}</span></td>
+            <td style="text-align:center;"><span class="rank-badge ${badgeClass}">${rankNum}</span></td>
             <td>
               <strong><a href="${rel}airport/${item.slug}/index.html">${item.name}</a></strong>
-              <div style="font-size:0.75rem; color:#64748b;">${item.badge || ''}</div>
+              <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">${item.badge || ''}</div>
             </td>
             <td><span style="font-weight:600; color:#2563eb;">${minPlan.nodeType}</span></td>
             <td>¥${item.startingPrice} / ${minPlan.trafficGB}GB</td>
             <td><strong>¥${minPlan.calculatedUnitPrice}</strong> / GB</td>
-            <td>${item.suitableFor[0].substring(0, 18)}...</td>
-            <td>${couponText}</td>
-            <td><span style="color:#10b981; font-weight:600;">✓ 已核实</span></td>
+            <td>${item.suitableFor[0].substring(0, 16)}...</td>
             <td>
-              <a href="${rel}review/${item.slug}/index.html" class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:0.8rem;">评测</a>
-              <a href="${item.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:4px 8px; font-size:0.8rem;">官网 ↗</a>
+              <div class="coupon-status-cell">
+                ${couponMarkup}
+                <span class="status-badge">✓ 已核实</span>
+              </div>
+            </td>
+            <td style="text-align:center;">
+              <div class="action-buttons-cell">
+                <a href="${rel}review/${item.slug}/index.html" class="btn btn-secondary btn-sm table-btn">评测</a>
+                <a href="${item.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm table-btn">官网 ↗</a>
+              </div>
             </td>
           </tr>
           `;
