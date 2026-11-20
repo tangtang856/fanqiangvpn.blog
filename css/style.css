@@ -633,34 +633,39 @@ ul, ol {
 /* 表格与排行榜 (Section 5) */
 .table-responsive {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   margin-bottom: 24px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 820px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.9rem;
-  white-space: nowrap;
+  font-size: 0.85rem;
 }
 
 .data-table th {
   background: #f8fafc;
   color: var(--color-text);
   font-weight: 600;
-  padding: 12px 14px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
 }
 
 .data-table td {
-  padding: 12px 14px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--color-border-subtle);
   color: var(--color-text-secondary);
   vertical-align: middle;
@@ -674,18 +679,18 @@ ul, ol {
 .coupon-status-cell {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   white-space: nowrap;
 }
 
 .coupon-badge {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #e11d48;
   background: #fff1f2;
   border: 1px solid #fecdd3;
-  padding: 2px 7px;
+  padding: 2px 5px;
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
@@ -693,11 +698,11 @@ ul, ol {
 }
 
 .coupon-badge-none {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #94a3b8;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  padding: 2px 7px;
+  padding: 2px 5px;
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
@@ -705,12 +710,12 @@ ul, ol {
 }
 
 .status-badge {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #059669;
   background: #ecfdf5;
   border: 1px solid #a7f3d0;
-  padding: 2px 7px;
+  padding: 2px 5px;
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;
@@ -720,16 +725,16 @@ ul, ol {
 .action-buttons-cell {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   white-space: nowrap;
 }
 
 .table-btn {
-  padding: 4px 10px !important;
-  font-size: 0.825rem !important;
+  padding: 3px 8px !important;
+  font-size: 0.75rem !important;
   white-space: nowrap;
   line-height: 1.4;
-  border-radius: 6px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

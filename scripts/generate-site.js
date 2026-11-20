@@ -292,14 +292,14 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
     <table class="data-table">
       <thead>
         <tr>
-          <th style="width:48px; text-align:center;">排名</th>
-          <th>机场品牌</th>
-          <th>线路类型</th>
-          <th>起步套餐</th>
-          <th>折算单价</th>
-          <th>适合人群</th>
-          <th>优惠与实测</th>
-          <th style="text-align:center;">操作</th>
+          <th style="width:5%; min-width:36px; text-align:center;">排名</th>
+          <th style="width:20%; min-width:130px;">机场品牌</th>
+          <th style="width:11%; min-width:80px;">线路类型</th>
+          <th style="width:13%; min-width:90px;">起步套餐</th>
+          <th style="width:11%; min-width:80px;">折算单价</th>
+          <th style="width:15%; min-width:105px;">适合人群</th>
+          <th style="width:13%; min-width:110px;">优惠与实测</th>
+          <th style="width:12%; min-width:95px; text-align:center;">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -319,9 +319,9 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
               <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">${item.badge || ''}</div>
             </td>
             <td><span style="font-weight:600; color:#2563eb;">${minPlan.nodeType}</span></td>
-            <td>¥${item.startingPrice} / ${minPlan.trafficGB}GB</td>
-            <td><strong>¥${minPlan.calculatedUnitPrice}</strong> / GB</td>
-            <td>${item.suitableFor[0].substring(0, 16)}...</td>
+            <td>¥${item.startingPrice} <span style="font-size:0.75rem; color:#64748b;">/ ${minPlan.trafficGB}G</span></td>
+            <td><strong>¥${minPlan.calculatedUnitPrice}</strong> <span style="font-size:0.75rem; color:#64748b;">/G</span></td>
+            <td><span title="${item.suitableFor[0]}">${item.suitableFor[0].substring(0, 10)}...</span></td>
             <td>
               <div class="coupon-status-cell">
                 ${couponMarkup}
