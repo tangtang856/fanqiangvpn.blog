@@ -8,7 +8,6 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://fanqiangvpn.blog/guides/rules-and-routing/">
   
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fanqiangvpn.blog/guides/rules-and-routing/">
   <meta property="og:title" content="Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流">
@@ -16,12 +15,10 @@
   <meta property="og:site_name" content="翻墙VPN与机场节点指南">
   <meta property="og:locale" content="zh_CN">
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流">
   <meta name="twitter:description" content="深入浅出剖析Clash规则分流原理，讲解GEOIP、DOMAIN-SUFFIX、MATCH以及自动故障转移Fallback策略组的高级配置方法。">
   
-  <!-- 核心原生轻量样式 (相对路径) -->
   <link rel="stylesheet" href="../../css/style.css">
   
   
@@ -62,7 +59,7 @@
       <a href="../../recommend/index.html">✈ 机场梯子推荐专题</a>
       <a href="../../ranking/overall/index.html">🏆 综合实力排行榜</a>
       <a href="../../ranking/value/index.html">💰 高性价比机场排行</a>
-      <a href="../../airport/index.html">🌐 优质机场节点大全</a>
+      <a href="../../airport/index.html">🌐 14家优质机场节点大全</a>
       <a href="../../compare/index.html">⚖ 机场在线对比工具</a>
       <a href="../../guides/index.html">📖 全平台客户端使用教程</a>
       <a href="../../blog/index.html">📝 选购技巧与深度科普</a>
@@ -94,20 +91,7 @@
         </header>
 
         <div class="article-body">
-          <h2>什么是规则分流？</h2>
-          <p>
-            传统的商用VPN采用全局接管机制，一旦连接，你访问百度、淘宝也会经过境外节点绕一大圈，不仅极其浪费机场流量，还会导致国内网站被判定异地登录甚至无法打开。而现代代理客户端采用<strong>基于规则的分流机制（Rule-based Routing）</strong>：
-          </p>
-          <ul>
-            <li>访问国内常用网站（如 <code>*.baidu.com</code>、<code>*.taobao.com</code> 及国内IP段）→ <strong>DIRECT（直连）</strong>，不走节点，速度最快且不耗费流量。</li>
-            <li>访问境外受限网站（如 <code>*.google.com</code>、<code>*.github.com</code>）→ <strong>PROXY（代理）</strong>，由机场节点中转加速。</li>
-            <li>访问广告追踪域名 → <strong>REJECT（拦截）</strong>，直接在客户端层面阻断广告加载。</li>
-          </ul>
-
-          <h2>高可用容灾：Fallback 故障转移策略组配置</h2>
-          <p>
-            如果你购买了一家月付主力专线机场（如 <a href="../../airport/wuye/index.html">五叶网络</a>），同时手头备有一家按量不限时的应急机场（如 <a href="../../airport/mojie/index.html">魔戒VPN</a>），你可以在配置中设置一个 <code>fallback</code> 策略组。客户端会定时向探测网址发送握手包，当主力节点出现网络故障时，几秒内自动无缝切换到备用节点，保证跨国业务永不断连。
-          </p>
+          <p>规则分流能让访问国内网站走直连（秒开且不消耗套餐流量），访问海外受限网站走代理节点。配合 Fallback 自动故障转移策略组，可在节点波动时自动秒级切换备用节点。</p>
         </div>
       </div>
       
@@ -206,7 +190,6 @@
   </footer>
   
 
-  <!-- 极速原生脚本 (相对路径) -->
   <script src="../../js/main.js" defer></script>
 </body>
 </html>

@@ -8,7 +8,6 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://fanqiangvpn.blog/guides/macos/">
   
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fanqiangvpn.blog/guides/macos/">
   <meta property="og:title" content="苹果Mac系统Clash与Surge节点订阅配置详细教程">
@@ -16,12 +15,10 @@
   <meta property="og:site_name" content="翻墙VPN与机场节点指南">
   <meta property="og:locale" content="zh_CN">
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="苹果Mac系统Clash与Surge节点订阅配置详细教程">
   <meta name="twitter:description" content="macOS苹果电脑翻墙配置指南，详解Clash Verge Rev在Mac端的安装设置、增强模式（TUN）开启与常见端口冲突排查。">
   
-  <!-- 核心原生轻量样式 (相对路径) -->
   <link rel="stylesheet" href="../../css/style.css">
   
   
@@ -62,7 +59,7 @@
       <a href="../../recommend/index.html">✈ 机场梯子推荐专题</a>
       <a href="../../ranking/overall/index.html">🏆 综合实力排行榜</a>
       <a href="../../ranking/value/index.html">💰 高性价比机场排行</a>
-      <a href="../../airport/index.html">🌐 优质机场节点大全</a>
+      <a href="../../airport/index.html">🌐 14家优质机场节点大全</a>
       <a href="../../compare/index.html">⚖ 机场在线对比工具</a>
       <a href="../../guides/index.html">📖 全平台客户端使用教程</a>
       <a href="../../blog/index.html">📝 选购技巧与深度科普</a>
@@ -94,24 +91,7 @@
         </header>
 
         <div class="article-body">
-          <p>macOS平台过去流行的ClashX已长期停止更新，目前针对Apple Silicon芯片优化的首选软件同样是 <strong>Clash Verge Rev (macOS DMG包)</strong>。</p>
-
-          <h2>安装与安全权限授予</h2>
-          <ol>
-            <li>下载对应架构的 DMG 文件（M系列芯片请下载 <code>aarch64.dmg</code>，旧款Intel芯片请下载 <code>x64.dmg</code>）。</li>
-            <li>打开 DMG 并将 Clash Verge 拖入“应用程序 (Applications)”文件夹。</li>
-            <li>首次打开若提示“无法验证开发者”，请进入系统“设置” → “隐私与安全性” → 点击“仍要打开”。</li>
-          </ol>
-
-          <h2>开启 TUN 增强模式（接管全系统流量）</h2>
-          <p>
-            Mac 终端（Terminal）、Docker 或部分未遵循系统代理的环境默认不会走代理。通过开启 TUN 模式，可以在系统内核层创建一个虚拟网卡，彻底解决命令行无法 git clone 或下载外网资源的问题：
-          </p>
-          <ol>
-            <li>在 Clash Verge 设置中，授予软件服务安装权限（Service Mode）。</li>
-            <li>开启 <strong>“TUN 模式”</strong> 开关。</li>
-            <li>在终端执行 <code>curl ipinfo.io</code>，若返回境外 IP 则说明终端代理配置成功。</li>
-          </ol>
+          <p>Mac 端推荐安装 Clash Verge Rev DMG 安装包。导入订阅后，建议在设置中开启“TUN 模式”，以确保终端命令行与所有后台应用均能顺利代理。</p>
         </div>
       </div>
       
@@ -210,7 +190,6 @@
   </footer>
   
 
-  <!-- 极速原生脚本 (相对路径) -->
   <script src="../../js/main.js" defer></script>
 </body>
 </html>

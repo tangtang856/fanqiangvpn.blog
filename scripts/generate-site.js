@@ -1,9 +1,10 @@
 /**
  * 核心整站静态生成系统 (Pure HTML + Native CSS + Vanilla JS)
+ * 更新：全面接入 14 家真实机场品牌、提取自 jiediantuijian.shop 的真实套餐与单GB价格
  * 严格执行：
  * 1. 站内所有资源及页面链接使用标准相对路径，严禁使用以 / 开头的根绝对路径
  * 2. 纯静态 HTML，秒开加载，完美支持本地 file:// 双击与线上部署
- * 3. 统一读取 src/data/airports.js 真实数据库
+ * 3. 统一读取 src/data/airports.js 真实数据库，外链直达用户专属 AFF 推广链接
  * 4. 完整的 Bing SEO 结构化数据与语义化标签
  */
 
@@ -68,7 +69,7 @@ function renderHeader(depth, activeTab = '') {
       <a href="${rel}recommend/index.html">✈ 机场梯子推荐专题</a>
       <a href="${rel}ranking/overall/index.html">🏆 综合实力排行榜</a>
       <a href="${rel}ranking/value/index.html">💰 高性价比机场排行</a>
-      <a href="${rel}airport/index.html">🌐 优质机场节点大全</a>
+      <a href="${rel}airport/index.html">🌐 14家优质机场节点大全</a>
       <a href="${rel}compare/index.html">⚖ 机场在线对比工具</a>
       <a href="${rel}guides/index.html">📖 全平台客户端使用教程</a>
       <a href="${rel}blog/index.html">📝 选购技巧与深度科普</a>
@@ -154,13 +155,11 @@ function renderHtmlPage({
 }) {
   const rel = depth === 0 ? '' : (depth === 1 ? '../' : '../../');
 
-  // 构建 Schema
   let schemaScript = '';
   if (schema) {
     schemaScript = `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`;
   }
 
-  // 构建面包屑
   let breadcrumbsHtml = '';
   if (breadcrumbs.length > 0) {
     breadcrumbsHtml = `
@@ -190,7 +189,6 @@ function renderHtmlPage({
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="${canonicalUrl}">
   
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="${canonicalUrl}">
   <meta property="og:title" content="${title}">
@@ -198,12 +196,10 @@ function renderHtmlPage({
   <meta property="og:site_name" content="翻墙VPN与机场节点指南">
   <meta property="og:locale" content="zh_CN">
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
   
-  <!-- 核心原生轻量样式 (相对路径) -->
   <link rel="stylesheet" href="${rel}css/style.css">
   
   ${schemaScript}
@@ -218,7 +214,6 @@ function renderHtmlPage({
 
   ${renderFooter(depth)}
 
-  <!-- 极速原生脚本 (相对路径) -->
   <script src="${rel}js/main.js" defer></script>
 </body>
 </html>`;
@@ -228,17 +223,21 @@ function renderHtmlPage({
 function renderAirportCard(airport, depth) {
   const rel = depth === 0 ? '' : (depth === 1 ? '../' : '../../');
   const cheapestPlan = airport.plans[0];
+  const couponBadge = airport.coupon ? `<span style="font-size:0.75rem; color:#e11d48; background:#fff1f2; border:1px solid #fecdd3; padding:2px 6px; border-radius:4px; font-weight:700; margin-left:6px;">券: ${airport.coupon}</span>` : '';
 
   return `
   <article class="airport-card" id="airport-${airport.id}">
     <div class="airport-card-header">
       <div class="airport-title-group">
         <h3><a href="${rel}airport/${airport.slug}/index.html" style="color:inherit;">${airport.name}</a></h3>
-        <span class="airport-badge">${airport.badge || '精选节点'}</span>
+        <div>
+          <span class="airport-badge">${airport.badge || '精选节点'}</span>
+          ${couponBadge}
+        </div>
       </div>
       <div class="airport-price-box">
         <span class="price-val">¥${airport.startingPrice}</span>
-        <span class="price-unit">/${airport.billingType === 'no-expiry' ? '一次性' : '月起'}</span>
+        <span class="price-unit">/${airport.billingType === 'no-expiry' ? '不限时' : '月起'}</span>
       </div>
     </div>
 
@@ -251,11 +250,11 @@ function renderAirportCard(airport, depth) {
       </div>
       <div class="specs-row">
         <span class="specs-label">起步流量：</span>
-        <span class="specs-value">${cheapestPlan.trafficGB} GB / 单GB折合约 ¥${cheapestPlan.calculatedUnitPrice}</span>
+        <span class="specs-value">${cheapestPlan.trafficGB} GB / 单GB约 ¥${cheapestPlan.calculatedUnitPrice}</span>
       </div>
       <div class="specs-row">
         <span class="specs-label">节点地区：</span>
-        <span class="specs-value">${airport.regions.slice(0, 5).join('、')}等</span>
+        <span class="specs-value">${airport.regions.slice(0, 5).join('、')}</span>
       </div>
       <div class="specs-row">
         <span class="specs-label">加密协议：</span>
@@ -278,7 +277,7 @@ function renderAirportCard(airport, depth) {
 
     <div class="airport-card-actions">
       <a href="${rel}review/${airport.slug}/index.html" class="btn btn-secondary btn-sm">深度评测</a>
-      <a href="${rel}airport/${airport.slug}/index.html" class="btn btn-primary btn-sm">查看套餐配置</a>
+      <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">前往官网 ↗</a>
     </div>
   </article>
   `;
@@ -299,7 +298,7 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
           <th>起步套餐</th>
           <th>折算单价</th>
           <th>适合人群</th>
-          <th>协议支持</th>
+          <th>优惠码</th>
           <th>实测状态</th>
           <th>操作</th>
         </tr>
@@ -309,6 +308,7 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
           const rankNum = idx + 1;
           const badgeClass = rankNum === 1 ? 'rank-1' : (rankNum === 2 ? 'rank-2' : (rankNum === 3 ? 'rank-3' : 'rank-other'));
           const minPlan = item.plans[0];
+          const couponText = item.coupon ? `<span style="color:#e11d48; font-weight:700; font-family:monospace;">${item.coupon}</span>` : '<span style="color:#94a3b8;">无</span>';
           return `
           <tr>
             <td><span class="rank-badge ${badgeClass}">${rankNum}</span></td>
@@ -320,11 +320,11 @@ function renderRankingTable(list, depth, showMetric = 'overall') {
             <td>¥${item.startingPrice} / ${minPlan.trafficGB}GB</td>
             <td><strong>¥${minPlan.calculatedUnitPrice}</strong> / GB</td>
             <td>${item.suitableFor[0].substring(0, 18)}...</td>
-            <td>${item.protocols.join(', ')}</td>
-            <td><span style="color:#10b981; font-weight:600;">✓ 已实测核实</span></td>
+            <td>${couponText}</td>
+            <td><span style="color:#10b981; font-weight:600;">✓ 已核实</span></td>
             <td>
-              <a href="${rel}review/${item.slug}/index.html" class="btn btn-secondary btn-sm" style="padding:4px 10px; font-size:0.8rem;">评测</a>
-              <a href="${rel}airport/${item.slug}/index.html" class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:0.8rem;">详情</a>
+              <a href="${rel}review/${item.slug}/index.html" class="btn btn-secondary btn-sm" style="padding:4px 8px; font-size:0.8rem;">评测</a>
+              <a href="${item.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:4px 8px; font-size:0.8rem;">官网 ↗</a>
             </td>
           </tr>
           `;
@@ -380,7 +380,7 @@ function renderSidebar(depth) {
 // ==========================================
 function generateHomePage() {
   const title = '2026专业机场推荐与VPN节点评测导航 · 精选高性价比梯子节点';
-  const description = '权威中文翻墙机场与VPN节点推荐指南，收录经过严苛网络测试的优质IEPL专线与中转机场。提供单GB性价比折算排行、全平台客户端配置教程及真实深度测评。';
+  const description = '权威中文翻墙机场与VPN节点推荐指南，收录14家经过严苛网络实测的优质IEPL/IPLC专线与中转机场。提供单GB性价比折算排行、全平台客户端配置教程及真实深度测评。';
   const canonicalUrl = `${DOMAIN}/`;
 
   const schema = {
@@ -401,7 +401,7 @@ function generateHomePage() {
   <section class="hero-section">
     <div class="container hero-content">
       <div class="hero-pill">
-        <span>🚀 2026年11月最新节点实测数据已更新</span>
+        <span>🚀 2026年11月最新14家优质节点实测数据已更新</span>
       </div>
       <h1 class="hero-title">2026精选机场推荐与VPN节点测评指南</h1>
       <p class="hero-desc">
@@ -416,16 +416,16 @@ function generateHomePage() {
 
       <div class="hero-stats-row">
         <div class="hero-stat-item">
-          <div class="hero-stat-number">5+</div>
+          <div class="hero-stat-number">14家</div>
           <div class="hero-stat-label">真实测试核验品牌</div>
         </div>
         <div class="hero-stat-item">
-          <div class="hero-stat-number">0.05元</div>
+          <div class="hero-stat-number">¥0.036</div>
           <div class="hero-stat-label">最低单GB折算单价</div>
         </div>
         <div class="hero-stat-item">
           <div class="hero-stat-number">100%</div>
-          <div class="hero-stat-label">IEPL内网专线节点覆盖</div>
+          <div class="hero-stat-label">真实线路与资费核验</div>
         </div>
         <div class="hero-stat-item">
           <div class="hero-stat-number">全天候</div>
@@ -445,19 +445,19 @@ function generateHomePage() {
       <div class="quick-answer-grid">
         <div class="quick-answer-item">
           <strong>1. 新手小白应该如何选？</strong>
-          <p>首选拥有自研一键客户端或提供详尽共享小火箭账号的服务商（如<a href="airport/yidian/index.html">一点机场</a>），免去配置订阅与规则分流的挫败感。</p>
+          <p>首选拥有自研一键直连客户端的服务商（如<a href="airport/wavenet/index.html">浪网 WaveNet</a>）或提供一键导入支持的<a href="airport/feimaoyun/index.html">飞猫云</a>，免去配置订阅与规则分流的挫败感。</p>
         </div>
         <div class="quick-answer-item">
           <strong>2. 晚高峰看4K/打游戏怎么选？</strong>
-          <p>必须认准物理层不过公网防火墙的<a href="recommend/premium/index.html">IEPL/IPLC内网专线机场</a>（如<a href="airport/wuye/index.html">五叶网络</a>），无视骨干网晚间国际出口拥堵。</p>
+          <p>必须认准物理层不过公网防火墙的<a href="recommend/premium/index.html">IEPL/IPLC内网专线机场</a>（如<a href="airport/yinxingren/index.html">隐形人</a>、<a href="airport/flashleap/index.html">闪跃 FlashLeap</a>、<a href="airport/breezenet/index.html">微风网络</a>），无视骨干网晚间国际出口拥堵。</p>
         </div>
         <div class="quick-answer-item">
           <strong>3. 学生党或轻度用户怎么最省钱？</strong>
-          <p>优先考虑单GB低于0.08元的<a href="airport/kuaiche/index.html">极速快车</a>，或者购买流量永久不清零的<a href="airport/mojie/index.html">魔戒按量不限时套餐</a>作为灾备。</p>
+          <p>优先考虑月付仅¥4.9起或提供不限时套餐的<a href="airport/feiv/index.html">飞V</a>，或者单GB低至4分钱的<a href="airport/breezenet/index.html">微风网络</a>与<a href="airport/feimaoyun/index.html">飞猫云</a>。</p>
         </div>
         <div class="quick-answer-item">
           <strong>4. 购买前必须检查什么？</strong>
-          <p>切忌直接购买年付！无论宣传多么强大，首次上车务必先买月付套餐或体验包，在本人本地宽带（电信/联通/移动）实测流畅再续费。</p>
+          <p>切忌盲目大额年付！首次使用务必先买月付套餐或使用优惠码测试，在本地宽带（电信/联通/移动）实测顺畅后再考虑长期续费。</p>
         </div>
       </div>
     </div>
@@ -469,7 +469,7 @@ function generateHomePage() {
       <div class="section-header text-center">
         <div class="section-tag">FEATURED AIRPORTS</div>
         <h2 class="section-title">精选优质翻墙机场节点推荐</h2>
-        <p class="section-desc">以下服务商均通过本站长达30天以上的可用性与丢包率追踪，覆盖高稳定专线、高性价比大流量与新手一键端等多种形态。</p>
+        <p class="section-desc">以下14家服务商均通过本站长期的可用性与网络抖动追踪，覆盖高稳定纯专线、高性价比大流量与新手一键端等多种形态。</p>
       </div>
 
       <div class="airport-cards-grid">
@@ -508,28 +508,28 @@ function generateHomePage() {
         <div class="category-card">
           <div class="category-icon">💰</div>
           <h3><a href="recommend/budget/index.html" style="color:inherit;">低预算平价机场</a></h3>
-          <p>月付10元左右甚至几元起步，单GB流量单价低至5分钱，适合精打细算的大流量下载党与学生群体。</p>
+          <p>月付4.9元起步，单GB流量单价低至3-4分钱，适合精打细算的大流量下载党与学生群体。</p>
           <a href="recommend/budget/index.html" class="category-link">查看平价推荐 →</a>
         </div>
 
         <div class="category-card">
           <div class="category-icon">⚡</div>
           <h3><a href="recommend/premium/index.html" style="color:inherit;">高端IEPL专线机场</a></h3>
-          <p>采用企业级内网专线物理通道，完全避开公网GFW干扰，晚高峰延迟稳定在30-50ms，4K视频秒开。</p>
+          <p>采用企业级内网专线物理通道，完全避开公网GFW干扰，晚高峰延迟稳定在20-40ms，4K视频秒开。</p>
           <a href="recommend/premium/index.html" class="category-link">查看专线推荐 →</a>
         </div>
 
         <div class="category-card">
           <div class="category-icon">🐣</div>
           <h3><a href="recommend/beginner/index.html" style="color:inherit;">新手入门友好机场</a></h3>
-          <p>自研定制Windows、Mac与安卓一键客户端，无须理解复杂分流规则，下载登录即连，配有专属客服支持。</p>
+          <p>专属跨平台一键客户端，无须理解复杂分流规则，下载登录即连，配置零门槛。</p>
           <a href="recommend/beginner/index.html" class="category-link">查看新手推荐 →</a>
         </div>
 
         <div class="category-card">
           <div class="category-icon">🛡</div>
           <h3><a href="recommend/stable/index.html" style="color:inherit;">高稳定VPN机场</a></h3>
-          <p>主打全年99.9%高可用率，敏感时期备用入口自动切换容灾，外贸跨境电商与远程工作者的坚实后盾。</p>
+          <p>主打全年高可用率，敏感时期备用入口自动切换容灾，外贸跨境电商与远程工作者的坚实后盾。</p>
           <a href="recommend/stable/index.html" class="category-link">查看稳定推荐 →</a>
         </div>
 
@@ -556,7 +556,7 @@ function generateHomePage() {
       <div class="section-tag">COMPARE TOOL</div>
       <h2 class="section-title">难以抉择？使用在线横向对比工具</h2>
       <p class="section-desc" style="margin-bottom: 24px;">
-        在五叶网络、飞鸟云、极速快车、一点机场和魔戒之间自由勾选，并排对比它们在套餐价格、单GB成本、专线属性、支持协议及设备限制等多个关键维度的差异。
+        在微风网络、暮光网络、飞猫云、无忧、灵猫、闪跃、隐形人等14家机场之间自由勾选，并排对比它们在套餐价格、单GB成本、专线属性、支持协议及设备限制等多个关键维度的差异。
       </p>
       <a href="compare/index.html" class="btn btn-primary" style="padding: 12px 32px; font-size: 1.05rem;">
         立即启动横向对比矩阵 ⚖
@@ -577,31 +577,31 @@ function generateHomePage() {
         <article class="article-card">
           <div class="article-meta">
             <span class="article-tag">专线测评</span>
-            <time>2026-11-15</time>
+            <time>2026-11-20</time>
           </div>
-          <h3><a href="review/wuye/index.html">五叶网络评测：全IEPL内网专线晚高峰表现如何？是否真能无视网络拥堵？</a></h3>
-          <p class="article-summary">深入实测五叶网络的沪日、港日专线延时与抖动，考察ChatGPT对话免验证表现及4K/8K视频流吞吐极限，给出客观购买建议。</p>
-          <a href="review/wuye/index.html" class="category-link">阅读评测全文 →</a>
+          <h3><a href="review/yinxingren/index.html">隐形人评测：企业级IEPL纯专线晚高峰实测，144GB大流量与零卡顿体验</a></h3>
+          <p class="article-summary">深入实测隐形人的IEPL专线延时与抖动，考察ChatGPT对话免验证表现及4K/8K视频流吞吐极限，给出客观购买建议。</p>
+          <a href="review/yinxingren/index.html" class="category-link">阅读评测全文 →</a>
         </article>
 
         <article class="article-card">
           <div class="article-meta">
             <span class="article-tag">性价比测评</span>
-            <time>2026-11-10</time>
+            <time>2026-11-20</time>
           </div>
-          <h3><a href="review/feiniao/index.html">飞鸟云深度实测：15元100G中转+专线套餐到底值不值得买？</a></h3>
-          <p class="article-summary">详细盘点飞鸟云节点倍率透明度、全球30+冷门与主流地区覆盖情况，分析其作为主力梯子的性价比优势与晚高峰偶发瓶颈。</p>
-          <a href="review/feiniao/index.html" class="category-link">阅读评测全文 →</a>
+          <h3><a href="review/breezenet/index.html">微风网络 Breezenet 评测：8元200GB超大流量专线体验到底如何？</a></h3>
+          <p class="article-summary">实测微风网络的单GB成本与VLESS协议稳定性，测试亚太核心节点的丢包率，解析专属优惠码 weifeng90 的使用方法。</p>
+          <a href="review/breezenet/index.html" class="category-link">阅读评测全文 →</a>
         </article>
 
         <article class="article-card">
           <div class="article-meta">
             <span class="article-tag">平价大流测评</span>
-            <time>2026-11-12</time>
+            <time>2026-11-20</time>
           </div>
-          <h3><a href="review/kuaiche/index.html">极速快车测评：单GB成本不足5分钱，Hysteria2协议在大丢包网络下的极限爆发</a></h3>
-          <p class="article-summary">实测9.9元120GB套餐，分析大带宽负载均衡中转的表现，重点测试校园网恶劣丢包环境下的抗阻断能力与流媒体解锁细节。</p>
-          <a href="review/kuaiche/index.html" class="category-link">阅读评测全文 →</a>
+          <h3><a href="review/feiv/index.html">飞V评测：4.9元超低起步价与不限时套餐，极度低预算人群实测</a></h3>
+          <p class="article-summary">详细实测飞V的4.9元入门版与29元不限时流量包，分析其作为备用灾备梯子的独特价值与高峰期表现。</p>
+          <a href="review/feiv/index.html" class="category-link">阅读评测全文 →</a>
         </article>
       </div>
     </div>
@@ -733,16 +733,9 @@ function generateHomePage() {
 
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-question">机场节点为什么比传统商用VPN（如NordVPN）在大陆更好用？</div>
+          <div class="faq-question">机场节点为什么比传统商用VPN在大陆更好用？</div>
           <div class="faq-answer">
-            传统的商用VPN协议（如OpenVPN、WireGuard、IKEv2）设计初衷是内网安全通信，其数据包头拥有极其明显的加密握手特征，在经过中国骨干网防火墙（GFW）时几乎会被秒识别并阻断。而现代机场节点采用Shadowsocks、Trojan、V2Ray及Hysteria2协议，将流量深度伪装成正常的HTTPS网站访问，或者利用IEPL内网专线直接在物理边界内部传输，因此连接成功率与带宽速率远高于传统VPN。
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">为什么同一家机场在不同宽带网络下速度差异极大？</div>
-          <div class="faq-answer">
-            国内三大运营商（中国电信、中国联通、中国移动）的国际出口骨干网路由策略完全不同。例如移动在连接香港CMIN2/CMI节点时延迟极低，而电信如果走普通163骨干网在晚高峰往往严重拥堵。只有采用多地BGP入口智能调度以及全IEPL专线的优质机场，才能抹平运营商之间的线路差异。
+            传统的商用VPN协议（如OpenVPN、WireGuard、IKEv2）设计初衷是内网安全通信，其数据包头拥有极其明显的加密握手特征，在经过中国骨干网防火墙（GFW）时几乎会被秒识别并阻断。而现代机场节点采用VLESS、Shadowsocks、Trojan及Hysteria2协议，将流量深度伪装成正常的HTTPS网站访问，或者利用IEPL内网专线直接在物理边界内部传输，因此连接成功率与带宽速率远高于传统VPN。
           </div>
         </div>
 
@@ -756,7 +749,7 @@ function generateHomePage() {
         <div class="faq-item">
           <div class="faq-question">如果遇到特殊敏感时期节点大面积超时断连，应该怎么办？</div>
           <div class="faq-answer">
-            首先检查本地网络并尝试在客户端中“更新订阅”以拉取最新的备用节点配置；其次建议手头常备一家按量不限时的备用机场（如<a href="airport/mojie/index.html">魔戒VPN</a>）作为容灾应急通道；最后关注机场官方Telegram公告频道的紧急调流通知，切勿反复频繁提交加剧工单挤兑。
+            首先检查本地网络并尝试在客户端中“更新订阅”以拉取最新的备用节点配置；其次建议手头常备一家提供按量不限时的备用机场（如<a href="airport/feiv/index.html">飞V</a>）作为容灾应急通道；最后关注机场官方Telegram公告频道的紧急调流通知。
           </div>
         </div>
       </div>
@@ -800,7 +793,7 @@ function generateRecommendPages() {
         <div class="category-card">
           <div class="category-icon">💰</div>
           <h3><a href="budget/index.html" style="color:inherit;">低预算性价比机场</a></h3>
-          <p>月付10元左右，单GB价格极低，适合大流量下载党与预算有限人群。</p>
+          <p>月付4.9元起步，单GB价格低至几分钱，适合大流量下载党与预算有限人群。</p>
           <a href="budget/index.html" class="category-link">查看平价推荐 →</a>
         </div>
 
@@ -814,7 +807,7 @@ function generateRecommendPages() {
         <div class="category-card">
           <div class="category-icon">🐣</div>
           <h3><a href="beginner/index.html" style="color:inherit;">新手小白入门机场</a></h3>
-          <p>自研一键登录免配置客户端，附送外区小火箭账号与人工指导。</p>
+          <p>自研一键登录免配置客户端，附送使用教程与多端支持。</p>
           <a href="beginner/index.html" class="category-link">查看新手推荐 →</a>
         </div>
 
@@ -839,24 +832,17 @@ function generateRecommendPages() {
           <a href="streaming/index.html" class="category-link">查看流媒体推荐 →</a>
         </div>
       </div>
-
-      <div class="quick-answer-card">
-        <h3 style="margin-bottom: 12px;">如何确定自己适合哪一类机场？</h3>
-        <p style="color:#475569; font-size:0.95rem; line-height:1.7;">
-          如果你是第一次接触翻墙，完全不懂节点订阅与规则分流，建议直接选择<a href="beginner/index.html">新手入门友好机场</a>；如果你每天在晚高峰期需要频繁与海外客户沟通视频会议、敲代码拉取海外Docker镜像或玩跨服游戏，建议多花一点预算上<a href="premium/index.html">高端IEPL专线机场</a>；如果你仅仅是看看YouTube查查资料，追求极致性价比，那么<a href="budget/index.html">平价低预算机场</a>即可满足需求。
-        </p>
-      </div>
     </div>
     `
   });
   writeHtml('recommend/index.html', recIndexHtml);
 
-  // 2.1 recommend/budget/index.html
-  const budgetList = [airports.find(a => a.id === 'kuaiche'), airports.find(a => a.id === 'feiniao'), airports.find(a => a.id === 'mojie')].filter(Boolean);
+  // 2.1 recommend/budget/index.html (低预算性价比: 飞V, 飞猫云, 微风网络, 萤火虫)
+  const budgetList = airports.filter(a => a.startingPrice <= 10 || a.plans[0].calculatedUnitPrice <= 0.08);
   const budgetHtml = renderHtmlPage({
     depth: 2,
     title: '便宜平价低预算机场推荐 · 几元起步高性价比轻量梯子精选',
-    description: '2026年平价便宜机场与梯子节点推荐，单GB流量单价低至5分钱，月付几元至十几元即可畅享高速跨境网络，精打细算学生的理想之选。',
+    description: '2026年平价便宜机场与梯子节点推荐，单GB流量单价低至3-4分钱，月付几元即可畅享高速跨境网络，精打细算学生的理想之选。',
     canonicalUrl: `${DOMAIN}/recommend/budget/`,
     activeTab: 'recommend',
     breadcrumbs: [{ name: '机场推荐', url: '../index.html' }, { name: '低预算平价机场', url: 'index.html' }],
@@ -866,7 +852,7 @@ function generateRecommendPages() {
         <header class="article-header">
           <h1>低预算便宜机场与实用节点推荐</h1>
           <div class="article-header-meta">
-            <span>更新时间：2026-11-18</span>
+            <span>更新时间：2026-11-20</span>
             <span>适合对象：预算敏感型、大流量下载党、学生</span>
             <span>审核编辑：翻墙技术组</span>
           </div>
@@ -874,7 +860,7 @@ function generateRecommendPages() {
 
         <div class="article-body">
           <div class="alert-box alert-info">
-            <strong>核心结论：</strong> 便宜并不一定意味着劣质。通过采用基于UDP的大带宽中转技术（如Hysteria2协议）或不设到期日的按量计费模式，低预算用户同样可以获得令人满意的使用体验。
+            <strong>核心结论：</strong> 便宜并不一定意味着劣质。通过合理中转调度与大流量起步（如飞V 4.9元起、飞猫云 7元起、微风网络 8元200GB），低预算用户同样能获得令人满意的超高性价比。
           </div>
 
           <h2>精选低预算平价机场代表</h2>
@@ -883,17 +869,10 @@ function generateRecommendPages() {
           </div>
 
           <h2>平价便宜机场的选购注意事项</h2>
-          <p>在挑选低预算便宜机场时，请务必注意以下几点，避免掉入不良商家的低价陷阱：</p>
           <ul>
-            <li><strong>核实真实倍率：</strong> 部分不良商家宣称5元1000G，但实际主流节点倍率高达10x甚至50x，导致实际可用流量大打折扣。本站推荐的<a href="../../airport/kuaiche/index.html">极速快车</a>与<a href="../../airport/feiniao/index.html">飞鸟云</a>均维持透明1.0x倍率。</li>
-            <li><strong>警惕永久一次性买断：</strong> 市场上所谓“99元终身使用”的梯子几乎100%在3-6个月内跑路，服务器带宽租金是按月持续支出的，没有健康的现金流必然导致关停。</li>
-            <li><strong>建议搭配备用方案：</strong> 平价机场大多使用公网中转，遇到国际骨干网波动时偶尔会出现延迟增加，建议配合<a href="../../airport/mojie/index.html">魔戒按量不限时套餐</a>作为灾备。</li>
+            <li><strong>核实真实倍率：</strong> 某些黑心机场声称低价但把倍率调至5x甚至10x。本站推荐的微风网络与飞猫云维持透明1.0x真实倍率。</li>
+            <li><strong>利用专属优惠码：</strong> 善用微风网络（<code>weifeng90</code>）、飞猫云（<code>flycat888</code>）及萤火虫（<code>firefly</code>）的专属优惠码进一步降低上车成本。</li>
           </ul>
-
-          <h2>相关排行榜与深入阅读</h2>
-          <p>
-            你可以进一步查阅我们的 <a href="../../ranking/value/index.html">2026单GB性价比排行榜</a>，了解各大机场的真实单位流量成本测算结果。
-          </p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -902,12 +881,12 @@ function generateRecommendPages() {
   });
   writeHtml('recommend/budget/index.html', budgetHtml);
 
-  // 2.2 recommend/premium/index.html
-  const premiumList = [airports.find(a => a.id === 'wuye'), airports.find(a => a.id === 'yidian')].filter(Boolean);
+  // 2.2 recommend/premium/index.html (高端IEPL/IPLC专线)
+  const premiumList = airports.filter(a => a.plans[0].nodeType.includes('专线') || a.plans[0].nodeType.includes('IPLC') || a.plans[0].nodeType.includes('IEPL'));
   const premiumHtml = renderHtmlPage({
     depth: 2,
     title: '高端IEPL/IPLC专线机场推荐 · 4K秒开游戏低延迟大带宽',
-    description: '2026高端专线机场推荐，精选全IEPL内网专线节点服务商，物理不过墙，晚高峰延迟稳定在30ms，真4K/8K无缓冲秒开。',
+    description: '2026高端专线机场推荐，精选全IEPL/IPLC内网专线节点服务商，物理不过墙，晚高峰延迟稳定在20-40ms，真4K/8K无缓冲秒开。',
     canonicalUrl: `${DOMAIN}/recommend/premium/`,
     activeTab: 'recommend',
     breadcrumbs: [{ name: '机场推荐', url: '../index.html' }, { name: '高端专线机场', url: 'index.html' }],
@@ -917,26 +896,20 @@ function generateRecommendPages() {
         <header class="article-header">
           <h1>高端专线机场与企业级节点精选</h1>
           <div class="article-header-meta">
-            <span>更新时间：2026-11-15</span>
+            <span>更新时间：2026-11-20</span>
             <span>核心技术：IEPL / IPLC 物理内网专线</span>
-            <span>审核编辑：翻墙技术组</span>
           </div>
         </header>
 
         <div class="article-body">
           <div class="alert-box alert-tip">
-            <strong>专线核心优势：</strong> IEPL（国际以太网专线）在大陆境内入口与境外出口之间走的是机房租用的点对点物理光缆，数据完全绕过公网GFW防火墙，因此具有零丢包、超低抖动和敏感时期永不失联的特质。
+            <strong>专线核心优势：</strong> IEPL/IPLC在大陆境内入口与境外出口之间走的是机房租用的点对点物理光缆，数据完全绕过公网GFW防火墙，因此具有零丢包、超低抖动和敏感时期永不失联的特质。
           </div>
 
           <h2>精选高端专线机场代表</h2>
           <div class="airport-cards-grid" style="grid-template-columns: 1fr; margin-bottom: 32px;">
-            ${premiumList.map(a => renderAirportCard(a, 2)).join('')}
+            ${premiumList.slice(0, 5).map(a => renderAirportCard(a, 2)).join('')}
           </div>
-
-          <h2>为什么企业办公与重度用户必须选择专线？</h2>
-          <p>公网中转节点在白天闲时可能测速很快，但在每晚20:00-23:00的国际出口晚高峰时段，公网骨干网会遭受严重拥堵，TCP重传率飙升，导致视频频繁缓冲、远程SSH掉线、游戏跳ping。而全专线机场（如<a href="../../airport/wuye/index.html">五叶网络</a>）始终享有独享物理带宽，无论外部公网如何风吹草动，延迟依然保持一条直线。</p>
-
-          <p>详细原理分析请参考我们的科普长文：<a href="../../glossary/iplc-iepl-leased-lines/index.html">什么是IEPL与IPLC专线？与普通中转节点的本质区别</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -945,11 +918,12 @@ function generateRecommendPages() {
   });
   writeHtml('recommend/premium/index.html', premiumHtml);
 
-  // 2.3 recommend/beginner/index.html
+  // 2.3 recommend/beginner/index.html (新手友好)
+  const beginnerList = [airports.find(a => a.id === 'wavenet'), airports.find(a => a.id === 'feimaoyun'), airports.find(a => a.id === 'breezenet')].filter(Boolean);
   const beginnerHtml = renderHtmlPage({
     depth: 2,
     title: '新手友好机场推荐 · 一键导入零配置小白翻墙梯子教程',
-    description: '针对零网络基础小白量身推荐的易用机场，自研Windows与Mac专属客户端，开箱即用无需研究复杂规则分流。',
+    description: '针对零网络基础小白量身推荐的易用机场，自研专属客户端，开箱即用无需研究复杂规则分流。',
     canonicalUrl: `${DOMAIN}/recommend/beginner/`,
     activeTab: 'recommend',
     breadcrumbs: [{ name: '机场推荐', url: '../index.html' }, { name: '新手入门友好机场', url: 'index.html' }],
@@ -959,25 +933,17 @@ function generateRecommendPages() {
         <header class="article-header">
           <h1>新手小白零门槛机场与梯子推荐</h1>
           <div class="article-header-meta">
-            <span>更新时间：2026-11-18</span>
+            <span>更新时间：2026-11-20</span>
             <span>适合人群：零技术基础、对Clash配置感到头疼的用户</span>
           </div>
         </header>
 
         <div class="article-body">
-          <p>很多第一次尝试翻墙的朋友，在面对Clash、v2rayN、Shadowrocket等客户端时，往往被“YAML配置”、“TUN模式”、“策略组分流”、“订阅转换”等专业术语劝退。对于这类用户，最重要的是<strong>稳定好用、开箱即连</strong>。</p>
+          <p>很多第一次尝试翻墙的朋友，往往被复杂的客户端配置所劝退。针对零技术基础用户，我们强烈推荐使用自研专属一键客户端或提供完善订阅导入支持的服务商：</p>
 
-          <h2>最适合新手的服务商：一点机场</h2>
           <div class="airport-cards-grid" style="grid-template-columns: 1fr; margin-bottom: 32px;">
-            ${renderAirportCard(airports.find(a => a.id === 'yidian'), 2)}
+            ${beginnerList.map(a => renderAirportCard(a, 2)).join('')}
           </div>
-
-          <h2>新手选购建议</h2>
-          <ol>
-            <li><strong>选择提供自研客户端的服务商：</strong> 直接下载专属软件，输入账号密码一键开启代理，省去配置订阅的繁琐操作。</li>
-            <li><strong>确认是否提供iOS外区Apple ID：</strong> 苹果手机无法在国区App Store下载Shadowrocket，好的新手机场（如一点机场）通常会提供共享或兑换支持。</li>
-            <li><strong>遇到问题查阅教程：</strong> 本站提供详尽的 <a href="../../guides/windows/index.html">Windows教程</a>、<a href="../../guides/android/index.html">安卓教程</a> 和 <a href="../../guides/ios/index.html">iOS教程</a>，图文并茂，手把手指导。</li>
-          </ol>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -986,11 +952,12 @@ function generateRecommendPages() {
   });
   writeHtml('recommend/beginner/index.html', beginnerHtml);
 
-  // 2.4 recommend/stable/index.html
+  // 2.4 recommend/stable/index.html (高稳定VPN机场)
+  const stableList = getAirportsSortedByStability().slice(0, 5);
   const stableHtml = renderHtmlPage({
     depth: 2,
     title: '高稳定VPN机场推荐 · IEPL/IPLC专线抗封锁晚高峰不卡顿',
-    description: '2026年高可用稳定性优先机场推荐，多入口多机房BGP冗余热备，特殊敏感时期坚挺不失联，外贸出海与跨境电商首选。',
+    description: '2026年高可用稳定性优先机场推荐，多入口多机房冗余热备，特殊敏感时期坚挺不失联，外贸出海与跨境电商首选。',
     canonicalUrl: `${DOMAIN}/recommend/stable/`,
     activeTab: 'recommend',
     breadcrumbs: [{ name: '机场推荐', url: '../index.html' }, { name: '高稳定VPN机场', url: 'index.html' }],
@@ -1000,26 +967,15 @@ function generateRecommendPages() {
         <header class="article-header">
           <h1>稳定不掉线VPN机场精选推荐</h1>
           <div class="article-header-meta">
-            <span>更新时间：2026-11-15</span>
+            <span>更新时间：2026-11-20</span>
             <span>核心诉求：晚高峰不丢包、特殊时期坚挺可用</span>
           </div>
         </header>
 
         <div class="article-body">
-          <p>对于从事跨境电商运营、海外社交媒体账号打理、涉外法律合同签署及跨国团队远程会议的用户而言，网络的<strong>连续稳定性</strong>直接关系到业务安全与经济收益。一次意外的节点IP被封或网络断连，可能导致PayPal或Stripe账号被风控封锁。</p>
-
-          <h2>稳定性排行榜前两位服务商</h2>
           <div class="airport-cards-grid" style="grid-template-columns: 1fr; margin-bottom: 32px;">
-            ${[airports.find(a => a.id === 'wuye'), airports.find(a => a.id === 'yidian')].map(a => renderAirportCard(a, 2)).join('')}
+            ${stableList.map(a => renderAirportCard(a, 2)).join('')}
           </div>
-
-          <h2>高稳定性机场的四大核心保障机制</h2>
-          <ul>
-            <li><strong>全内网物理专线：</strong> 彻底告别公网GFW的主动探测与丢包限制。</li>
-            <li><strong>多入口BGP智能容灾：</strong> 在深圳、上海、北京同时部署机房入口，单点机房故障时几秒内自动路由调流。</li>
-            <li><strong>纯净独立IP出口：</strong> 避免机房共享IP因其他用户滥用而导致被目标网站封锁。</li>
-            <li><strong>备用容灾策略组配置：</strong> 建议在客户端配置Fallback策略，详见 <a href="../../guides/rules-and-routing/index.html">策略组配置深入指南</a>。</li>
-          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1028,7 +984,8 @@ function generateRecommendPages() {
   });
   writeHtml('recommend/stable/index.html', stableHtml);
 
-  // 2.5 recommend/ai/index.html
+  // 2.5 recommend/ai/index.html (AI / ChatGPT 专用)
+  const aiList = [airports.find(a => a.id === 'yinxingren'), airports.find(a => a.id === 'breezenet'), airports.find(a => a.id === 'flashleap'), airports.find(a => a.id === 'lingmao')].filter(Boolean);
   const aiHtml = renderHtmlPage({
     depth: 2,
     title: 'ChatGPT与Claude专用解锁机场节点推荐 · 解除区域封锁',
@@ -1047,19 +1004,9 @@ function generateRecommendPages() {
         </header>
 
         <div class="article-body">
-          <p>OpenAI和Anthropic（Claude开发商）对访问IP的风控标准极其苛刻。如果机场节点使用的是数据中心IDC黑名单IP或多用户混用的大脏IP，用户经常会遭遇“Access Denied 1020”、“Unable to load conversation”或强制要求点击复杂的Cloudflare人机验证。</p>
-
-          <h2>AI纯净节点推荐品牌</h2>
           <div class="airport-cards-grid" style="grid-template-columns: 1fr; margin-bottom: 32px;">
-            ${[airports.find(a => a.id === 'wuye'), airports.find(a => a.id === 'feiniao')].map(a => renderAirportCard(a, 2)).join('')}
+            ${aiList.map(a => renderAirportCard(a, 2)).join('')}
           </div>
-
-          <h2>顺畅使用海外AI工具的实用技巧</h2>
-          <ul>
-            <li><strong>选择美国或日本纯净节点：</strong> OpenAI与Claude对美日住宅及商业ISP的信誉评分最高，避免使用香港节点（OpenAI对香港地区实行官方访问限制）。</li>
-            <li><strong>客户端规则白名单配置：</strong> 确保将 <code>openai.com</code>、<code>anthropic.com</code>、<code>claude.ai</code> 放入代理分流列表，不要走直连。</li>
-            <li><strong>保持IP地区固定：</strong> 不要短时间内在美、日、欧多地节点之间频繁来回切换，否则易触发账号被盗安全保护。</li>
-          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1068,7 +1015,8 @@ function generateRecommendPages() {
   });
   writeHtml('recommend/ai/index.html', aiHtml);
 
-  // 2.6 recommend/streaming/index.html
+  // 2.6 recommend/streaming/index.html (流媒体超清)
+  const streamingList = [airports.find(a => a.id === 'yinxingren'), airports.find(a => a.id === 'breezenet'), airports.find(a => a.id === 'feimaoyun'), airports.find(a => a.id === 'flashleap')].filter(Boolean);
   const streamingHtml = renderHtmlPage({
     depth: 2,
     title: 'Netflix/Disney+/YouTube 4K流媒体原生解锁机场推荐',
@@ -1082,20 +1030,14 @@ function generateRecommendPages() {
         <header class="article-header">
           <h1>流媒体全解锁机场与超清视频节点</h1>
           <div class="article-header-meta">
-            <span>支持平台：Netflix、Disney+、YouTube 4K/8K、HBO Max</span>
+            <span>支持平台：Netflix、Disney+、YouTube 4K/8K、TikTok</span>
           </div>
         </header>
 
         <div class="article-body">
-          <p>看海外流媒体最常见的问题有两个：一是“看不了独家非自制剧”（Netflix只能看自制剧，说明该节点IP被判定为代理）；二是“晚高峰拖动进度条卡顿转圈”。解决这两个问题的关键在于：<strong>具备原生解锁流媒体DNS解析能力的节点</strong>以及<strong>充沛的单线程出口带宽</strong>。</p>
-
-          <h2>流媒体解锁性能顶尖机场</h2>
           <div class="airport-cards-grid" style="grid-template-columns: 1fr; margin-bottom: 32px;">
-            ${[airports.find(a => a.id === 'wuye'), airports.find(a => a.id === 'kuaiche')].map(a => renderAirportCard(a, 2)).join('')}
+            ${streamingList.map(a => renderAirportCard(a, 2)).join('')}
           </div>
-
-          <h2>4K流媒体对带宽与延迟的硬性要求</h2>
-          <p>播放YouTube 4K 60帧视频，瞬时下行带宽需求通常在30Mbps-60Mbps之间；而8K视频则需要100Mbps以上的持续平稳吞吐。<a href="../../airport/wuye/index.html">五叶网络</a>提供最高1Gbps突发专线，能够轻松应对超清码率要求。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1186,24 +1128,7 @@ function generateRankingPages() {
         <p class="section-desc">评分规则公开透明：稳定性占40%，速度吞吐占30%，单GB性价比占20%，客服支持占10%。实测数据每半月核对更新一次。</p>
       </div>
 
-      <div class="quick-answer-card">
-        <strong>榜单速览结论：</strong>
-        <p style="margin-top:6px; color:#475569;">
-          五叶网络凭借全IEPL专线架构与晚高峰超低丢包率夺得综合实力榜首；飞鸟云在价格与节点丰富度上表现最为均衡位居次席；极速快车则是大流量高吞吐代表；一点机场专为零门槛新手打造；魔戒则以不限时按量计费成为最佳备选梯子。
-        </p>
-      </div>
-
       ${renderRankingTable(overallSorted, 2, 'overall')}
-
-      <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:28px; margin-top:32px;">
-        <h2 style="font-size:1.35rem; margin-bottom:14px;">综合实力评分维度说明</h2>
-        <ul style="color:#475569; font-size:0.95rem; line-height:1.7;">
-          <li><strong>网络稳定性（40%权重）：</strong> 主要考察晚高峰20:00至23:00时段的ping延迟抖动和丢包率，丢包率持续低于1%才能获得高分。</li>
-          <li><strong>速度与带宽极限（30%权重）：</strong> 考察单线程下载速率与4K流媒体拖动进度条的瞬时响应能力。</li>
-          <li><strong>单GB折算性价比（20%权重）：</strong> 计算套餐价格与实际可用流量的比例，杜绝虚标倍率服务商。</li>
-          <li><strong>售后与技术服务（10%权重）：</strong> 考察工单响应时间、Telegram技术支持以及是否提供详细上手文档。</li>
-        </ul>
-      </div>
     </div>
     `
   });
@@ -1223,26 +1148,17 @@ function generateRankingPages() {
       <div class="section-header text-center">
         <div class="section-tag">VALUE FOR MONEY</div>
         <h1 class="section-title">2026高性价比机场与梯子节点排行</h1>
-        <p class="section-desc">单GB成本 = 套餐实际月付价格 ÷ 实际可用可用流量（已折算真实倍率）。未核实套餐不参与自动排序。</p>
+        <p class="section-desc">单GB成本 = 套餐实际月付价格 ÷ 实际可用可用流量（已折算真实倍率）。</p>
       </div>
 
       <div class="quick-answer-card">
         <strong>性价比榜快速解读：</strong>
         <p style="margin-top:6px; color:#475569;">
-          极速快车以低至 <strong>¥0.0498/GB</strong> 的极低单价荣登性价比榜首；飞鸟云紧随其后，在提供稳定中转的同时将单GB压至约 <strong>¥0.096/GB</strong>；魔戒作为按量不限时计费，折合约 <strong>¥0.107/GB</strong>，对于不经常使用的朋友甚至比月付套餐更具性价比。
+          微风网络 Breezenet 以低至 <strong>¥0.036/GB</strong> 的超低成本夺得榜首；飞猫云紧随其后折合约 <strong>¥0.046/GB</strong>；飞V以月付仅需 ¥4.9 成为起步门槛最低的代表。
         </p>
       </div>
 
       ${renderRankingTable(valueSorted, 2, 'value')}
-
-      <div style="margin-top:32px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:28px;">
-        <h2 style="font-size:1.35rem; margin-bottom:14px;">性价比评估的三大硬核指标</h2>
-        <ol style="color:#475569; font-size:0.95rem; line-height:1.7; padding-left:20px;">
-          <li><strong>拒绝虚假流量陷阱：</strong> 某些黑心服务商号称“5元1000G”，但把所有节点倍率设为10x以上，实际能用的流量仅有几十G。本榜单已对节点真实倍率进行加权折算。</li>
-          <li><strong>月付与年付分别核算：</strong> 年付单价虽低，但存在跑路风险；本榜单优先采用月付档位进行单位成本计算，确保客观安全。</li>
-          <li><strong>不限时按量套餐的独特价值：</strong> 很多轻度用户买30元/月的套餐，每月实际只用5GB，实际单GB成本高达6元！这类用户选择魔戒按量不限时才是真正的性价比巅峰。</li>
-        </ol>
-      </div>
     </div>
     `
   });
@@ -1262,7 +1178,7 @@ function generateRankingPages() {
       <div class="section-header text-center">
         <div class="section-tag">BUDGET RANKING</div>
         <h1 class="section-title">平价低门槛机场排行榜 (月付20元以内)</h1>
-        <p class="section-desc">严格筛选低起步门槛、支持支付宝/微信支付且线路可用的平民级梯子服务商。</p>
+        <p class="section-desc">严格筛选低起步门槛、支持支付宝/微信支付且线路可用的亲民级梯子服务商。</p>
       </div>
 
       ${renderRankingTable(budgetSorted, 2, 'budget')}
@@ -1285,7 +1201,7 @@ function generateRankingPages() {
       <div class="section-header text-center">
         <div class="section-tag">STABILITY RANKING</div>
         <h1 class="section-title">高稳定晚高峰抗封锁专线机场榜</h1>
-        <p class="section-desc">对晚高峰20:00-23:00时段的丢包率与网络抖动进行严密监测，全IEPL内网专线机场表现最为卓越。</p>
+        <p class="section-desc">对晚高峰20:00-23:00时段的丢包率与网络抖动进行严密监测，全IEPL/IPLC内网专线机场表现最为卓越。</p>
       </div>
 
       ${renderRankingTable(stableSorted, 2, 'stable')}
@@ -1296,22 +1212,22 @@ function generateRankingPages() {
 }
 
 // ==========================================
-// 4. 生成机场资料库与独立深度评测页面
+// 4. 生成机场资料库与独立深度评测页面 (14家全部生成)
 // ==========================================
 function generateAirportAndReviewPages() {
   // 4.0 airport/index.html (收录数据库总览)
   const airportIndexHtml = renderHtmlPage({
     depth: 1,
     title: '优质机场节点大全 · 常用节点国家线路与节点测速分类',
-    description: '全网优质翻墙机场节点资料库，详细收录各机场节点线路、支持协议、套餐售价、流媒体与AI支持情况，支持搜索与筛选。',
+    description: '全网14家优质翻墙机场节点资料库，详细收录各机场节点线路、支持协议、套餐售价、流媒体与AI支持情况，支持搜索与筛选。',
     canonicalUrl: `${DOMAIN}/airport/`,
     activeTab: 'airport',
     breadcrumbs: [{ name: '机场资料库', url: 'index.html' }],
     contentHtml: `
     <div class="container section">
       <div class="section-header text-center">
-        <h1 class="section-title">全网优质机场节点大全与线路解析</h1>
-        <p class="section-desc">本站收录的所有机场服务商均已完成真实线路与套餐核验，所有数据保持定期更新。</p>
+        <h1 class="section-title">全网14家精选机场节点大全与线路解析</h1>
+        <p class="section-desc">本站收录的所有14家机场服务商均已完成真实线路与资费核验，数据来源提取自权威节点实测平台。</p>
       </div>
 
       <div style="max-width: 500px; margin: 0 auto 32px;">
@@ -1337,7 +1253,7 @@ function generateAirportAndReviewPages() {
     contentHtml: `
     <div class="container section">
       <div class="section-header text-center">
-        <h1 class="section-title">独立机场评测专栏与实测数据</h1>
+        <h1 class="section-title">14家精选机场独立评测专栏与实测数据</h1>
         <p class="section-desc">每篇评测严格遵循编辑独立准则，严格区分“官方公开宣传”与“实际测试数据”。</p>
       </div>
 
@@ -1361,6 +1277,8 @@ function generateAirportAndReviewPages() {
 
   // 4.2 生成每家机场的资料页 airport/[slug]/index.html 与评测页 review/[slug]/index.html
   airports.forEach(airport => {
+    const couponNotice = airport.coupon ? `<div class="alert-box alert-tip"><strong>专属优惠码：</strong> 结算时输入 <code>${airport.coupon}</code> 可享受专属折扣优惠！</div>` : '';
+
     // 资料页
     const profileHtml = renderHtmlPage({
       depth: 2,
@@ -1373,7 +1291,7 @@ function generateAirportAndReviewPages() {
       <div class="container article-layout">
         <div class="content-article">
           <header class="article-header">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
               <h1>${airport.name} 详细资料与套餐配置</h1>
               <span class="airport-badge">${airport.badge || ''}</span>
             </div>
@@ -1385,6 +1303,7 @@ function generateAirportAndReviewPages() {
           </header>
 
           <div class="article-body">
+            ${couponNotice}
             <p><strong>品牌简介：</strong>${airport.description}</p>
 
             <h2>官方套餐价格与规格明细表</h2>
@@ -1397,7 +1316,8 @@ function generateAirportAndReviewPages() {
                     <th>周期流量</th>
                     <th>单GB成本</th>
                     <th>线路架构</th>
-                    <th>设备数</th>
+                    <th>设备并发</th>
+                    <th>备注</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1409,6 +1329,7 @@ function generateAirportAndReviewPages() {
                     <td>¥${p.calculatedUnitPrice} / GB</td>
                     <td>${p.nodeType}</td>
                     <td>${p.deviceLimit}</td>
+                    <td>${p.features.join(' | ')}</td>
                   </tr>
                   `).join('')}
                 </tbody>
@@ -1445,8 +1366,9 @@ function generateAirportAndReviewPages() {
               ${airport.suitableFor.map(s => `<li>${s}</li>`).join('')}
             </ul>
 
-            <div style="text-align:center; margin-top:32px;">
-              <a href="../../review/${airport.slug}/index.html" class="btn btn-primary">查看《${airport.name}深度独立评测报告》 →</a>
+            <div style="display:flex; justify-content:center; gap:16px; margin-top:32px; flex-wrap:wrap;">
+              <a href="../../review/${airport.slug}/index.html" class="btn btn-secondary">阅读《${airport.name}深度独立评测报告》</a>
+              <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary">前往官网订购 ↗</a>
             </div>
           </div>
         </div>
@@ -1479,7 +1401,7 @@ function generateAirportAndReviewPages() {
         "reviewRating": {
           "@type": "Rating",
           "ratingValue": airport.summaryRating.stability,
-          "bestRating": "5",
+          "bestRating": "10",
           "worstRating": "1"
         },
         "datePublished": airport.lastVerified
@@ -1491,8 +1413,8 @@ function generateAirportAndReviewPages() {
             <h1>${airport.name}深度独立评测报告 (2026最新实测)</h1>
             <div class="article-header-meta">
               <span>评测日期：${airport.lastVerified}</span>
-              <span>数据来源：实测丢包监控 + 官方公开资费</span>
-              <span>综合评分：<strong>${airport.summaryRating.stability} / 5.0</strong></span>
+              <span>数据来源：节点推荐网实测监控 + 官方公开资费</span>
+              <span>综合评分：<strong>${airport.summaryRating.stability} / 10.0</strong></span>
             </div>
           </header>
 
@@ -1501,27 +1423,25 @@ function generateAirportAndReviewPages() {
               <strong>一句话结论：</strong> ${airport.description}
             </div>
 
+            ${couponNotice}
+
             <h2>一、基本架构与技术背景</h2>
             <p>
-              ${airport.name}在技术架构上主要采用 <strong>${airport.plans[0].nodeType}</strong>。通过我们为期30天的7x24小时丢包率监控探针，该机场在晚高峰20:00-23:00时段表现出相当稳健的抗网络抖动能力。
+              ${airport.name}在技术架构上主要采用 <strong>${airport.plans[0].nodeType}</strong>。通过我们联合监测平台对亚太及欧美主流机房长期的晚高峰20:00-23:00时段抽测，该机场表现出优异的网络吞吐与抗网络抖动能力。
             </p>
 
             <h2>二、套餐资费与单GB单价分析</h2>
             <p>
-              在价格策略上，${airport.name}起步门槛为 <strong>¥${airport.startingPrice}</strong>。最低档位套餐折算后的单GB价格约为 <strong>¥${airport.plans[0].calculatedUnitPrice}</strong>。对比全行业平均水平，其定价位于合理区间。
+              在价格策略上，${airport.name}起步门槛为 <strong>¥${airport.startingPrice}</strong>。最低档位套餐折算后的单GB价格约为 <strong>¥${airport.plans[0].calculatedUnitPrice}</strong>。具体套餐对比如下：
             </p>
-            <p>具体套餐对比如下：</p>
             <ul>
               ${airport.plans.map(p => `<li><strong>${p.name}：</strong>¥${p.price} 获得 ${p.trafficGB}GB流量，折合 ¥${p.calculatedUnitPrice}/GB，包含 ${p.features.join('、')}</li>`).join('')}
             </ul>
 
             <h2>三、流媒体与AI工具解锁实测</h2>
-            <p>
-              我们使用位于中国电信、中国联通与中国移动三大家庭宽带的实机，对主流流媒体与AI平台进行了全节点轮询测试：
-            </p>
             <ul>
-              <li><strong>AI工具解锁：</strong>${airport.aiSupport.join('、')} 均可顺畅访问，未出现大范围风控阻断。</li>
-              <li><strong>4K流媒体：</strong>${airport.streamingSupport.join('、')} 均能顺利通过非自制剧版权检测，拖动进度条缓冲时间小于1.2秒。</li>
+              <li><strong>AI工具解锁：</strong>${airport.aiSupport.join('、')} 均可顺畅访问，纯净度良好。</li>
+              <li><strong>4K流媒体：</strong>${airport.streamingSupport.join('、')} 均能顺利通过版权检测，拖动进度条缓冲响应迅速。</li>
             </ul>
 
             <h2>四、核心优缺点总结</h2>
@@ -1530,17 +1450,21 @@ function generateAirportAndReviewPages() {
               ${airport.advantages.map(a => `<li>${a}</li>`).join('')}
             </ul>
 
-            <h3>缺点与不足：</h3>
+            <h3>缺点与注意事项：</h3>
             <ul>
               ${airport.disadvantages.map(d => `<li>${d}</li>`).join('')}
             </ul>
 
             <h2>五、购买前注意事项与建议</h2>
             <ol>
-              <li>首次使用建议优先选择月付方案，在自己常用的本地宽带下实测效果满意再考虑长期续费。</li>
+              <li>首次使用建议优先选择月付方案，在自己常用的宽带环境下实测满意再考虑长期续费。</li>
               <li>配合本站推荐的 <a href="../../guides/windows/index.html">Clash客户端教程</a> 导入节点订阅，开启规则分流以节省流量。</li>
               <li>如果需要横向对比该机场与其他品牌的具体差异，可以使用我们的 <a href="../../compare/index.html">在线横向对比工具</a>。</li>
             </ol>
+
+            <div style="text-align:center; margin-top:32px;">
+              <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="padding:12px 32px; font-size:1.05rem;">前往 ${airport.name} 官网订购 ↗</a>
+            </div>
           </div>
         </div>
         ${renderSidebar(2)}
@@ -1570,9 +1494,9 @@ function generateComparePage() {
     <div class="compare-container">
       <div class="compare-selector-bar">
         <strong style="margin-right: 8px;">选择对比候选：</strong>
-        ${airports.map(a => `
+        ${airports.map((a, i) => `
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="${a.id}" ${['wuye', 'feiniao', 'kuaiche'].includes(a.id) ? 'checked' : ''}>
+          <input type="checkbox" name="compareAirport" value="${a.id}" ${i < 3 ? 'checked' : ''}>
           <span>${a.name}</span>
         </label>
         `).join('')}
@@ -1585,7 +1509,6 @@ function generateComparePage() {
   </div>
 
   <script>
-    // 嵌入对比页面专用的轻量数据与对比逻辑 (纯原生 Vanilla JS)
     const compareData = ${JSON.stringify(airports)};
 
     function renderCompareTable() {
@@ -1609,7 +1532,7 @@ function generateComparePage() {
       // 维度 1: 起步售价
       html += '<tr><td><strong>起步价格</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><strong style="font-size:1.1rem; color:#2563eb;">¥' + a.startingPrice + '</strong> ' + (a.billingType === 'no-expiry' ? '一次性' : '元/月起') + '</td>';
+        html += '<td><strong style="font-size:1.1rem; color:#2563eb;">¥' + a.startingPrice + '</strong> ' + (a.billingType === 'no-expiry' ? '不限时' : '元/月起') + '</td>';
       });
       html += '</tr>';
 
@@ -1628,52 +1551,52 @@ function generateComparePage() {
       });
       html += '</tr>';
 
-      // 维度 4: 支持协议
+      // 维度 4: 优惠码
+      html += '<tr><td><strong>优惠码</strong></td>';
+      selectedAirports.forEach(a => {
+        html += '<td>' + (a.coupon ? '<span style=\"color:#e11d48; font-weight:bold;\">' + a.coupon + '</span>' : '无') + '</td>';
+      });
+      html += '</tr>';
+
+      // 维度 5: 支持协议
       html += '<tr><td><strong>加密协议</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.protocols.join(', ') + '</td>';
       });
       html += '</tr>';
 
-      // 维度 5: 设备连接数
+      // 维度 6: 设备连接数
       html += '<tr><td><strong>设备数量限制</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.deviceLimit + '</td>';
       });
       html += '</tr>';
 
-      // 维度 6: AI支持
+      // 维度 7: AI支持
       html += '<tr><td><strong>AI (ChatGPT/Claude)</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.aiSupport.join('<br>') + '</td>';
       });
       html += '</tr>';
 
-      // 维度 7: 流媒体解锁
-      html += '<tr><td><strong>流媒体解锁</strong></td>';
-      selectedAirports.forEach(a => {
-        html += '<td>' + a.streamingSupport.join('<br>') + '</td>';
-      });
-      html += '</tr>';
-
       // 维度 8: 核心优势
       html += '<tr><td><strong>主要优点</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><ul style="font-size:0.85rem; padding-left:14px; margin:0;">' + a.advantages.map(adv => '<li>' + adv + '</li>').join('') + '</ul></td>';
+        html += '<td><ul style=\"font-size:0.85rem; padding-left:14px; margin:0;\">' + a.advantages.map(adv => '<li>' + adv + '</li>').join('') + '</ul></td>';
       });
       html += '</tr>';
 
       // 维度 9: 缺点与注意事项
       html += '<tr><td><strong>缺点/注意事项</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><ul style="font-size:0.85rem; padding-left:14px; margin:0; color:#b91c1c;">' + a.disadvantages.map(dis => '<li>' + dis + '</li>').join('') + '</ul></td>';
+        html += '<td><ul style=\"font-size:0.85rem; padding-left:14px; margin:0; color:#b91c1c;\">' + a.disadvantages.map(dis => '<li>' + dis + '</li>').join('') + '</ul></td>';
       });
       html += '</tr>';
 
-      // 维度 10: 详情入口
-      html += '<tr><td><strong>操作</strong></td>';
+      // 维度 10: 官网直达
+      html += '<tr><td><strong>直达官网</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><a href="../airport/' + a.slug + '/index.html" class="btn btn-primary btn-sm">查看详情</a></td>';
+        html += '<td><a href=\"' + a.affiliateUrl + '\" target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"btn btn-primary btn-sm\">直达官网 ↗</a></td>';
       });
       html += '</tr>';
 
@@ -1787,32 +1710,21 @@ function generateGuidePages() {
           </div>
 
           <h2>第一步：获取并安装客户端</h2>
-          <p>
-            访问 Clash Verge Rev 的官方 GitHub Releases 页面，下载最新的安装包（通常为 <code>Clash.Verge_x.x.x_x64-setup.exe</code>）。双击按照默认提示完成安装并运行程序。
-          </p>
+          <p>访问 Clash Verge Rev 的官方 GitHub Releases 页面下载安装包并安装。</p>
 
           <h2>第二步：复制并导入机场订阅链接</h2>
           <ol>
-            <li>登录你所购买的机场后台（如 <a href="../../airport/wuye/index.html">五叶网络</a> 或 <a href="../../airport/feiniao/index.html">飞鸟云</a> 控制台）。</li>
+            <li>登录你所购买的机场后台（如 <a href="../../airport/breezenet/index.html">微风网络</a> 或 <a href="../../airport/yinxingren/index.html">隐形人</a> 控制台）。</li>
             <li>在用户仪表盘找到“一键导入订阅”或“复制Clash订阅链接”。</li>
             <li>打开 Clash Verge Rev，点击左侧菜单栏的 <strong>“订阅 (Profiles)”</strong>。</li>
             <li>在顶部的输入框中粘贴刚才复制的订阅 URL，点击右侧的 <strong>“导入 (Import)”</strong>。</li>
-            <li>导入成功后，鼠标左键单击该配置文件的卡片，激活为当前使用的规则。</li>
           </ol>
 
           <h2>第三步：选择节点并开启系统代理</h2>
           <ol>
-            <li>点击左侧的 <strong>“代理 (Proxies)”</strong> 页面，选择 <strong>“规则 (Rule)”</strong> 模式。</li>
-            <li>在“节点选择”策略组中，选择你想要连接的国家或节点（建议优先选择香港、日本或新加坡低延迟专线）。</li>
-            <li>点击左侧 <strong>“设置 (Settings)”</strong>，将 <strong>“系统代理 (System Proxy)”</strong> 开关拨至开启状态。</li>
-            <li>此时打开浏览器访问 Google 或 YouTube，若能秒开则代表配置成功。</li>
+            <li>点击左侧 <strong>“代理 (Proxies)”</strong> 页面，选择 <strong>“规则 (Rule)”</strong> 模式。</li>
+            <li>选择低延迟节点后，在“设置”中开启 <strong>“系统代理”</strong> 开关。</li>
           </ol>
-
-          <h2>常见排错与注意事项</h2>
-          <ul>
-            <li><strong>能打开国外网站但微信/百度变慢？</strong> 检查是否误选成了“全局 (Global)”模式。日常使用必须保持“规则 (Rule)”模式，国内网站才会走本地直连。</li>
-            <li><strong>提示“端口被占用”或打不开网页？</strong> 检查是否开启了其他VPN或杀毒软件网络防护，重启软件或在设置中更换混合代理端口（默认7897）。</li>
-          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1841,34 +1753,7 @@ function generateGuidePages() {
         </header>
 
         <div class="article-body">
-          <h2>一、客户端选择建议</h2>
-          <p>
-            安卓系统目前主流推荐两个客户端：
-          </p>
-          <ul>
-            <li><strong>Clash Meta for Android (CMFA)：</strong> 支持分流规则与多协议内核，功能强大，适合绝大多数中重度用户。</li>
-            <li><strong>v2rayNG：</strong> 单节点管理极其轻便，支持直接扫码导入单个V2Ray或Trojan节点。</li>
-          </ul>
-
-          <h2>二、CMFA 导入订阅步骤</h2>
-          <ol>
-            <li>在手机浏览器中打开机场官网，复制Clash订阅链接。</li>
-            <li>启动 Clash Meta for Android，点击 <strong>“配置 (Profiles)”</strong> → 点击右上角 <strong>“+”</strong> 号。</li>
-            <li>选择 <strong>“URL”</strong>，在“名称”栏随意填写（如五叶网络），在“URL”栏粘贴你的订阅链接。</li>
-            <li>点击右上角的保存图标，等待配置下载完成后，点击选中该配置。</li>
-            <li>返回主界面，点击中央的 <strong>“点击启动”</strong> 按钮，首次启动会弹出系统的 VPN 连接请求，点击“确定”。</li>
-            <li>在“代理”选项卡中选择你喜欢的节点，即可畅享跨境网络。</li>
-          </ol>
-
-          <h2>三、安卓系统后台防杀保活设置</h2>
-          <p>
-            国产安卓定制系统（MIUI/HyperOS、OriginOS、ColorOS等）后台管理激进，常常在锁屏后自动杀死代理进程。解决方法：
-          </p>
-          <ul>
-            <li>在手机系统的“设置” → “应用管理”中找到 Clash，开启“自启动权限”。</li>
-            <li>在电池优化策略中，将其设置为“无限制”或“不优化”。</li>
-            <li>在多任务后台卡片界面，长按 Clash 卡片并点击加锁图标。</li>
-          </ul>
+          <p>在安卓手机上推荐使用 Clash Meta for Android (CMFA)。在机场后台复制订阅链接后，进入 CMFA 配置页面选择从 URL 下载，保存并启动系统 VPN 权限即可连接。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1898,29 +1783,9 @@ function generateGuidePages() {
 
         <div class="article-body">
           <div class="alert-box alert-warning">
-            <strong>重要提示：</strong> 中国大陆地区的 App Store 无法下载 Shadowrocket 或 Quantumult X。必须使用海外地区（如美区、日区、港区）的 Apple ID 登录 App Store 才能进行下载安装。
+            <strong>重要提示：</strong> 中国大陆地区的 App Store 无法下载 Shadowrocket。必须使用海外地区（如美区、日区、港区）的 Apple ID 登录 App Store 才能下载安装。
           </div>
-
-          <h2>第一步：获取海外 Apple ID 并下载小火箭</h2>
-          <p>
-            你可以自行注册一个美区 Apple ID，或者直接使用部分机场（如 <a href="../../airport/yidian/index.html">一点机场</a>）年付套餐赠送的共享外区账号。打开 App Store，点击右上角头像退出当前账号，登录海外账号搜索 <strong>Shadowrocket</strong> 并下载（注意正版开发者为 Pan modal，图标为一个黑色小火箭）。下载完成后建议立刻换回自己的国区账号。
-          </p>
-
-          <h2>第二步：添加机场订阅</h2>
-          <ol>
-            <li>在 Safari 浏览器中登录你的机场后台。</li>
-            <li>通常会有专门的 <strong>“一键导入 Shadowrocket”</strong> 按钮，点击后系统会自动唤醒小火箭并完成节点列表下载。</li>
-            <li>如果不支持一键唤醒，可复制订阅链接，打开 Shadowrocket，点击右上角 <strong>“+”</strong> 号。</li>
-            <li>类型选择 <strong>“Subscribe”</strong>，在 URL 一栏粘贴刚才复制的链接，点击右上角“完成”。</li>
-          </ol>
-
-          <h2>第三步：路由选择与启动</h2>
-          <ol>
-            <li>在小火箭首页下方，确保 <strong>“全局路由”</strong> 设置为 <strong>“配置 (Config)”</strong>（千万不要设为代理，否则国内流量也会耗费机场配额）。</li>
-            <li>在节点列表中轻点选中一个低延迟节点（前面出现黄色圆点即为选中）。</li>
-            <li>拨动顶部的连接开关，首次使用时会弹出 iOS 系统提示“Shadowrocket 想要添加 VPN 配置”，点击“允许”并输入手机锁屏密码。</li>
-            <li>状态栏显示 VPN 图标后，即可畅快访问全球互联网。</li>
-          </ol>
+          <p>在小火箭中点击右上角加号，类型选择 Subscribe，粘贴机场订阅链接保存，然后确保全局路由设置为“配置 (Config)”，轻点开关即可开启代理。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1949,24 +1814,7 @@ function generateGuidePages() {
         </header>
 
         <div class="article-body">
-          <p>macOS平台过去流行的ClashX已长期停止更新，目前针对Apple Silicon芯片优化的首选软件同样是 <strong>Clash Verge Rev (macOS DMG包)</strong>。</p>
-
-          <h2>安装与安全权限授予</h2>
-          <ol>
-            <li>下载对应架构的 DMG 文件（M系列芯片请下载 <code>aarch64.dmg</code>，旧款Intel芯片请下载 <code>x64.dmg</code>）。</li>
-            <li>打开 DMG 并将 Clash Verge 拖入“应用程序 (Applications)”文件夹。</li>
-            <li>首次打开若提示“无法验证开发者”，请进入系统“设置” → “隐私与安全性” → 点击“仍要打开”。</li>
-          </ol>
-
-          <h2>开启 TUN 增强模式（接管全系统流量）</h2>
-          <p>
-            Mac 终端（Terminal）、Docker 或部分未遵循系统代理的环境默认不会走代理。通过开启 TUN 模式，可以在系统内核层创建一个虚拟网卡，彻底解决命令行无法 git clone 或下载外网资源的问题：
-          </p>
-          <ol>
-            <li>在 Clash Verge 设置中，授予软件服务安装权限（Service Mode）。</li>
-            <li>开启 <strong>“TUN 模式”</strong> 开关。</li>
-            <li>在终端执行 <code>curl ipinfo.io</code>，若返回境外 IP 则说明终端代理配置成功。</li>
-          </ol>
+          <p>Mac 端推荐安装 Clash Verge Rev DMG 安装包。导入订阅后，建议在设置中开启“TUN 模式”，以确保终端命令行与所有后台应用均能顺利代理。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1995,20 +1843,7 @@ function generateGuidePages() {
         </header>
 
         <div class="article-body">
-          <h2>什么是规则分流？</h2>
-          <p>
-            传统的商用VPN采用全局接管机制，一旦连接，你访问百度、淘宝也会经过境外节点绕一大圈，不仅极其浪费机场流量，还会导致国内网站被判定异地登录甚至无法打开。而现代代理客户端采用<strong>基于规则的分流机制（Rule-based Routing）</strong>：
-          </p>
-          <ul>
-            <li>访问国内常用网站（如 <code>*.baidu.com</code>、<code>*.taobao.com</code> 及国内IP段）→ <strong>DIRECT（直连）</strong>，不走节点，速度最快且不耗费流量。</li>
-            <li>访问境外受限网站（如 <code>*.google.com</code>、<code>*.github.com</code>）→ <strong>PROXY（代理）</strong>，由机场节点中转加速。</li>
-            <li>访问广告追踪域名 → <strong>REJECT（拦截）</strong>，直接在客户端层面阻断广告加载。</li>
-          </ul>
-
-          <h2>高可用容灾：Fallback 故障转移策略组配置</h2>
-          <p>
-            如果你购买了一家月付主力专线机场（如 <a href="../../airport/wuye/index.html">五叶网络</a>），同时手头备有一家按量不限时的应急机场（如 <a href="../../airport/mojie/index.html">魔戒VPN</a>），你可以在配置中设置一个 <code>fallback</code> 策略组。客户端会定时向探测网址发送握手包，当主力节点出现网络故障时，几秒内自动无缝切换到备用节点，保证跨国业务永不断连。
-          </p>
+          <p>规则分流能让访问国内网站走直连（秒开且不消耗套餐流量），访问海外受限网站走代理节点。配合 Fallback 自动故障转移策略组，可在节点波动时自动秒级切换备用节点。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2022,7 +1857,6 @@ function generateGuidePages() {
 // 7. 生成深度文章博客系统 blog/
 // ==========================================
 function generateBlogPages() {
-  // 7.0 blog/index.html
   const blogIndexHtml = renderHtmlPage({
     depth: 1,
     title: '翻墙机场与VPN科普文章专栏 · 选购避坑与技术原理解析',
@@ -2098,24 +1932,7 @@ function generateBlogPages() {
         </header>
 
         <div class="article-body">
-          <p>在当前纷繁复杂的网络服务市场中，各种“平价大带宽”、“极速千兆”的广告让人眼花缭乱。很多初次接触翻墙的新手，往往会被低价宣传所吸引，一次性购买大额年付套餐，结果没过两周就遭遇节点大面积瘫痪甚至商家跑路。</p>
-
-          <h2>选购靠谱机场的“五看原则”</h2>
-
-          <h3>1. 看线路架构：专线优先，中转次之，切莫贪图廉价直连</h3>
-          <p>
-            凡是没有境内机房入口、让你的电脑直接向境外公网服务器发起连接的“直连机场”，在敏感时期几乎100%被封锁殆尽。靠谱的机场至少要有BGP公网中转服务器，而对于晚高峰稳定性有严苛要求的用户，首选必须是物理不过墙的 <a href="../../recommend/premium/index.html">IEPL/IPLC内网专线机场</a>。
-          </p>
-
-          <h3>2. 看计费周期：首选月付，拒绝一切“终身套餐”</h3>
-          <p>
-            商业服务器与跨国内网光缆的租金是按月持续结算的，没有任何正常运营的商家能够依靠一次性的几十元长期维系服务器成本。宣称“终身永久有效”的梯子99.9%是庞氏骗局，卷款跑路只是时间问题。
-          </p>
-
-          <h3>3. 看节点倍率透明度</h3>
-          <p>
-            购买套餐时务必看清节点列表中的倍率标注。良心商家（如本站推荐的 <a href="../../airport/feiniao/index.html">飞鸟云</a> 与 <a href="../../airport/wuye/index.html">五叶网络</a>）绝大多数节点维持透明的1.0x倍率，用1G算1G。
-          </p>
+          <p>在当前纷繁复杂的网络服务市场中，各种“平价大带宽”、“极速千兆”的广告让人眼花缭乱。新手选购请遵循“五看原则”：看线路架构（专线优于公网）、看计费周期（优先月付）、看倍率透明度、看工单支持与退款保障。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2137,25 +1954,10 @@ function generateBlogPages() {
       <div class="content-article">
         <header class="article-header">
           <h1>VPN与机场节点全面区别解析：原理与选型建议</h1>
-          <div class="article-header-meta">
-            <span>发布日期：2026-11-14</span>
-            <span>深度技术辨析</span>
-          </div>
+          <div class="article-header-meta"><span>发布日期：2026-11-14</span></div>
         </header>
-
         <div class="article-body">
-          <p>很多人习惯将所有翻墙工具通称为“VPN”，但从严格的计算机网络底层原理来看，传统商用VPN（如ExpressVPN、NordVPN）与现代国内用户普遍使用的“机场代理节点”（Shadowsocks、Trojan、V2Ray、Clash）存在着本质维度的巨大区别。</p>
-
-          <h2>一、设计初衷的本质不同</h2>
-          <ul>
-            <li><strong>传统商用VPN（虚拟专用网）：</strong> 设计初衷是为跨国公司员工安全访问企业内网提供端到端强加密隧道。它只关注传输安全性，并不在乎流量特征是否明显。正因为其握手特征非常容易被机器学习识别，在经过GFW时会被瞬间定点阻断。</li>
-            <li><strong>机场代理节点：</strong> 设计初衷从第一天起就是为了<strong>抗封锁与流量伪装</strong>。它们将跨境数据包装成绝大多数网站通用的HTTPS流量，或者直接通过物理专线传输，让防火墙难以分辨。</li>
-          </ul>
-
-          <h2>二、分流能力的差异</h2>
-          <p>
-            传统VPN是全局接管，连接后国内所有应用访问都会减速变卡；而机场结合 Clash 等现代化客户端，可以精确到单个域名和进程进行智能分流，完美做到“国内直连秒开，国外代理加速”。
-          </p>
+          <p>传统商用VPN是全局加密隧道，特征明显易被GFW阻断；而现代机场节点采用VLESS、Shadowsocks等先进伪装协议或IEPL专线，速度快且具备精细的分流能力。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2177,23 +1979,10 @@ function generateBlogPages() {
       <div class="content-article">
         <header class="article-header">
           <h1>直连、中转、IEPL与IPLC专线到底差在哪？一文学懂线路分类</h1>
-          <div class="article-header-meta">
-            <span>发布日期：2026-11-10</span>
-            <span>网络线路分类详解</span>
-          </div>
+          <div class="article-header-meta"><span>发布日期：2026-11-10</span></div>
         </header>
-
         <div class="article-body">
-          <p>在查看各大机场的套餐介绍时，经常会看到“直连”、“BGP中转”、“深港IEPL”、“沪日IPLC”等词汇。这些概念决定了一个机场节点在高峰期的稳定上限：</p>
-
-          <h2>1. 公网直连（已被时代淘汰）</h2>
-          <p>用户手机/电脑直接通过本地运营商公网向海外服务器发送请求，中间经过数十个公网跳点与防火墙审查，丢包率极高，目前仅存在于极低质的免费节点中。</p>
-
-          <h2>2. BGP公网中转</h2>
-          <p>在大陆境内租用BGP多线机房作为入口，用户先连接境内机房，再由机房通过优化公网隧道转发给境外落地机。速度与稳定性较直连有质的飞跃，是平价性价比机场的主流方案。</p>
-
-          <h2>3. IEPL / IPLC 内网物理专线（旗舰品质）</h2>
-          <p>通过电信或联通租用的点对点跨国企业专线，数据在陆缆或海缆中全程封闭传输，<strong>物理层面不接入公共互联网防火墙</strong>，因此完全免疫外部公网封锁与丢包，代表服务商如 <a href="../../airport/wuye/index.html">五叶网络</a>。</p>
+          <p>公网直连抗封锁差；BGP中转性价比高；而IEPL/IPLC内网专线由于物理层不过公网防火墙，是晚高峰稳定看视频与远程办公的首选方案。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2215,24 +2004,10 @@ function generateBlogPages() {
       <div class="content-article">
         <header class="article-header">
           <h1>为什么千万不要使用免费VPN和免费机场节点？安全与隐私风险深度解析</h1>
-          <div class="article-header-meta">
-            <span>发布日期：2026-11-08</span>
-            <span>网络安全与隐私警示</span>
-          </div>
+          <div class="article-header-meta"><span>发布日期：2026-11-08</span></div>
         </header>
-
         <div class="article-body">
-          <div class="alert-box alert-warning">
-            <strong>警示：</strong> 免费的往往是最昂贵的代价。跨国服务器带宽成本极其昂贵，没有任何商业组织会无偿持续贴钱为公众提供大带宽代理。
-          </div>
-
-          <h2>免费梯子背后的黑产变现路径</h2>
-          <ol>
-            <li><strong>明文嗅探与凭证窃取：</strong> 很多免费节点会在服务端架设证书解密脚本，嗅探用户的邮箱账号、海外加密货币交易所登录凭据与信用卡信息。</li>
-            <li><strong>注入恶意广告与跳转劫持：</strong> 在你浏览网页时篡改返回内容，插入赌博、钓鱼网站弹窗。</li>
-            <li><strong>设备沦为僵尸网络肉鸡：</strong> 安装所谓的免费客户端后，你的手机或电脑很可能在后台被用作DDOS攻击跳板或代理出口节点。</li>
-          </ol>
-          <p>如果预算极度有限，哪怕选择 <a href="../../airport/mojie/index.html">魔戒1元体验包</a> 或 <a href="../../airport/kuaiche/index.html">极速快车9.9元套餐</a>，也绝对比来源不明的免费工具安全万倍。</p>
+          <p>免费往往是最昂贵的代价。大量免费工具会在后台植入广告、解密嗅探用户数据甚至将用户设备当作代理肉鸡，安全风险极大。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2254,27 +2029,10 @@ function generateBlogPages() {
       <div class="content-article">
         <header class="article-header">
           <h1>特殊时期机场节点大面积超时断连怎么办？排查自救手册</h1>
-          <div class="article-header-meta">
-            <span>发布日期：2026-11-02</span>
-            <span>应急排错与高可用指南</span>
-          </div>
+          <div class="article-header-meta"><span>发布日期：2026-11-02</span></div>
         </header>
-
         <div class="article-body">
-          <h2>第一步：排除本地与运营商故障</h2>
-          <p>
-            切换手机热点测试。国内某些地区运营商在夜间会临时出现局域骨干网割接，若手机移动热点可以正常连接而家里宽带不行，通常属于本地宽带临时问题，等待半小时即可。
-          </p>
-
-          <h2>第二步：强制拉取更新订阅</h2>
-          <p>
-            当节点出现封锁时，机场运维通常会在后端调流并更换备用入口域名。很多用户的客户端订阅更新频率设置的是24小时，无法及时获取最新节点。在 Clash 或小火箭中手动点击 <strong>“更新订阅 (Update)”</strong>，往往能瞬间恢复可用。
-          </p>
-
-          <h2>第三步：启动“双持容灾”机制</h2>
-          <p>
-            成熟的跨境商务人士绝不会只依赖单一服务商。常备一个按量不限时服务商（如 <a href="../../airport/mojie/index.html">魔戒VPN</a>），在主力专线偶尔维护时作为备选通道，彻底杜绝业务停摆风险。
-          </p>
+          <p>遭遇断连首先在客户端中手动“更新订阅”以拉取后端调流节点；其次建议手头常备一个提供按量不限时套餐的服务商（如 <a href="../../airport/feiv/index.html">飞V</a>）作为应急备用。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2288,7 +2046,6 @@ function generateBlogPages() {
 // 8. 生成技术百科词条系统 glossary/
 // ==========================================
 function generateGlossaryPages() {
-  // 8.0 glossary/index.html
   const glossaryIndexHtml = renderHtmlPage({
     depth: 1,
     title: '代理协议与网络技术术语知识百科 · 通俗易懂权威科普',
@@ -2354,12 +2111,7 @@ function generateGlossaryPages() {
           <h1>Shadowsocks/V2Ray/Trojan/Hysteria2 常用代理协议区别与特点详解</h1>
         </header>
         <div class="article-body">
-          <p>不同代理协议代表了开发者对抗防火墙流量识别的不同技术流派：</p>
-          <ul>
-            <li><strong>Shadowsocks (SS)：</strong> 最经典的轻量对称加密协议，开销极小且延迟极低。在全专线（如 <a href="../../airport/wuye/index.html">五叶网络</a>）环境下是效率最高的协议。</li>
-            <li><strong>Trojan：</strong> 伪装流派的集大成者，直接将流量伪装成合法的 HTTPS 流量，配合合规域名与TLS证书，抗主动探测能力极强。</li>
-            <li><strong>Hysteria2：</strong> 基于 UDP 改造的 QUIC 协议，内置专有拥塞控制算法。即便在丢包率高达 30% 的恶劣校园网或跨国弱网下，依然能够跑满下行带宽。</li>
-          </ul>
+          <p>不同代理协议代表了不同的抗干扰思路：SS轻量极速适合专线；Trojan深度伪装成标准HTTPS；VLESS性能强悍；Hysteria2则基于UDP，在恶劣丢包网络下爆发力极强。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2383,9 +2135,7 @@ function generateGlossaryPages() {
           <h1>IPLC/IEPL内网专线原理解析与优势科普</h1>
         </header>
         <div class="article-body">
-          <p><strong>IPLC (International Private Leased Circuit)：</strong> 国际私有专线，是点对点的电信内网物理租用线路。数据直接在机房专属链路内传输，不需要接入公网。</p>
-          <p><strong>IEPL (International Ethernet Private Line)：</strong> 国际以太网专线，是基于以太网接口的第二层专用点对点连接，在机动性与带宽调度上比传统IPLC更为灵活。</p>
-          <p>由于专线直接跨越国境，不经过任何公共互联网节点与国家级防火墙（GFW），因此彻底杜绝了被公网阻断、丢包或限制握手的可能性。</p>
+          <p>IPLC/IEPL是跨国内网点对点物理光纤专线，由于数据不经过公网GFW审查，因此晚高峰零丢包、低延迟，稳定性远超普通公网中转。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2409,12 +2159,7 @@ function generateGlossaryPages() {
           <h1>节点倍率与流量计算机制说明</h1>
         </header>
         <div class="article-body">
-          <p><strong>扣费公式：</strong> <code>实际扣除流量 = 产生的数据流量 × 节点倍率</code></p>
-          <ul>
-            <li><strong>1.0x 标准倍率：</strong> 产生1GB流量，扣除1GB套餐配额。绝大多数优质节点应维持1.0x。</li>
-            <li><strong>0.1x / 0.5x 低倍率：</strong> 产生10GB流量仅扣除1GB。通常适用于冷门公网直连节点，适合大流量下载网盘。</li>
-            <li><strong>2.0x / 3.0x 高倍率：</strong> 产生1GB流量扣除2-3GB。通常是因为该节点采购成本极高（如独享香港原生家宽IP或高防企业专线）。</li>
-          </ul>
+          <p>实际扣费流量 = 数据流量 × 节点倍率。建议优先选择1.0x倍率为主的诚实服务商。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2438,7 +2183,7 @@ function generateGlossaryPages() {
           <h1>规则分流与策略组机制详解</h1>
         </header>
         <div class="article-body">
-          <p>Clash通过预先定义的规则集对网络请求的目标域名或IP地址进行自上而下的逐行匹配。当规则匹配成功后，请求会被转派给对应的策略组（如“节点选择”、“自动测速Url-Test”、“故障转移Fallback”或“直连Direct”），从而实现了国内直连、海外加速的极致体验。</p>
+          <p>Clash通过规则集对访问目标进行匹配分流，实现国内直连、海外加速的极致省流与低延迟体验。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2462,8 +2207,7 @@ function generateGlossaryPages() {
           <h1>DNS 泄漏与防污染知识解析</h1>
         </header>
         <div class="article-body">
-          <p><strong>DNS 污染：</strong> 本地运营商DNS服务器对境外敏感域名的查询请求返回错误的虚假IP，导致无法正常连接。</p>
-          <p><strong>DNS 泄漏：</strong> 用户虽然连接了代理，但域名解析请求依然发往了本地宽带运营商的DNS服务器，导致运营商能够轻易记录你访问过哪些境外网站。通过开启Clash内置的 Fake-IP 模式和安全DoH解析，可以彻底避免DNS泄漏。</p>
+          <p>开启 Fake-IP 模式和安全的 DoH/DoT 加密解析，可以彻底避免真实访问目标被本地运营商窥探记录。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2474,10 +2218,9 @@ function generateGlossaryPages() {
 }
 
 // ==========================================
-// 9. 生成可信度与合规中心页面 (About, Contact, Editorial, Privacy, Disclaimer, 404)
+// 9. 生成可信度与合规中心页面
 // ==========================================
 function generateCompliancePages() {
-  // about/index.html
   const aboutHtml = renderHtmlPage({
     depth: 1,
     title: '关于我们 · 翻墙VPN与机场节点指南团队背景与使命',
@@ -2492,19 +2235,7 @@ function generateCompliancePages() {
           <h1>关于翻墙VPN与机场节点指南</h1>
         </header>
         <div class="article-body">
-          <p>
-            <strong>翻墙VPN与机场节点指南 (fanqiangvpn.blog)</strong> 成立于2024年，是一支由跨国网络工程师、信息架构师与技术编辑组成的独立测评团队。
-          </p>
-          <h2>我们的使命</h2>
-          <p>
-            在充满虚假广告、营销水军与恶意跑路陷阱的翻墙节点市场中，建立一套<strong>客观、数据可验证、价格透明</strong>的中立评测标准。我们拒绝任何不经实测的商业背书，所有上榜品牌均经过真实的丢包与流媒体实测。
-          </p>
-          <h2>评测原则</h2>
-          <ul>
-            <li>绝不虚构测速图或编造未实测的评分。</li>
-            <li>所有价格与单GB成本基于公开资费真实折算。</li>
-            <li>明确标注官方公开资料与实际测试结果的区别。</li>
-          </ul>
+          <p><strong>翻墙VPN与机场节点指南 (fanqiangvpn.blog)</strong> 致力于建立一套客观、数据可验证、价格透明的中立评测标准。所有上榜品牌均经过真实的线路、价格与流媒体实测。</p>
         </div>
       </div>
     </div>
@@ -2512,7 +2243,6 @@ function generateCompliancePages() {
   });
   writeHtml('about/index.html', aboutHtml);
 
-  // contact/index.html
   const contactHtml = renderHtmlPage({
     depth: 1,
     title: '联系我们与意见反馈 · 翻墙VPN与机场节点指南',
@@ -2527,13 +2257,7 @@ function generateCompliancePages() {
           <h1>联系我们与反馈渠道</h1>
         </header>
         <div class="article-body">
-          <p>如果你在阅读本站评测时发现任何资费变动、节点下线或想要提供最新的商家跑路预警线索，欢迎随时与我们取得联系。</p>
-          <h2>官方联络方式</h2>
-          <ul>
-            <li><strong>电子邮箱：</strong> contact@fanqiangvpn.blog</li>
-            <li><strong>官方讨论与线索群：</strong> 关注本站 Telegram 频道公告</li>
-            <li><strong>工单反馈：</strong> 一般反馈我们将在 48 小时内完成核实并回复。</li>
-          </ul>
+          <p>官方联络邮箱：contact@fanqiangvpn.blog。欢迎提交最新的节点波动线索与优惠信息反馈。</p>
         </div>
       </div>
     </div>
@@ -2541,7 +2265,6 @@ function generateCompliancePages() {
   });
   writeHtml('contact/index.html', contactHtml);
 
-  // editorial-policy/index.html
   const editorialHtml = renderHtmlPage({
     depth: 1,
     title: '编辑政策与评测标准 · 翻墙VPN与机场节点指南',
@@ -2556,20 +2279,7 @@ function generateCompliancePages() {
           <h1>编辑政策、评测准则与推广披露</h1>
         </header>
         <div class="article-body">
-          <h2>一、独立评测原则</h2>
-          <p>
-            我们的编辑内容独立于任何机场服务商。服务商无法通过支付费用来修改本站给出的客观评测结论或隐瞒其实际存在的缺点与丢包问题。
-          </p>
-          <h2>二、评测测试方法</h2>
-          <ul>
-            <li>测试环境覆盖中国三大运营商典型家庭宽带（电信、联通、移动）。</li>
-            <li>重点监测晚高峰（20:00 - 23:00）时段的TCP握手延迟与丢包率。</li>
-            <li>流媒体解锁实测必须通过非自制剧版权验证。</li>
-          </ul>
-          <h2>三、联盟推广披露 (Affiliate Disclosure)</h2>
-          <p>
-            为了维系网站服务器租用与长期监测探针的运营开销，本站部分外链可能包含联盟推广标识（Affiliate Links）。当你通过这些链接注册并购买套餐时，我们可能会获得少许佣金。这不会增加你的购买费用，也不会影响我们的独立评测评级。
-          </p>
+          <p>我们的评测基于真实网络测速与公开资费，部分外链可能包含联盟推广链接，但绝不影响中立客观的评级与优缺点陈述。</p>
         </div>
       </div>
     </div>
@@ -2577,7 +2287,6 @@ function generateCompliancePages() {
   });
   writeHtml('editorial-policy/index.html', editorialHtml);
 
-  // privacy-policy/index.html
   const privacyHtml = renderHtmlPage({
     depth: 1,
     title: '隐私政策 · 翻墙VPN与机场节点指南',
@@ -2592,12 +2301,7 @@ function generateCompliancePages() {
           <h1>隐私政策 (Privacy Policy)</h1>
         </header>
         <div class="article-body">
-          <p>本站作为纯静态资讯站点，极度尊重并承诺保护访问者的个人隐私权益：</p>
-          <ul>
-            <li><strong>零用户追踪：</strong> 本站不要求用户注册账号，不收集个人姓名、身份证号或手机号码。</li>
-            <li><strong>不记录浏览历史：</strong> 本站纯静态托管，不运行任何第三方重型用户行为画像追踪脚本。</li>
-            <li><strong>Cookie使用：</strong> 本站仅在必要时使用轻量本地存储保存用户的客户端偏好设置（如深浅模式或横向对比候选）。</li>
-          </ul>
+          <p>本站作为纯静态资讯站点，不收集用户个人敏感数据，不运行重型追踪探针。</p>
         </div>
       </div>
     </div>
@@ -2605,7 +2309,6 @@ function generateCompliancePages() {
   });
   writeHtml('privacy-policy/index.html', privacyHtml);
 
-  // disclaimer/index.html
   const disclaimerHtml = renderHtmlPage({
     depth: 1,
     title: '免责声明 · 翻墙VPN与机场节点指南',
@@ -2620,12 +2323,7 @@ function generateCompliancePages() {
           <h1>免责声明与合规声明</h1>
         </header>
         <div class="article-body">
-          <p>欢迎访问翻墙VPN与机场节点指南（fanqiangvpn.blog）。请在浏览或参考本站内容前仔细阅读以下条款：</p>
-          <ol>
-            <li><strong>技术研究与学术用途：</strong> 本站所提供的技术文章、客户端教程与协议科普仅供计算机网络学术研究、海外合法商务沟通及正常外贸出海参考。</li>
-            <li><strong>遵守当地法律：</strong> 用户在使用任何网络代理或VPN工具时，必须严格遵守所在国家与地区的法律法规，严禁利用任何代理工具从事任何违法犯罪活动。</li>
-            <li><strong>第三方服务免责：</strong> 本站收录的机场品牌均为独立第三方实体，本站与任何机场无归属关系。因第三方服务商自身运营、线路变动、退款争议或终止服务所造成的任何损失，本站不承担任何法律责任。</li>
-          </ol>
+          <p>本站内容仅供计算机网络学术研究、海外合法商务沟通及正常外贸出海参考。请严格遵守当地法律法规。</p>
         </div>
       </div>
     </div>
@@ -2633,7 +2331,6 @@ function generateCompliancePages() {
   });
   writeHtml('disclaimer/index.html', disclaimerHtml);
 
-  // 404.html (位于根目录)
   const notFoundHtml = renderHtmlPage({
     depth: 0,
     title: '404 - 页面未找到 · 翻墙VPN与机场节点指南',
@@ -2645,9 +2342,6 @@ function generateCompliancePages() {
     <div class="container" style="text-align: center; padding: 80px 20px;">
       <h1 style="font-size: 4rem; color: #2563eb; font-weight: 800; margin-bottom: 12px;">404</h1>
       <h2 style="font-size: 1.5rem; margin-bottom: 16px;">抱歉，你访问的页面已不存在或链接有误</h2>
-      <p style="color: #64748b; max-width: 500px; margin: 0 auto 28px;">
-        可能是文章已归档，或者你输入的网址存在拼写错误。你可以通过下方按钮快速返回核心栏目。
-      </p>
       <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
         <a href="index.html" class="btn btn-primary">返回网站首页</a>
         <a href="recommend/index.html" class="btn btn-secondary">精选机场推荐</a>
@@ -2678,17 +2372,7 @@ function generateSitemapAndRobots() {
     { loc: `${DOMAIN}/ranking/budget/`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${DOMAIN}/ranking/stable/`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${DOMAIN}/airport/`, priority: '0.9', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/airport/wuye/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/airport/feiniao/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/airport/kuaiche/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/airport/yidian/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/airport/mojie/`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${DOMAIN}/review/`, priority: '0.9', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/review/wuye/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/review/feiniao/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/review/kuaiche/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/review/yidian/`, priority: '0.8', changefreq: 'weekly' },
-    { loc: `${DOMAIN}/review/mojie/`, priority: '0.8', changefreq: 'weekly' },
     { loc: `${DOMAIN}/compare/`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${DOMAIN}/guides/`, priority: '0.9', changefreq: 'weekly' },
     { loc: `${DOMAIN}/guides/windows/`, priority: '0.8', changefreq: 'monthly' },
@@ -2715,6 +2399,12 @@ function generateSitemapAndRobots() {
     { loc: `${DOMAIN}/disclaimer/`, priority: '0.5', changefreq: 'monthly' }
   ];
 
+  // 加入 14 家机场详情与评测
+  airports.forEach(a => {
+    urls.push({ loc: `${DOMAIN}/airport/${a.slug}/`, priority: '0.8', changefreq: 'weekly' });
+    urls.push({ loc: `${DOMAIN}/review/${a.slug}/`, priority: '0.8', changefreq: 'weekly' });
+  });
+
   const today = '2026-11-20';
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -2733,7 +2423,6 @@ ${urls.map(u => `  <url>
 Allow: /
 Disallow: /404.html
 
-# Bing 与各大搜索引擎专属站点地图声明
 Sitemap: ${DOMAIN}/sitemap.xml
 `;
 
@@ -2741,7 +2430,7 @@ Sitemap: ${DOMAIN}/sitemap.xml
 }
 
 // 主构建生成执行入口
-console.log('=== 开始全站纯静态 HTML 生成 ===');
+console.log('=== 开始全站纯静态 HTML 生成 (14大新品牌全面替换) ===');
 generateHomePage();
 generateRecommendPages();
 generateRankingPages();

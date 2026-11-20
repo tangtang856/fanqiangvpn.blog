@@ -15,7 +15,7 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 function getHtmlFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);
   for (const file of files) {
-    if (file === 'node_modules' || file === '.git' || file === 'dist') continue;
+    if (file === 'node_modules' || file === '.git' || file === 'dist' || file === 'temp_cache' || file.startsWith('scratch')) continue;
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat.isDirectory()) {

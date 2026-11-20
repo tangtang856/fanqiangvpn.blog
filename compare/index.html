@@ -8,7 +8,6 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://fanqiangvpn.blog/compare/">
   
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fanqiangvpn.blog/compare/">
   <meta property="og:title" content="机场节点横向对比工具 · 价格/流量/专线/协议一键横评">
@@ -16,12 +15,10 @@
   <meta property="og:site_name" content="翻墙VPN与机场节点指南">
   <meta property="og:locale" content="zh_CN">
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="机场节点横向对比工具 · 价格/流量/专线/协议一键横评">
   <meta name="twitter:description" content="自由选择2-4家机场服务商进行多维度横向比选，并排对比套餐价格、单GB单价、IEPL专线类型、支持协议、设备上限及AI流媒体解锁能力。">
   
-  <!-- 核心原生轻量样式 (相对路径) -->
   <link rel="stylesheet" href="../css/style.css">
   
   
@@ -62,7 +59,7 @@
       <a href="../recommend/index.html">✈ 机场梯子推荐专题</a>
       <a href="../ranking/overall/index.html">🏆 综合实力排行榜</a>
       <a href="../ranking/value/index.html">💰 高性价比机场排行</a>
-      <a href="../airport/index.html">🌐 优质机场节点大全</a>
+      <a href="../airport/index.html">🌐 14家优质机场节点大全</a>
       <a href="../compare/index.html">⚖ 机场在线对比工具</a>
       <a href="../guides/index.html">📖 全平台客户端使用教程</a>
       <a href="../blog/index.html">📝 选购技巧与深度科普</a>
@@ -95,28 +92,73 @@
         <strong style="margin-right: 8px;">选择对比候选：</strong>
         
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="wuye" checked>
-          <span>五叶网络</span>
+          <input type="checkbox" name="compareAirport" value="breezenet" checked>
+          <span>微风网络 Breezenet</span>
         </label>
         
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="feiniao" checked>
-          <span>飞鸟云</span>
+          <input type="checkbox" name="compareAirport" value="muguang" checked>
+          <span>暮光网络</span>
         </label>
         
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="kuaiche" checked>
-          <span>极速快车</span>
+          <input type="checkbox" name="compareAirport" value="feimaoyun" checked>
+          <span>飞猫云</span>
         </label>
         
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="yidian" >
-          <span>一点机场</span>
+          <input type="checkbox" name="compareAirport" value="wuyou" >
+          <span>无忧</span>
         </label>
         
         <label class="checkbox-pill">
-          <input type="checkbox" name="compareAirport" value="mojie" >
-          <span>魔戒VPN</span>
+          <input type="checkbox" name="compareAirport" value="lingmao" >
+          <span>灵猫</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="flashleap" >
+          <span>闪跃 FlashLeap</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="firefly" >
+          <span>萤火虫（Firefly）</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="kuajiecloud" >
+          <span>跨界</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="yinxingren" >
+          <span>隐形人</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="feiv" >
+          <span>飞V</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="laddercloud" >
+          <span>梯子云 LadderCloud</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="wavenet" >
+          <span>浪网 WaveNet</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="lingdongcloud" >
+          <span>灵动云</span>
+        </label>
+        
+        <label class="checkbox-pill">
+          <input type="checkbox" name="compareAirport" value="quanqiuyun" >
+          <span>全球云</span>
         </label>
         
       </div>
@@ -128,8 +170,7 @@
   </div>
 
   <script>
-    // 嵌入对比页面专用的轻量数据与对比逻辑 (纯原生 Vanilla JS)
-    const compareData = [{"id":"wuye","name":"五叶网络","slug":"wuye","badge":"旗舰IEPL全专线","description":"主打高SLA稳定性的全IEPL企业内网专线机场，节点不过公网防火墙，晚高峰极度稳定，原生IP支持流媒体与AI工具免验证。","officialUrl":"https://fanqiangvpn.blog/go/wuye","affiliateUrl":"https://fanqiangvpn.blog/go/wuye","startingPrice":28,"currency":"CNY","billingType":"monthly","plans":[{"name":"基础入门版","price":28,"cycle":"month","trafficGB":100,"calculatedUnitPrice":0.28,"nodeType":"IEPL全专线","deviceLimit":3,"features":["全节点IEPL内网专线","最高500Mbps速率","ChatGPT/Claude原生解锁","工单支持"]},{"name":"进阶主力版","price":45,"cycle":"month","trafficGB":220,"calculatedUnitPrice":0.205,"nodeType":"IEPL全专线","deviceLimit":5,"features":["1000Mbps独享突发速率","全地区流媒体4K解锁","多地入口高可用容灾","优先客服"]},{"name":"年度旗舰版","price":380,"cycle":"year","trafficGB":300,"calculatedUnitPrice":0.106,"nodeType":"极速IEPL双程专线","deviceLimit":8,"features":["折合31.6元/月超高性价比","独享超低延迟入口","8K无缓冲","专属Telegram客服"]}],"protocols":["Shadowsocks","Trojan"],"regions":["香港","日本","新加坡","美国","台湾","英国","德国"],"deviceLimit":"3 - 8 台在线设备","aiSupport":["ChatGPT (Web/App)","Claude 3.5 Sonnet","Google Gemini","Microsoft Copilot"],"streamingSupport":["Netflix","Disney+","YouTube Premium 4K/8K","HBO Max","Spotify"],"advantages":["全线部署真实IEPL内网专线，物理隔绝公网干扰，敏感时期依旧坚挺","节点纯净度极高，无多层NAT阻拦，ChatGPT和Claude无需频繁人机验证","晚高峰骨干网拥堵时段测速抖动极低，丢包率持续低于0.5%","提供多地BGP智能入口，自动就近接入匹配最优低延迟链路"],"disadvantages":["没有提供个位数的廉价月付档位，价格门槛对极轻度用户偏高","不提供按量不限时（计次不过期）套餐，每月重置流量","不设免费试用，仅提供基础月付试错"],"suitableFor":["需要日常高强度处理AI对话、Prompt开发的外贸与程序员群体","对晚高峰网络丢包与卡顿零容忍的远程办公与海龟跨国团队","追求4K/8K超清蓝光无损流媒体观看体验的用户"],"sources":["五叶网络官方服务条款","2026年实测全节点丢包率监控","用户工单与协议支持公开文档"],"lastVerified":"2026-11-15","testStatus":"tested","summaryRating":{"stability":4.9,"speed":4.8,"value":4.3,"support":4.7}},{"id":"feiniao","name":"飞鸟云","slug":"feiniao","badge":"均衡性价比主力","description":"老牌高口碑多协议中转+专线混合架构机场，节点覆盖全球30+主流与冷门国家地区，各档位定价公道，综合综合表现均衡。","officialUrl":"https://fanqiangvpn.blog/go/feiniao","affiliateUrl":"https://fanqiangvpn.blog/go/feiniao","startingPrice":15,"currency":"CNY","billingType":"monthly","plans":[{"name":"轻量尝鲜款","price":15,"cycle":"month","trafficGB":100,"calculatedUnitPrice":0.15,"nodeType":"BGP优质中转","deviceLimit":3,"features":["多路公网中转保障","100GB流量","常规流媒体解锁","工单技术支持"]},{"name":"标准主力款","price":25,"cycle":"month","trafficGB":200,"calculatedUnitPrice":0.125,"nodeType":"BGP中转+IEPL专线混合","deviceLimit":5,"features":["含专线加速节点","200GB大流量","支持全部主流流媒体与ChatGPT","5台设备同时连接"]},{"name":"企业团队款","price":48,"cycle":"month","trafficGB":500,"calculatedUnitPrice":0.096,"nodeType":"多入口专线混合","deviceLimit":"不限","features":["500GB海量流量","无设备数量连接限制","多协议支持","大带宽保障"]}],"protocols":["V2Ray (VMess)","Trojan","Shadowsocks"],"regions":["香港","日本","新加坡","美国","韩国","英国","加拿大","马来西亚"],"deviceLimit":"3 - 5 台（团队版不限）","aiSupport":["ChatGPT","Claude","Google Gemini"],"streamingSupport":["Netflix (主流区)","Disney+","YouTube Premium 4K","Bahamut 动画疯"],"advantages":["性价比突出，15元档即可拥有稳定可用的百G高速流量","节点倍率透明公开，绝大多数主流节点维持1.0x真实计费，不搞虚假翻倍","节点覆盖国家丰富，不仅有港日美新，还提供台湾冷门家宽与东南亚节点","支持支付宝、微信快捷付款，支付接口顺畅无跳转风控"],"disadvantages":["在特殊晚高峰时段，个别纯公网中转节点可能会出现轻微跳ping","自制剧解锁稳定，但部分冷门日区特殊版权流媒体需手动切换指定节点"],"suitableFor":["预算在15-30元/月之间的学生、留学生及日常刷网用户","喜欢刷Twitter、Instagram、查看学术论文与日常查资料的轻中度用户","需要多国IP切换进行本地化测试的运营与开发人员"],"sources":["飞鸟云控制台公开套餐表","7x24小时丢包监测平台","官方Telegram公告频道"],"lastVerified":"2026-11-10","testStatus":"tested","summaryRating":{"stability":4.6,"speed":4.5,"value":4.8,"support":4.5}},{"id":"kuaiche","name":"极速快车","slug":"kuaiche","badge":"大流量平价先锋","description":"采用大带宽负载均衡中转技术，主攻极低单GB成本的海量流量机场，支持最新高速Hysteria2协议，在弱网环境下爆发力极强。","officialUrl":"https://fanqiangvpn.blog/go/kuaiche","affiliateUrl":"https://fanqiangvpn.blog/go/kuaiche","startingPrice":9.9,"currency":"CNY","billingType":"monthly","plans":[{"name":"入门尝鲜款","price":9.9,"cycle":"month","trafficGB":120,"calculatedUnitPrice":0.0825,"nodeType":"BGP负载均衡中转","deviceLimit":2,"features":["9.9元超低门槛","120GB大流量","支持Hysteria2协议","YouTube 4K快速缓冲"]},{"name":"超值畅享款","price":19.9,"cycle":"month","trafficGB":320,"calculatedUnitPrice":0.0622,"nodeType":"多线BGP中转+IEPL直通","deviceLimit":4,"features":["320GB充足流量","折合0.06元/GB极高性价比","单节点带宽高达1Gbps","多设备支持"]},{"name":"海量下载款","price":39.9,"cycle":"month","trafficGB":800,"calculatedUnitPrice":0.0498,"nodeType":"大吞吐量高优中转","deviceLimit":8,"features":["800GB超大配额","单GB单价低至5分钱","支持BT/网盘下载(仅限指定节点)","大流量首选"]}],"protocols":["Shadowsocks","Vless","Hysteria2"],"regions":["香港","日本","美国","新加坡","越南","菲律宾"],"deviceLimit":"2 - 8 台在线设备","aiSupport":["ChatGPT (仅限专线节点解锁)","Claude (需专用节点)"],"streamingSupport":["YouTube 4K/8K","Netflix (非自制剧需切换特定节点)","Bilibili 港澳台"],"advantages":["单GB流量成本全网最低档位之一，最低仅不到0.05元/GB，下载不心疼","全面支持基于UDP的Hysteria2协议，即使在校园网或恶劣丢包网络下依旧能跑满带宽","月付起步仅需9.9元，试错门槛极低，适合大流量重度下载党","节点带宽充沛，单线程与多线程测速极限速率高"],"disadvantages":["部分冷门中转节点在重大敏感活动期间可能出现临时维护调流","流媒体解锁能力不及纯专线机场，部分小众流媒体需手动寻找支持节点","工单支持通常只在工作日响应，缺乏实时客服在线解答"],"suitableFor":["网盘重度同步、开源镜像拉取、Docker与GitHub大代码仓克隆的开发人员","每天在YouTube观看超长4K超清纪录片与视频的影视爱好者","预算非常敏感，追求花最少钱买最多流量的精明用户"],"sources":["极速快车用户手册与套餐明细","测速频道Speedtest抓包记录","用户社区反馈整理"],"lastVerified":"2026-11-12","testStatus":"tested","summaryRating":{"stability":4.2,"speed":4.7,"value":4.9,"support":4}},{"id":"yidian","name":"一点机场","slug":"yidian","badge":"新手一键客户端首选","description":"针对零技术门槛用户量身打造，提供全平台专属一键直连客户端，免去复杂的Clash配置与订阅转换，开箱即用，省心无忧。","officialUrl":"https://fanqiangvpn.blog/go/yidian","affiliateUrl":"https://fanqiangvpn.blog/go/yidian","startingPrice":18,"currency":"CNY","billingType":"monthly","plans":[{"name":"新手基础包","price":18,"cycle":"month","trafficGB":80,"calculatedUnitPrice":0.225,"nodeType":"智能BGP中转专线","deviceLimit":2,"features":["专属Windows/Mac/安卓客户端","一键傻瓜式登录","智能分流国内国外","7x12在线客服"]},{"name":"尊享提速包","price":32,"cycle":"month","trafficGB":200,"calculatedUnitPrice":0.16,"nodeType":"BGP中转+IEPL加速","deviceLimit":4,"features":["全节点解锁4K流媒体","ChatGPT专属节点通道","4台设备同时在线","优先客服通道"]},{"name":"年度省心年付","price":180,"cycle":"year","trafficGB":120,"calculatedUnitPrice":0.125,"nodeType":"IEPL高速专线","deviceLimit":5,"features":["折合15元/月","全年省心不掉线","赠送iOS小火箭外区共享账号","专属一对一指导"]}],"protocols":["Shadowsocks","Trojan","专属加密协议"],"regions":["香港","日本","新加坡","美国","台湾","澳大利亚"],"deviceLimit":"2 - 5 台设备","aiSupport":["ChatGPT (官方App免拦截)","Claude 3.5","Midjourney","Google Gemini"],"streamingSupport":["Netflix","Disney+","YouTube Premium","Spotify","Hulu"],"advantages":["拥有经过签名的自研Windows、macOS与Android专属客户端，下载登录即可用，无需折腾规则","配套提供详尽图文与短视频使用教程，买年付套餐附送外区Apple ID与小火箭下载支持","客服响应敏捷，支持在线网页客服即时聊天，小白遇到问题能快速得到人工解答","内置智能分流白名单，微信、淘宝、网银等国内流量自动直连，不耗费机场流量"],"disadvantages":["官方专属客户端不支持极客用户自定义深度修改YAML分流规则","纯流量单价略高于纯节点中转机场（包含了客户端开发与人工服务成本）"],"suitableFor":["从未使用过机场梯子、对Clash配置感到头疼的新手小白与老年用户","外贸业务人员、需要稳定打理海外邮件与社交媒体但不想研究技术的办公人士","希望售后客服随叫随到、有问题能直接联系到真人的用户"],"sources":["一点机场官网客户端特性白皮书","售后技术支持实测记录","公开资费标准"],"lastVerified":"2026-11-18","testStatus":"tested","summaryRating":{"stability":4.7,"speed":4.4,"value":4.4,"support":4.9}},{"id":"mojie","name":"魔戒VPN","slug":"mojie","badge":"按量不限时备用神选","description":"业内知名的按流量计费不限时间节点服务商，流量永不过期，用多少扣多少，非常适合作为主力机场故障时的抗风险灾备梯子。","officialUrl":"https://fanqiangvpn.blog/go/mojie","affiliateUrl":"https://fanqiangvpn.blog/go/mojie","startingPrice":1,"currency":"CNY","billingType":"no-expiry","plans":[{"name":"微量体验包","price":1,"cycle":"no-expiry","trafficGB":5,"calculatedUnitPrice":0.2,"nodeType":"多线BGP中转","deviceLimit":2,"features":["1元即可上车测试","5GB流量永不过期","支持全部常规节点","全节点可试"]},{"name":"实用不限时包","price":15,"cycle":"no-expiry","trafficGB":130,"calculatedUnitPrice":0.115,"nodeType":"BGP中转+部分专线","deviceLimit":5,"features":["15元买130GB","无到期时间直到用完","全地区流媒体解锁","备用翻墙神器"]},{"name":"旗舰海量不限时","price":45,"cycle":"no-expiry","trafficGB":420,"calculatedUnitPrice":0.107,"nodeType":"IEPL专线+BGP高优中转","deviceLimit":"不限","features":["420GB大容量不过期","无任何设备数量限制","ChatGPT全节点支持","多国节点覆盖"]}],"protocols":["Shadowsocks","V2Ray"],"regions":["香港","日本","新加坡","美国","英国","德国","法国","澳大利亚","阿根廷","土耳其"],"deviceLimit":"2台 - 不限设备","aiSupport":["ChatGPT","Claude","Google Gemini","Copilot"],"streamingSupport":["Netflix","Disney+","YouTube Premium 4K"],"advantages":["彻底打破“按月付费、到期清零”的霸王模式，只要账号不注销，流量永久有效","起步价仅1元人民币，充值15元即可获得130GB不限时流量，几乎无闲置资金沉没风险","节点国家覆盖面极广（包含阿根廷、土耳其等低价流媒体区），冷门换区神器","作为第二备用节点，配置在Clash策略组中作为Fallback备份线路极其完美"],"disadvantages":["没有专属自研一键客户端，需要用户自行下载Clash、小火箭或v2rayN导入订阅","晚高峰个别免费倍率或0.5x倍率节点负载较高，建议手动选择1.0x专线中转"],"suitableFor":["平时翻墙频次低，偶尔查一次学术资料或发几封外贸邮件的极轻度用户","已经购买了月付专线主力机场，想准备一条永不过期备用线路的高要求用户","需要临时开通海外冷门区域订阅服务的精打细算型极客"],"sources":["魔戒VPN服务条款及计费说明","账户实际消费扣费日志核验","节点在线率监控"],"lastVerified":"2026-11-16","testStatus":"tested","summaryRating":{"stability":4.5,"speed":4.4,"value":4.9,"support":4.3}}];
+    const compareData = [{"id":"breezenet","name":"微风网络 Breezenet","slug":"breezenet","badge":"IEPL/IPLC旗舰","coupon":"weifeng90","description":"微风网络Breezenet专注于提供高质量专线体验，以¥8/月超低起步价提供200GB充沛流量，采用IEPL/IPLC主干线路与VLESS协议，是高性价比入门首选。","officialUrl":"https://edp01.breezenetaff.com/#/?code=h4GlIXwC","affiliateUrl":"https://edp01.breezenetaff.com/#/?code=h4GlIXwC","startingPrice":8,"currency":"CNY","billingType":"monthly","plans":[{"name":"微风入门版","price":8,"cycle":"month","trafficGB":200,"calculatedUnitPrice":0.04,"nodeType":"IEPL/IPLC","deviceLimit":"4台设备","features":["500 Mbps端口带宽","4台设备并发","¥8/月享200GB超大流量","专属优惠码 weifeng90"]},{"name":"微风进阶版","price":18,"cycle":"month","trafficGB":500,"calculatedUnitPrice":0.036,"nodeType":"IEPL/IPLC","deviceLimit":"6台设备","features":["1000 Mbps高速带宽","6台设备并发","IEPL/IPLC高速专线","千兆原生IP全解锁"]}],"protocols":["VLESS","Shadowsocks","Trojan"],"regions":["香港","台湾","日本","新加坡","美国","英国"],"deviceLimit":"4-6台设备并发","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","TikTok"],"advantages":["¥8/月超低起步价，享200GB大流量","IEPL/IPLC专线网络，无惧高峰拥堵","VLESS先进协议，连接顺畅隐蔽","专属优惠码 weifeng90 享立减折扣"],"disadvantages":["不设长期免费试用，需购买月付体验","极客深度规则修改需配合Clash客户端"],"suitableFor":["预算敏感但追求高流量的精明用户","日常看超清4K视频与ChatGPT重度用户","外贸跨境出海及多设备共享群体"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","微风网络官方套餐与优惠条款"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.4,"speed":9.5,"value":9.8,"support":9.2}},{"id":"muguang","name":"暮光网络","slug":"muguang","badge":"专线节点网络","coupon":"","description":"暮光网络部署了覆盖亚太及欧美的专线节点，采用先进的VLESS协议体系，为多设备家庭与大流量下载用户提供高稳定、低抖动的网络体验。","officialUrl":"https://varnexa.twilightaff.com/#/?code=8EtJCnBT","affiliateUrl":"https://varnexa.twilightaff.com/#/?code=8EtJCnBT","startingPrice":20,"currency":"CNY","billingType":"monthly","plans":[{"name":"专线基础月付","price":20,"cycle":"month","trafficGB":120,"calculatedUnitPrice":0.167,"nodeType":"专线节点","deviceLimit":"4台设备","features":["500 Mbps端口带宽","4台设备并发","120GB/月专线节点配额","晚高峰顺畅低抖动"]},{"name":"海量进阶月付","price":38,"cycle":"month","trafficGB":300,"calculatedUnitPrice":0.127,"nodeType":"专线节点","deviceLimit":"6台设备","features":["800 Mbps独享速率","6台设备并发","300GB大流量支持","多设备家庭与高频下载"]}],"protocols":["VLESS","Shadowsocks","Trojan"],"regions":["香港","日本","新加坡","美国","德国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","Hulu"],"advantages":["专线节点网络架构，晚高峰平稳流畅","120GB起步流量充裕，日常看视频无压力","全面支持VLESS先进安全协议"],"disadvantages":["月付门槛20元，略高于极轻度平价套餐","冷门国家节点数量相对精简"],"suitableFor":["对晚高峰网络丢包与卡顿敏感的用户","需要多设备同时并发连接的家庭与小型团队","追求连接隐蔽性与稳定性的商务人士"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","暮光网络控制台公开资费明细"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.3,"speed":9.2,"value":9,"support":9.1}},{"id":"feimaoyun","name":"飞猫云","slug":"feimaoyun","badge":"IEPL/中转混合","coupon":"flycat888","description":"飞猫云采用IEPL/IPLC专线与优质中转混合调度链路，年付折算约¥7/月起即可获得150GB流量。针对新手提供完善的一键导入客户端与专属折扣码。","officialUrl":"https://flycat1.flycatvipaff.cc/#/?code=MlwqPqcx","affiliateUrl":"https://flycat1.flycatvipaff.cc/#/?code=MlwqPqcx","startingPrice":7,"currency":"CNY","billingType":"monthly","plans":[{"name":"特惠年付折算","price":7,"cycle":"month","trafficGB":150,"calculatedUnitPrice":0.047,"nodeType":"IEPL/IPLC / 优质中转线路","deviceLimit":"4台设备","features":["400 Mbps带宽","4台设备","年付折算约 ¥7/月起","150GB充足可用，优惠码 flycat888"]},{"name":"畅享月付版","price":16,"cycle":"month","trafficGB":350,"calculatedUnitPrice":0.046,"nodeType":"IEPL/IPLC / 优质中转线路","deviceLimit":"6台设备","features":["800 Mbps大带宽","6台设备","双线冗余入口智能调度","350GB大配额"]}],"protocols":["VLESS","Shadowsocks","Trojan"],"regions":["香港","日本","新加坡","美国","台湾","英国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","Spotify"],"advantages":["年付折算约¥7/月起，150GB充足可用","IEPL/IPLC与优质中转线路结合，兼具高可用与低成本","专属优惠码 flycat888 实惠可用","新手友好，支持全平台一键导入订阅"],"disadvantages":["特惠年付方案需要一次性支付全年","高峰期部分低倍率节点偶发拥堵需手动换节点"],"suitableFor":["学生党、刚入门的小白及精打细算用户","日常刷推特、Instagram和观看YouTube视频","追求高性价比大流量的普通上网群体"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","飞猫云官方公开服务协议"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.2,"speed":9.3,"value":9.7,"support":9}},{"id":"wuyou","name":"无忧","slug":"wuyou","badge":"IPLC专线保障","coupon":"wuyou666","description":"无忧网络主打真实IPLC内网专线节点架构，晚高峰网络延时低且平稳，标配100GB月度配额与多协议支持，适合追求稳定体验的用户。","officialUrl":"https://wep01.worryfreeaff.com/#/?code=oGi9FQ0J","affiliateUrl":"https://wep01.worryfreeaff.com/#/?code=oGi9FQ0J","startingPrice":19,"currency":"CNY","billingType":"monthly","plans":[{"name":"无忧基础版","price":19,"cycle":"month","trafficGB":100,"calculatedUnitPrice":0.19,"nodeType":"IPLC","deviceLimit":"4台设备","features":["400 Mbps速率","4台设备","¥19/月起，100GB真实IPLC专线","优惠码 wuyou666"]},{"name":"无忧进阶版","price":36,"cycle":"month","trafficGB":260,"calculatedUnitPrice":0.138,"nodeType":"IPLC","deviceLimit":"6台设备","features":["800 Mbps高速通道","6台设备","多协议支持","260GB充足配额"]}],"protocols":["Shadowsocks","V2Ray","Trojan"],"regions":["香港","日本","新加坡","美国","韩国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K"],"advantages":["真实IPLC内网专线，延迟超低不过公网墙","月付19元即可体验纯正内网专线","专属优惠码 wuyou666 享折上折优惠"],"disadvantages":["起步流量100GB对海量下载党稍显紧张","不提供极低价体验包"],"suitableFor":["对网络响应速度要求高的海外远程办公人员","炒币量化、跨国金融资讯查看等敏感情境","晚高峰追剧不愿等待缓冲的用户"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","无忧链接用户手册与资费条款"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.4,"speed":9.3,"value":9.2,"support":9.2}},{"id":"lingmao","name":"灵猫","slug":"lingmao","badge":"IPLC专线","coupon":"","description":"灵猫机场采用高规格IPLC内网专线接入，节点纯净原生，全面解锁主流流媒体与ChatGPT等海外AI生产力工具，适合重度学术科研与跨境办公。","officialUrl":"https://vip02.civetaff.com/#/?code=SXY8qyrG","affiliateUrl":"https://vip02.civetaff.com/#/?code=SXY8qyrG","startingPrice":25,"currency":"CNY","billingType":"monthly","plans":[{"name":"IPLC专线版","price":25,"cycle":"month","trafficGB":150,"calculatedUnitPrice":0.167,"nodeType":"IPLC","deviceLimit":"4台设备","features":["500 Mbps突发带宽","4台设备","¥25/月起，150GB真实IPLC专线","流媒体/AI免验证"]},{"name":"旗舰大流量版","price":48,"cycle":"month","trafficGB":350,"calculatedUnitPrice":0.137,"nodeType":"IPLC","deviceLimit":"6台设备","features":["1000 Mbps极速内网通道","6台设备","全节点原生IP解锁","350GB大流量"]}],"protocols":["Shadowsocks","V2Ray","Trojan"],"regions":["香港","日本","新加坡","美国","台湾","德国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","Bahamut 动画疯"],"advantages":["高规格IPLC内网物理光纤直连，延迟平滑稳定","节点纯净度极高，ChatGPT与Claude极少遭遇风控","月度流量150GB充沛，满足高强度科研学习需求"],"disadvantages":["25元起步价门槛相对较高","暂无自研一键傻瓜客户端，需配合Clash使用"],"suitableFor":["高校研究生、高校科研人员及涉外律师","外贸跨境电商高频卖家与海外社媒运营","追求原生IP纯净度和超高稳定性的专业人士"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","灵猫官方服务等级协议"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.5,"speed":9.3,"value":9.1,"support":9.3}},{"id":"flashleap","name":"闪跃 FlashLeap","slug":"flashleap","badge":"IPLC纯专线","coupon":"shanyue","description":"闪跃FlashLeap主打高SLA等级的IPLC纯专线服务，延迟低至20-40ms，晚高峰抗网络抖动能力出众，标配150GB充沛月流量。","officialUrl":"https://vip02.flashleapaff.com/#/?code=8ZIV6HQ3","affiliateUrl":"https://vip02.flashleapaff.com/#/?code=8ZIV6HQ3","startingPrice":24,"currency":"CNY","billingType":"monthly","plans":[{"name":"纯专线入门版","price":24,"cycle":"month","trafficGB":150,"calculatedUnitPrice":0.16,"nodeType":"IPLC纯专线","deviceLimit":"4台设备","features":["500 Mbps极速专线","4台设备","¥24/月起，150GB IPLC纯专线","优惠码 shanyue"]},{"name":"纯专线进阶版","price":46,"cycle":"month","trafficGB":360,"calculatedUnitPrice":0.128,"nodeType":"IPLC纯专线","deviceLimit":"6台设备","features":["1000 Mbps专线带宽","6台设备","低延迟游戏与4K流媒体极致体验","360GB海量配额"]}],"protocols":["Shadowsocks","Trojan","VLESS"],"regions":["香港","日本","新加坡","美国","韩国","英国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Midjourney"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","HBO Max"],"advantages":["IPLC纯专线架构，20-40ms极低游戏延迟","150GB大容量起步，单GB成本低至0.16元","优惠码 shanyue 可享受专享折扣"],"disadvantages":["没有个位数低价体验套餐","对极少翻墙用户而言月流量可能稍有富余"],"suitableFor":["外服游戏玩家（Steam/APEX/英雄联盟外服等联机加速）","对网络实时通信抖动极度敏感的远程音视频会议用户","重度流媒体发烧友与海外高画质直播观看者"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","闪跃官方资费说明书"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.5,"speed":9.4,"value":9.3,"support":9.2}},{"id":"firefly","name":"萤火虫（Firefly）","slug":"firefly","badge":"优质特惠线路","coupon":"firefly","description":"萤火虫Firefly以高性价比为核心竞争力，年付折算约¥8/月即可轻松入门，提供覆盖主流国家地区的优质节点与VLESS先进协议。","officialUrl":"https://vip02.fireflyaff.com/#/?code=uTKLkAyC","affiliateUrl":"https://vip02.fireflyaff.com/#/?code=uTKLkAyC","startingPrice":8,"currency":"CNY","billingType":"monthly","plans":[{"name":"特惠年付折算","price":8,"cycle":"month","trafficGB":60,"calculatedUnitPrice":0.133,"nodeType":"优质线路","deviceLimit":"3台设备","features":["300 Mbps速率","3台设备","年付折算约 ¥8/月","60GB月度配额，优惠码 firefly"]},{"name":"标准月付版","price":16,"cycle":"month","trafficGB":160,"calculatedUnitPrice":0.1,"nodeType":"优质线路","deviceLimit":"5台设备","features":["600 Mbps高速带宽","5台设备","优质线路与VLESS协议支持","160GB充足月流量"]}],"protocols":["VLESS","Shadowsocks","Trojan"],"regions":["香港","日本","新加坡","美国","台湾"],"deviceLimit":"3-5台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K"],"advantages":["特惠年付仅需¥8/月，学生与轻量用户上车零压力","全面支持VLESS主流先进协议","优惠码 firefly 提供专属立减支持"],"disadvantages":["特惠入门档流量为60GB，重度下载建议选择16元档","晚高峰高峰期偶发跳ping"],"suitableFor":["轻度翻墙刷推、查论文查资料的在校大学生","需要日常基础Google搜索与外贸邮件收发的用户","追求低月付开销的精打细算型群体"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","Firefly机场控制台公开明细"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.1,"speed":9.2,"value":9.5,"support":9}},{"id":"kuajiecloud","name":"跨界","slug":"kuajiecloud","badge":"全专线架构","coupon":"","description":"跨界采用全专线网络架构，物理绕开公网拥堵与防火墙干扰，标配120GB月流量与Shadowsocks协议，具备极高的稳定性和流媒体解锁能力。","officialUrl":"https://vip02.kuajieaff.com/#/?code=CpJKZicY","affiliateUrl":"https://vip02.kuajieaff.com/#/?code=CpJKZicY","startingPrice":20,"currency":"CNY","billingType":"monthly","plans":[{"name":"全专线基础版","price":20,"cycle":"month","trafficGB":120,"calculatedUnitPrice":0.167,"nodeType":"全专线架构","deviceLimit":"4台设备","features":["500 Mbps专线带宽","4台设备","¥20/月起，120GB全专线架构","高可用低延迟"]},{"name":"全专线旗舰版","price":42,"cycle":"month","trafficGB":320,"calculatedUnitPrice":0.131,"nodeType":"全专线架构","deviceLimit":"6台设备","features":["1000 Mbps高速隧道","6台设备","全专线架构Shadowsocks协议","320GB大配额"]}],"protocols":["Shadowsocks","Trojan"],"regions":["香港","日本","新加坡","美国","德国","英国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","Spotify"],"advantages":["全线采用物理内网专线，延迟超低且网络抖动极小","晚高峰无视国际出口拥堵，4K视频秒开无缓冲","Shadowsocks轻量协议开销小，电量消耗低"],"disadvantages":["缺少10元以内的极低价位套餐","不支持自定义深层协议混淆"],"suitableFor":["注重日常使用流畅度与低功耗的移动端用户","晚高峰追剧、刷油管超高清视频的影音爱好者","需要高可用性跨国连通性的海外电商团队"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","跨界云官方控制台公告"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.4,"speed":9.3,"value":9.2,"support":9.1}},{"id":"yinxingren","name":"隐形人","slug":"yinxingren","badge":"IEPL纯专线","coupon":"yxr888","description":"隐形人主打企业级IEPL纯专线网络架构，不经公网拥堵节点，晚高峰零丢包。标配144GB大流量月付方案，全节点解锁ChatGPT与主流流媒体平台。","officialUrl":"https://varnexa.invisibleaff.com/#/?code=5BkMj6bD","affiliateUrl":"https://varnexa.invisibleaff.com/#/?code=5BkMj6bD","startingPrice":24,"currency":"CNY","billingType":"monthly","plans":[{"name":"纯专线入门版","price":24,"cycle":"month","trafficGB":144,"calculatedUnitPrice":0.167,"nodeType":"IEPL纯专线","deviceLimit":"5台设备","features":["500 Mbps专线带宽","5台设备","¥24/月起，144GB IEPL纯专线","优惠码 yxr888"]},{"name":"纯专线主力版","price":48,"cycle":"month","trafficGB":350,"calculatedUnitPrice":0.137,"nodeType":"IEPL纯专线","deviceLimit":"8台设备","features":["1000 Mbps独享速率","8台设备","千兆大带宽，晚高峰零卡顿","350GB大配额"]}],"protocols":["Shadowsocks","Trojan","VLESS"],"regions":["香港","日本","新加坡","美国","台湾","英国","德国"],"deviceLimit":"5-8台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Midjourney","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","HBO Max","TikTok"],"advantages":["企业级IEPL纯专线保障，物理绕过GFW无视晚高峰网络波动","144GB充足月度起步流量，单GB成本合理透明","专属优惠码 yxr888 享受立减折扣","纯净原生IP，ChatGPT与Claude免繁琐验证"],"disadvantages":["无低价体验包，最低月付为24元档","重大敏感期可能有短时间内部路由调度优化"],"suitableFor":["对晚高峰网络丢包与掉线零容忍的远程开发者与外贸大客户","每天重度使用AI对话与绘画创作的AI从业者","追求极致画质与多设备共享的影音发烧友"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","隐形人官方服务条款与评测数据"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.6,"speed":9.5,"value":9.4,"support":9.4}},{"id":"feiv","name":"飞V","slug":"feiv","badge":"优化线路/不限时","coupon":"","description":"飞V以极低门槛和罕见的不限时套餐为核心特色，月付仅需¥4.9起，同时支持按需购买不限时流量，是极度低预算人群与轻度备用用户的福音。","officialUrl":"https://varnexa.flyvaff.com/#/?code=Ks7qO8qe","affiliateUrl":"https://varnexa.flyvaff.com/#/?code=Ks7qO8qe","startingPrice":4.9,"currency":"CNY","billingType":"mixed","plans":[{"name":"轻量入门版","price":4.9,"cycle":"month","trafficGB":100,"calculatedUnitPrice":0.049,"nodeType":"优化线路","deviceLimit":"3台设备","features":["300 Mbps端口带宽","3台设备","¥4.9/月起，突破性极低起步价","100GB可用配额"]},{"name":"不限时海量版","price":29,"cycle":"no-expiry","trafficGB":200,"calculatedUnitPrice":0.145,"nodeType":"优化线路","deviceLimit":"5台设备","features":["500 Mbps中转带宽","5台设备","流量永久不清零","极低成本应急备用神选"]}],"protocols":["Trojan","Shadowsocks","VLESS"],"regions":["香港","日本","新加坡","美国","韩国"],"deviceLimit":"3-5台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Google Gemini"],"streamingSupport":["YouTube Premium 4K","Netflix (部分节点解锁)","Disney+"],"advantages":["月付仅需¥4.9起，试错成本接近于零，全网最低门槛之一","提供罕见的不限时流量包，流量永久有效不清零","Trojan主流安全协议支持，兼顾速度与隐蔽性"],"disadvantages":["晚高峰高峰期个别优化节点延迟可能略有波动","流媒体非自制剧解锁需要手动挑选指定节点"],"suitableFor":["翻墙频率极低、偶尔查学术资料的轻度用户","主力专线机场外的第二备用梯子与灾备方案","预算非常有限、追求极致便宜的学生族"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","飞V控制台公开套餐与计费标准"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.1,"speed":9.2,"value":9.8,"support":8.9}},{"id":"laddercloud","name":"梯子云 LadderCloud","slug":"laddercloud","badge":"优化中转/专线","coupon":"","description":"梯子云LadderCloud整合优质BGP中转与专线混合网络，提供125GB起步的大流量套餐，适合经常观看YouTube 4K与多端共享的日常用户。","officialUrl":"https://varnexa.ladderaff.com/#/?code=eC6eLAbq","affiliateUrl":"https://varnexa.ladderaff.com/#/?code=eC6eLAbq","startingPrice":25,"currency":"CNY","billingType":"monthly","plans":[{"name":"中转基础版","price":25,"cycle":"month","trafficGB":125,"calculatedUnitPrice":0.2,"nodeType":"优化中转/专线","deviceLimit":"4台设备","features":["500 Mbps速率","4台设备","¥25/月起，125GB高速中转","BGP多线接入"]},{"name":"海量专线版","price":48,"cycle":"month","trafficGB":350,"calculatedUnitPrice":0.137,"nodeType":"优化中转/专线","deviceLimit":"6台设备","features":["1000 Mbps高速专线","6台设备","最高可达500GB海量方案","原生IP流媒体解锁"]}],"protocols":["Shadowsocks","Trojan","VLESS"],"regions":["香港","日本","新加坡","美国","英国","台湾"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","Spotify"],"advantages":["BGP中转与专线混合调度，保障网络高可用性","节点覆盖常用主流地区，支持多设备并发","节点倍率透明公道，日常使用无偷跑流量"],"disadvantages":["起步价格25元，缺少极轻量低价套餐","官方客服工单主要在工作时间集中处理"],"suitableFor":["多台电脑与手机同时在线的合租用户","日常重度使用流媒体与社交平台的用户","希望省心、线路稳定少折腾的白领上班族"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","梯子云官方公开资费表"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.2,"speed":9.3,"value":9,"support":9.1}},{"id":"wavenet","name":"浪网 WaveNet","slug":"wavenet","badge":"自研一键客户端","coupon":"","description":"浪网WaveNet针对小白和新手打造自研跨平台客户端，免去复杂的Clash配置，开箱即用，线路经过深度优化，延迟与速率表现优异。","officialUrl":"https://varnexa.wavenetaff.com/#/?code=8fwQQBdy","affiliateUrl":"https://varnexa.wavenetaff.com/#/?code=8fwQQBdy","startingPrice":30,"currency":"CNY","billingType":"monthly","plans":[{"name":"自研优化版","price":30,"cycle":"month","trafficGB":150,"calculatedUnitPrice":0.2,"nodeType":"自研客户端优化线路","deviceLimit":"5台设备","features":["600 Mbps高速带宽","5台设备","专属客户端免配置一键连","150GB月度配额"]},{"name":"自研旗舰版","price":58,"cycle":"month","trafficGB":360,"calculatedUnitPrice":0.161,"nodeType":"自研客户端优化线路","deviceLimit":"8台设备","features":["1000 Mbps高速隧道","8台设备","VLESS先进协议高流量方案","360GB超大配额"]}],"protocols":["VLESS","Shadowsocks","专属优化协议"],"regions":["香港","日本","新加坡","美国","加拿大","澳大利亚"],"deviceLimit":"5-8台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Perplexity","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K","TikTok"],"advantages":["拥有专属自研一键客户端，下载登录即可连接，零上手门槛","经过优化的专线与高速中转，网络延迟低且抖动平缓","内置智能分流白名单，国内网站直连不耗费流量"],"disadvantages":["自研客户端不适宜极客进行深度规则魔改","30元月付起步价格包含客户端开发与维护成本"],"suitableFor":["对Clash或订阅配置感到头疼的技术小白与新手","追求省心开箱即用的办公人员与留学生群体","需要跨设备（Win/Mac/安卓）快速无缝连接的用户"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","浪网WaveNet客户端白皮书"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.4,"speed":9.4,"value":9.1,"support":9.4}},{"id":"lingdongcloud","name":"灵动云","slug":"lingdongcloud","badge":"优化防封节点","coupon":"","description":"灵动云部署多地智能负载均衡优化节点，采用安全Trojan协议体系，抗干扰能力出众，20元月付起步提供100GB均衡配额。","officialUrl":"https://varnexa.lingdongaff.com/#/?code=kd4yTgUr","affiliateUrl":"https://varnexa.lingdongaff.com/#/?code=kd4yTgUr","startingPrice":20,"currency":"CNY","billingType":"monthly","plans":[{"name":"均衡基础版","price":20,"cycle":"month","trafficGB":100,"calculatedUnitPrice":0.2,"nodeType":"优化节点","deviceLimit":"4台设备","features":["400 Mbps带宽","4台设备","¥20/月起，100GB/月起均衡配置","Trojan协议加密"]},{"name":"畅享月付版","price":36,"cycle":"month","trafficGB":260,"calculatedUnitPrice":0.138,"nodeType":"优化节点","deviceLimit":"6台设备","features":["800 Mbps高速隧道","6台设备","Trojan安全协议稳定防封","260GB大配额"]}],"protocols":["Trojan","Shadowsocks","V2Ray"],"regions":["香港","日本","新加坡","美国","德国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K"],"advantages":["Trojan协议深度伪装，抗网络干扰与敏感期封锁能力强","多地BGP智能入口，自动匹配就近最低延迟路由","月度配置均衡，满足常规跨境办公与查阅需要"],"disadvantages":["高峰期极端网络压力下偶发延迟上升","不提供按量不限时计费"],"suitableFor":["对网络安全性与防封锁能力有较高要求的外贸人员","日常使用Google、GitHub及海外邮箱的开发与测试人员","偏好轻度月付的实用主义上网用户"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","灵动云官方用户中心说明"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.2,"speed":9.1,"value":9.2,"support":9}},{"id":"quanqiuyun","name":"全球云","slug":"quanqiuyun","badge":"中转经典海量","coupon":"tt88","description":"全球云采用多线经典BGP中转优化网络，覆盖亚洲、美洲及欧洲核心节点，月付20元享120GB充足配额，多设备支持友好。","officialUrl":"https://sswdh.gcvipaff.com/#/?code=9SF0oyg0","affiliateUrl":"https://sswdh.gcvipaff.com/#/?code=9SF0oyg0","startingPrice":20,"currency":"CNY","billingType":"monthly","plans":[{"name":"中转经典版","price":20,"cycle":"month","trafficGB":120,"calculatedUnitPrice":0.167,"nodeType":"中转优化","deviceLimit":"4台设备","features":["500 Mbps中转带宽","4台设备","约 ¥20/月起，120GB中转优化","优惠码 tt88"]},{"name":"中转海量版","price":38,"cycle":"month","trafficGB":300,"calculatedUnitPrice":0.127,"nodeType":"中转优化","deviceLimit":"6台设备","features":["800 Mbps高速隧道","6台设备","VLESS / Trojan双协议","300GB充足流量"]}],"protocols":["VLESS","Trojan","Shadowsocks"],"regions":["香港","日本","新加坡","美国","台湾","英国"],"deviceLimit":"4-6台设备","aiSupport":["ChatGPT Plus","Claude 3.5 Sonnet","Google Gemini"],"streamingSupport":["Netflix 4K","Disney+","YouTube Premium 4K"],"advantages":["经典BGP中转多线优化，节点连通性好","月付20元配120GB流量，性价比扎实","专属优惠码 tt88 享立减折扣"],"disadvantages":["晚高峰速度略逊于全IEPL专线机场","缺少自研一键直连端"],"suitableFor":["需要稳定中转看视频与日常查资料的普通用户","需要多国节点进行海外应用测试的技术人员","中等预算、追求流量充裕的上网群体"],"sources":["节点推荐网 (jiediantuijian.shop) 实测","全球云官方资费条款"],"lastVerified":"2026-11-20","testStatus":"tested","summaryRating":{"stability":9.2,"speed":9.2,"value":9.3,"support":9}}];
 
     function renderCompareTable() {
       const checkboxes = document.querySelectorAll('input[name="compareAirport"]:checked');
@@ -152,7 +193,7 @@
       // 维度 1: 起步售价
       html += '<tr><td><strong>起步价格</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><strong style="font-size:1.1rem; color:#2563eb;">¥' + a.startingPrice + '</strong> ' + (a.billingType === 'no-expiry' ? '一次性' : '元/月起') + '</td>';
+        html += '<td><strong style="font-size:1.1rem; color:#2563eb;">¥' + a.startingPrice + '</strong> ' + (a.billingType === 'no-expiry' ? '不限时' : '元/月起') + '</td>';
       });
       html += '</tr>';
 
@@ -171,31 +212,31 @@
       });
       html += '</tr>';
 
-      // 维度 4: 支持协议
+      // 维度 4: 优惠码
+      html += '<tr><td><strong>优惠码</strong></td>';
+      selectedAirports.forEach(a => {
+        html += '<td>' + (a.coupon ? '<span style="color:#e11d48; font-weight:bold;">' + a.coupon + '</span>' : '无') + '</td>';
+      });
+      html += '</tr>';
+
+      // 维度 5: 支持协议
       html += '<tr><td><strong>加密协议</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.protocols.join(', ') + '</td>';
       });
       html += '</tr>';
 
-      // 维度 5: 设备连接数
+      // 维度 6: 设备连接数
       html += '<tr><td><strong>设备数量限制</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.deviceLimit + '</td>';
       });
       html += '</tr>';
 
-      // 维度 6: AI支持
+      // 维度 7: AI支持
       html += '<tr><td><strong>AI (ChatGPT/Claude)</strong></td>';
       selectedAirports.forEach(a => {
         html += '<td>' + a.aiSupport.join('<br>') + '</td>';
-      });
-      html += '</tr>';
-
-      // 维度 7: 流媒体解锁
-      html += '<tr><td><strong>流媒体解锁</strong></td>';
-      selectedAirports.forEach(a => {
-        html += '<td>' + a.streamingSupport.join('<br>') + '</td>';
       });
       html += '</tr>';
 
@@ -213,10 +254,10 @@
       });
       html += '</tr>';
 
-      // 维度 10: 详情入口
-      html += '<tr><td><strong>操作</strong></td>';
+      // 维度 10: 官网直达
+      html += '<tr><td><strong>直达官网</strong></td>';
       selectedAirports.forEach(a => {
-        html += '<td><a href="../airport/' + a.slug + '/index.html" class="btn btn-primary btn-sm">查看详情</a></td>';
+        html += '<td><a href="' + a.affiliateUrl + '" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm">直达官网 ↗</a></td>';
       });
       html += '</tr>';
 
@@ -291,7 +332,6 @@
   </footer>
   
 
-  <!-- 极速原生脚本 (相对路径) -->
   <script src="../js/main.js" defer></script>
 </body>
 </html>
