@@ -280,80 +280,227 @@ ul, ol {
   font-weight: 500;
 }
 
-/* Hero 区域 */
+/* Hero 区域 - 动态全球专线宇宙与地球互联背景 */
 .hero-section {
-  padding: 56px 0 40px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  background-color: #030718;
+  color: #ffffff;
+  padding: 76px 0 60px;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.hero-bg-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/hero-globe-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: right 0% center;
+  background-size: cover;
+  opacity: 0.88;
+  animation: heroCosmicBreath 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroCosmicBreath {
+  0% {
+    transform: scale(1) translate(0, 0);
+    filter: brightness(1) contrast(1.02);
+  }
+  50% {
+    transform: scale(1.025) translate(-4px, -2px);
+    filter: brightness(1.08) contrast(1.05);
+  }
+  100% {
+    transform: scale(1.05) translate(-8px, 3px);
+    filter: brightness(1.15) contrast(1.08);
+  }
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, #030718 0%, rgba(3, 7, 24, 0.94) 42%, rgba(3, 7, 24, 0.65) 68%, rgba(3, 7, 24, 0.15) 100%),
+    linear-gradient(180deg, rgba(3, 7, 24, 0.6) 0%, transparent 25%, transparent 75%, #030718 100%);
+  pointer-events: none;
+}
+
+.hero-cosmos-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .hero-content {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
+  position: relative;
+  z-index: 10;
+  max-width: 760px;
+  margin: 0;
+  text-align: left;
 }
 
 .hero-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background-color: var(--color-primary-light);
-  border: 1px solid var(--color-primary-border);
-  color: var(--color-primary);
-  font-size: 0.825rem;
+  gap: 10px;
+  background: rgba(30, 58, 138, 0.45);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  color: #93c5fd;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 4px 14px;
+  padding: 5px 16px;
   border-radius: var(--radius-full);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.hero-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: heroDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes heroDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 }
 
 .hero-title {
-  font-size: 2.35rem;
+  font-size: 2.6rem;
   line-height: 1.25;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: var(--color-text);
-  margin-bottom: 18px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
 }
 
 .hero-desc {
-  font-size: 1.125rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  max-width: 820px;
-  margin: 0 auto 28px;
+  font-size: 1.15rem;
+  color: #cbd5e1;
+  line-height: 1.75;
+  max-width: 700px;
+  margin: 0 0 32px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
 .hero-actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 14px;
-  margin-bottom: 32px;
+  margin-bottom: 38px;
+}
+
+.hero-section .btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff !important;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45);
+}
+
+.hero-section .btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+  transform: translateY(-1px);
+}
+
+.hero-section .btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+}
+
+.hero-section .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(96, 165, 250, 0.6);
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
 }
 
 .hero-stats-row {
   display: flex;
-  justify-content: center;
-  gap: 36px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border);
+  justify-content: flex-start;
+  gap: 40px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
 }
 
 .hero-stat-item {
-  text-align: center;
+  text-align: left;
 }
 
 .hero-stat-number {
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   font-weight: 800;
-  color: var(--color-primary);
+  color: #38bdf8;
+  text-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+  font-family: var(--font-mono);
 }
 
 .hero-stat-label {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
+  font-size: 0.825rem;
+  color: #94a3b8;
+  margin-top: 4px;
 }
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 48px 0 40px;
+    min-height: auto;
+  }
+  .hero-bg-overlay {
+    background: linear-gradient(180deg, rgba(3, 7, 24, 0.88) 0%, rgba(3, 7, 24, 0.96) 100%);
+  }
+  .hero-content {
+    text-align: center;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .hero-title {
+    font-size: 1.85rem;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    margin: 0 auto 24px;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .hero-stats-row {
+    justify-content: center;
+    gap: 20px 28px;
+  }
+  .hero-stat-item {
+    text-align: center;
+  }
+}
+
 
 /* 按钮规范 */
 .btn {

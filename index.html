@@ -85,9 +85,16 @@
   <main id="main-content">
     
   <!-- Section 2: Hero -->
-  <section class="hero-section">
+  <section class="hero-section" id="hero-section">
+    <div class="hero-bg-wrapper">
+      <div class="hero-bg-image"></div>
+      <div class="hero-bg-overlay"></div>
+      <canvas id="hero-cosmos-canvas" class="hero-cosmos-canvas"></canvas>
+    </div>
+
     <div class="container hero-content">
       <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
         <span>🚀 2026年11月最新14家优质节点实测数据已更新</span>
       </div>
       <h1 class="hero-title">2026精选机场推荐与VPN节点测评指南</h1>
@@ -1630,5 +1637,6 @@
   
 
   <script src="js/main.js" defer></script>
+  <script src="js/hero-canvas.js" defer></script>
 </body>
 </html>

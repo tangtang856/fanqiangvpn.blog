@@ -153,7 +153,8 @@ function renderHtmlPage({
   activeTab = '',
   breadcrumbs = [],
   schema = null,
-  contentHtml
+  contentHtml,
+  extraScripts = ''
 }) {
   const rel = depth === 0 ? '' : (depth === 1 ? '../' : '../../');
 
@@ -217,6 +218,7 @@ function renderHtmlPage({
   ${renderFooter(depth)}
 
   <script src="${rel}js/main.js" defer></script>
+  ${extraScripts ? `${extraScripts}` : ''}
 </body>
 </html>`;
 }
@@ -408,9 +410,16 @@ function generateHomePage() {
 
   const contentHtml = `
   <!-- Section 2: Hero -->
-  <section class="hero-section">
+  <section class="hero-section" id="hero-section">
+    <div class="hero-bg-wrapper">
+      <div class="hero-bg-image"></div>
+      <div class="hero-bg-overlay"></div>
+      <canvas id="hero-cosmos-canvas" class="hero-cosmos-canvas"></canvas>
+    </div>
+
     <div class="container hero-content">
       <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
         <span>🚀 2026年11月最新14家优质节点实测数据已更新</span>
       </div>
       <h1 class="hero-title">2026精选机场推荐与VPN节点测评指南</h1>
@@ -774,7 +783,8 @@ function generateHomePage() {
     canonicalUrl,
     activeTab: 'home',
     schema,
-    contentHtml
+    contentHtml,
+    extraScripts: '<script src="js/hero-canvas.js" defer></script>'
   });
 
   writeHtml('index.html', fullHtml);
