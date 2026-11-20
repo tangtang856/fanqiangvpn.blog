@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流</title>
-  <meta name="description" content="深入浅出剖析Clash规则分流原理，讲解GEOIP、DOMAIN-SUFFIX、MATCH以及自动故障转移Fallback策略组的高级配置方法。">
+  <title>代理规则分流与策略组调优指南 · 解决断流与国内直连加速</title>
+  <meta name="description" content="深度讲解 Clash、Sing-box 与小火箭的规则分流语法，手把手教你配置 GEOIP、白名单直连与 DNS 防泄露策略。">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://fanqiangvpn.blog/guides/rules-and-routing/">
   
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fanqiangvpn.blog/guides/rules-and-routing/">
-  <meta property="og:title" content="Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流">
-  <meta property="og:description" content="深入浅出剖析Clash规则分流原理，讲解GEOIP、DOMAIN-SUFFIX、MATCH以及自动故障转移Fallback策略组的高级配置方法。">
+  <meta property="og:title" content="代理规则分流与策略组调优指南 · 解决断流与国内直连加速">
+  <meta property="og:description" content="深度讲解 Clash、Sing-box 与小火箭的规则分流语法，手把手教你配置 GEOIP、白名单直连与 DNS 防泄露策略。">
   <meta property="og:site_name" content="翻墙VPN与机场节点指南">
   <meta property="og:locale" content="zh_CN">
   
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流">
-  <meta name="twitter:description" content="深入浅出剖析Clash规则分流原理，讲解GEOIP、DOMAIN-SUFFIX、MATCH以及自动故障转移Fallback策略组的高级配置方法。">
+  <meta name="twitter:title" content="代理规则分流与策略组调优指南 · 解决断流与国内直连加速">
+  <meta name="twitter:description" content="深度讲解 Clash、Sing-box 与小火箭的规则分流语法，手把手教你配置 GEOIP、白名单直连与 DNS 防泄露策略。">
   
   <link rel="stylesheet" href="../../css/style.css">
   
@@ -72,7 +72,7 @@
       <div class="container">
         <ul class="breadcrumbs">
           <li><a href="../../index.html">首页</a></li>
-          <li><a href="../index.html">配置教程</a></li><li><span>分流规则进阶</span></li>
+          <li><a href="../index.html">配置教程</a></li><li><span>分流规则优化</span></li>
         </ul>
       </div>
     </nav>
@@ -83,15 +83,11 @@
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>规则分流与策略组设置进阶指南</h1>
-          <div class="article-header-meta">
-            <span>难度级别：中级进阶</span>
-            <span>核心概念：Rule-based Routing / Fallback / Load Balance</span>
-          </div>
+          <h1>代理规则分流与策略组深入调优指南</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：高级调优</span></div>
         </header>
-
         <div class="article-body">
-          <p>规则分流能让访问国内网站走直连（秒开且不消耗套餐流量），访问海外受限网站走代理节点。配合 Fallback 自动故障转移策略组，可在节点波动时自动秒级切换备用节点。</p>
+          <p>精细化的规则分流是高品质网络体验的核心保证。详细内容可参考本站专项教程：<a href="../rules-and-routing-tutorial/index.html">Clash / Sing-box 规则分流与策略组深度调优指南</a> 与 <a href="../dns-leak-prevention-tutorial/index.html">翻墙如何防止 DNS 泄露？Fake-IP 终极防护教学</a>。</p>
         </div>
       </div>
       

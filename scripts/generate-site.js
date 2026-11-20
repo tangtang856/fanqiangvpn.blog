@@ -12,6 +12,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { airports, getAirportsSortedByValue, getAirportsSortedByStability, getAirportsSortedByOverall } from '../src/data/airports.js';
+import { guidesData } from '../src/data/guidesData.js';
+import { articlesData } from '../src/data/articlesData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1634,13 +1636,22 @@ function generateComparePage() {
 }
 
 // ==========================================
-// 6. 生成新手教程中心 guides/
+// 6. 生成新手教程中心 guides/ (共 30 篇全平台图文教程 + 分类专栏)
 // ==========================================
 function generateGuidePages() {
-  // 6.0 guides/index.html
+  const platforms = [
+    { key: 'windows', name: 'Windows 客户端教程', icon: '🪟', desc: '支持 Clash Verge Rev、v2rayN、Sing-box 与 TUN 模式配置' },
+    { key: 'android', name: 'Android 安卓端教程', icon: '🤖', desc: '涵盖 Clash Meta for Android、v2rayNG、NekoBox 及后台保活指南' },
+    { key: 'ios', name: 'iOS 苹果端教程', icon: '🍎', desc: '包括 Shadowrocket 小火箭、Quantumult X、Stash 与美区 Apple ID 注册' },
+    { key: 'macos', name: 'macOS 苹果电脑教程', icon: '💻', desc: '适配 M 系列芯片的 Clash Verge Mac、Surge Mac 与终端代理加速' },
+    { key: 'router', name: '软路由与 Linux 教程', icon: '🌐', desc: 'OpenWrt PassWall、SSR-Plus、Docker 部署与 ShellCrash 旁路由' },
+    { key: 'advanced', name: '进阶调优与排障实战', icon: '⚡', desc: '规则分流语法、私有 SubConverter、DNS 防泄露与真实测速方法' }
+  ];
+
+  // 6.0 guides/index.html 汇总展示 30 篇教程
   const guidesIndexHtml = renderHtmlPage({
     depth: 1,
-    title: 'VPN节点导入与客户端订阅使用教程汇总 (全平台指南)',
+    title: 'VPN节点导入与客户端订阅使用教程汇总 (全平台30篇指南)',
     description: '涵盖Windows、Android、iOS与macOS系统主流翻墙客户端（Clash Verge Rev、v2rayN、Shadowrocket小火箭、Surge）的节点订阅与分流图文配置指南。',
     canonicalUrl: `${DOMAIN}/guides/`,
     activeTab: 'guides',
@@ -1648,91 +1659,153 @@ function generateGuidePages() {
     contentHtml: `
     <div class="container section">
       <div class="section-header text-center">
-        <h1 class="section-title">全平台客户端配置与节点订阅教程中心</h1>
+        <h1 class="section-title">全平台客户端配置与节点订阅教程中心 (30篇指南)</h1>
         <p class="section-desc">手把手带你完成从下载软件、导入机场订阅链接到规则分流设置的全过程。</p>
       </div>
 
-      <div class="category-grid">
-        <div class="category-card">
-          <div class="category-icon">🪟</div>
-          <h3><a href="windows/index.html" style="color:inherit;">Windows 教程</a></h3>
-          <p>Clash Verge Rev 与 v2rayN 完整图文配置指南，TUN虚拟网卡模式解析。</p>
-          <a href="windows/index.html" class="category-link">查看Win教程 →</a>
+      ${platforms.map(p => {
+        const pGuides = guidesData.filter(g => g.platform === p.key);
+        return `
+        <div style="margin-bottom: 48px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+            <span style="font-size:1.6rem;">${p.icon}</span>
+            <h2 style="font-size:1.35rem; font-weight:700; margin:0;">${p.name}</h2>
+            <span style="font-size:0.85rem; color:#64748b; margin-left:auto;">共 ${pGuides.length} 篇实操教程</span>
+          </div>
+          <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+            ${pGuides.map(guide => `
+            <article class="article-card">
+              <div class="article-meta">
+                <span class="article-tag">${guide.platformName}</span>
+                <time>${guide.date}</time>
+                <span style="margin-left:auto; font-size:0.75rem; color:#64748b;">⏱️ ${guide.readTime}</span>
+              </div>
+              <h3 style="font-size:1.05rem; line-height:1.4;"><a href="${guide.slug}/index.html">${guide.title}</a></h3>
+              <p class="article-summary">${guide.summary}</p>
+              <a href="${guide.slug}/index.html" class="category-link">查看图文教程 →</a>
+            </article>
+            `).join('')}
+          </div>
         </div>
-
-        <div class="category-card">
-          <div class="category-icon">🤖</div>
-          <h3><a href="android/index.html" style="color:inherit;">Android 教程</a></h3>
-          <p>Clash Meta for Android (CMFA) 与 v2rayNG 下载配置与应用分流绕行。</p>
-          <a href="android/index.html" class="category-link">查看安卓教程 →</a>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">🍎</div>
-          <h3><a href="ios/index.html" style="color:inherit;">iOS 教程</a></h3>
-          <p>苹果手机小火箭Shadowrocket订阅导入与美区Apple ID获取保姆级指南。</p>
-          <a href="ios/index.html" class="category-link">查看iOS教程 →</a>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">💻</div>
-          <h3><a href="macos/index.html" style="color:inherit;">macOS 教程</a></h3>
-          <p>苹果Mac系统Clash Verge Rev与Surge配置，完美适配M系列芯片。</p>
-          <a href="macos/index.html" class="category-link">查看Mac教程 →</a>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">⚙</div>
-          <h3><a href="rules-and-routing/index.html" style="color:inherit;">分流规则进阶</a></h3>
-          <p>深度解析国内直连、海外代理白名单及Fallback故障转移策略组配置。</p>
-          <a href="rules-and-routing/index.html" class="category-link">查看进阶教程 →</a>
-        </div>
-      </div>
+        `;
+      }).join('')}
     </div>
     `
   });
   writeHtml('guides/index.html', guidesIndexHtml);
 
-  // 6.1 guides/windows/index.html
+  // 6.1 逐一生成全部 30 篇图文教程独立页面
+  guidesData.forEach(guide => {
+    const related = guidesData.filter(g => g.platform === guide.platform && g.slug !== guide.slug).slice(0, 3);
+
+    const guideHtml = renderHtmlPage({
+      depth: 2,
+      title: guide.seoTitle,
+      description: guide.description,
+      canonicalUrl: `${DOMAIN}/guides/${guide.slug}/`,
+      activeTab: 'guides',
+      breadcrumbs: [
+        { name: '配置教程', url: '../index.html' },
+        { name: guide.title.substring(0, 18) + '...', url: 'index.html' }
+      ],
+      contentHtml: `
+      <div class="container article-layout">
+        <div class="content-article">
+          <header class="article-header">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <span class="article-tag">${guide.platformName}</span>
+              <span style="font-size:0.8rem; color:#64748b;">标签：${guide.tags.join(' / ')}</span>
+            </div>
+            <h1>${guide.title}</h1>
+            <div class="article-header-meta">
+              <span>发布日期：${guide.date}</span>
+              <span>阅读预计：${guide.readTime}</span>
+              <span>难度等级：入门到精通</span>
+            </div>
+          </header>
+
+          <div class="article-body">
+            <div class="alert-box alert-info">
+              <strong>📖 教程核心摘要：</strong>
+              <p style="margin:4px 0 0;">${guide.summary}</p>
+            </div>
+
+            ${guide.sections.map(sec => `
+              <h2>${sec.h2}</h2>
+              <div>${sec.content}</div>
+              ${sec.callout ? `
+                <div class="alert-box alert-${sec.callout.type || 'tip'}">
+                  <strong>${sec.callout.title}：</strong>${sec.callout.text}
+                </div>
+              ` : ''}
+            `).join('')}
+
+            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+              <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
+              <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
+              <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <a href="../../airport/breezenet/index.html" class="btn btn-primary btn-sm">微风网络 (¥8起)</a>
+                <a href="../../airport/muguang/index.html" class="btn btn-secondary btn-sm">暮光网络 纯专线</a>
+                <a href="../../ranking/overall/index.html" class="btn btn-secondary btn-sm">查看综合实力排行榜 →</a>
+              </div>
+            </div>
+
+            ${guide.faq && guide.faq.length > 0 ? `
+              <h2>常见问题解答 (FAQ)</h2>
+              <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
+                ${guide.faq.map(item => `
+                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+                    <h4 style="margin:0 0 8px; color:#0f172a; font-size:1rem;">❓ ${item.q}</h4>
+                    <p style="margin:0; font-size:0.9rem; color:#475569;">${item.a}</p>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+
+            ${related.length > 0 ? `
+              <div style="margin-top:40px; padding-top:20px; border-top:1px solid #e2e8f0;">
+                <h3 style="font-size:1.15rem; margin-bottom:12px;">相关 ${guide.platformName} 推荐</h3>
+                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">
+                  ${related.map(r => `
+                    <li><a href="../${r.slug}/index.html" style="font-size:0.95rem; font-weight:500;">📖 ${r.title}</a></li>
+                  `).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+        ${renderSidebar(2)}
+      </div>
+      `
+    });
+    writeHtml(`guides/${guide.slug}/index.html`, guideHtml);
+  });
+
+  // 保留原有 5 大平台专题落地页，确保历史内链与 SEO 架构 100% 畅通
   const winHtml = renderHtmlPage({
     depth: 2,
-    title: 'Windows系统Clash与v2rayN客户端节点订阅使用全教程',
-    description: '2026最新Windows电脑翻墙教程，详解Clash Verge Rev及v2rayN下载安装、订阅链接导入、系统代理开启与常见连不上排错。',
+    title: 'Windows 翻墙配置与客户端使用教程大全 (Clash/v2rayN/Sing-box)',
+    description: 'Windows 平台翻墙软件选型与配置大全，收录 Clash Verge Rev、v2rayN、Sing-box 与 TUN 模式虚拟网卡配置。',
     canonicalUrl: `${DOMAIN}/guides/windows/`,
     activeTab: 'guides',
-    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'Windows教程', url: 'index.html' }],
+    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'Windows 教程', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>Windows系统Clash Verge与节点配置指南</h1>
-          <div class="article-header-meta">
-            <span>适用系统：Windows 10 / 11 (64位)</span>
-            <span>推荐客户端：Clash Verge Rev (基于Mihomo内核)</span>
-          </div>
+          <h1>Windows 翻墙配置与客户端使用教程大全</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：Windows 专栏</span></div>
         </header>
-
         <div class="article-body">
-          <div class="alert-box alert-tip">
-            <strong>工具建议：</strong> 鉴于原版Clash for Windows已停更，目前Windows平台最推荐使用开源且活跃维护的 <strong>Clash Verge Rev</strong>，界面现代、内置中文字体且原生支持TUN虚拟网卡模式。
-          </div>
-
-          <h2>第一步：获取并安装客户端</h2>
-          <p>访问 Clash Verge Rev 的官方 GitHub Releases 页面下载安装包并安装。</p>
-
-          <h2>第二步：复制并导入机场订阅链接</h2>
-          <ol>
-            <li>登录你所购买的机场后台（如 <a href="../../airport/breezenet/index.html">微风网络</a> 或 <a href="../../airport/yinxingren/index.html">隐形人</a> 控制台）。</li>
-            <li>在用户仪表盘找到“一键导入订阅”或“复制Clash订阅链接”。</li>
-            <li>打开 Clash Verge Rev，点击左侧菜单栏的 <strong>“订阅 (Profiles)”</strong>。</li>
-            <li>在顶部的输入框中粘贴刚才复制的订阅 URL，点击右侧的 <strong>“导入 (Import)”</strong>。</li>
-          </ol>
-
-          <h2>第三步：选择节点并开启系统代理</h2>
-          <ol>
-            <li>点击左侧 <strong>“代理 (Proxies)”</strong> 页面，选择 <strong>“规则 (Rule)”</strong> 模式。</li>
-            <li>选择低延迟节点后，在“设置”中开启 <strong>“系统代理”</strong> 开关。</li>
-          </ol>
+          <p>Windows 平台拥有最丰富且成熟的代理客户端生态。推荐优先使用 <a href="../clash-verge-rev-windows-tutorial/index.html">Clash Verge Rev</a> 或 <a href="../v2rayn-windows-tutorial/index.html">v2rayN 7.x</a>。</p>
+          <h2>本专栏精选教程推荐</h2>
+          <ul>
+            <li><a href="../clash-verge-rev-windows-tutorial/index.html">Clash Verge Rev Windows 图文配置全教程 (Mihomo内核与TUN模式)</a></li>
+            <li><a href="../v2rayn-windows-tutorial/index.html">v2rayN 7.x Windows 客户端最新配置教程 (Xray/Sing-box双核心)</a></li>
+            <li><a href="../sing-box-windows-tutorial/index.html">Sing-box Windows 官方客户端使用指南 (极速多协议支持)</a></li>
+            <li><a href="../clash-nyanpasu-tutorial/index.html">Clash Nyanpasu 极简高颜值 Windows 翻墙客户端使用手册</a></li>
+            <li><a href="../windows-tun-mode-setup/index.html">Windows 全局 TUN 模式虚拟网卡深度配置指南 (游戏/Git加速)</a></li>
+          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1741,27 +1814,29 @@ function generateGuidePages() {
   });
   writeHtml('guides/windows/index.html', winHtml);
 
-  // 6.2 guides/android/index.html
   const androidHtml = renderHtmlPage({
     depth: 2,
-    title: 'Android安卓手机Clash与v2rayNG节点订阅图文教程',
-    description: '2026最新安卓手机翻墙教程，介绍Clash Meta for Android (CMFA) 与 v2rayNG 下载安装、应用分流设置与后台保活技巧。',
+    title: 'Android 安卓手机翻墙客户端配置教程大全 (Clash Meta/v2rayNG)',
+    description: '安卓手机梯子客户端配置大全，涵盖 Clash Meta for Android (CMFA)、v2rayNG、NekoBox 及后台防杀保活设置。',
     canonicalUrl: `${DOMAIN}/guides/android/`,
     activeTab: 'guides',
-    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'Android教程', url: 'index.html' }],
+    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'Android 教程', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>Android安卓平台机场节点客户端配置教程</h1>
-          <div class="article-header-meta">
-            <span>适用系统：Android 8.0 及以上</span>
-            <span>推荐客户端：Clash Meta for Android (CMFA) / v2rayNG</span>
-          </div>
+          <h1>Android 安卓手机翻墙客户端配置教程大全</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：Android 专栏</span></div>
         </header>
-
         <div class="article-body">
-          <p>在安卓手机上推荐使用 Clash Meta for Android (CMFA)。在机场后台复制订阅链接后，进入 CMFA 配置页面选择从 URL 下载，保存并启动系统 VPN 权限即可连接。</p>
+          <p>安卓系统开源灵活，支持精细化的分应用代理。推荐优先使用 <a href="../clash-meta-android-tutorial/index.html">Clash Meta for Android</a> 或 <a href="../v2rayng-android-tutorial/index.html">v2rayNG</a>。</p>
+          <h2>安卓专栏精选教程推荐</h2>
+          <ul>
+            <li><a href="../clash-meta-android-tutorial/index.html">Clash Meta for Android (CMFA) 安卓手机配置完整教程</a></li>
+            <li><a href="../v2rayng-android-tutorial/index.html">v2rayNG 安卓手机客户端快速入门与使用教程</a></li>
+            <li><a href="../sing-box-android-tutorial/index.html">Sing-box Android 官方移动端配置与省电优化教程</a></li>
+            <li><a href="../android-battery-optimization/index.html">安卓手机翻墙后台常驻保活与防掉线电池优化设置教学</a></li>
+          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1770,30 +1845,29 @@ function generateGuidePages() {
   });
   writeHtml('guides/android/index.html', androidHtml);
 
-  // 6.3 guides/ios/index.html
   const iosHtml = renderHtmlPage({
     depth: 2,
-    title: '苹果iOS小火箭Shadowrocket与Loon节点订阅配置教学',
-    description: '苹果手机翻墙终极指南，详解外区Apple ID获取、Shadowrocket（小火箭）安装、扫码一键添加节点及全局路由规则设定。',
+    title: 'iOS 苹果手机翻墙配置教程大全 (小火箭Shadowrocket/圈X/Stash)',
+    description: '苹果 iPhone / iPad 翻墙图文教程大全，涵盖 Shadowrocket (小火箭)、Quantumult X (圈X)、Stash 及美区 Apple ID 免信用卡注册教学。',
     canonicalUrl: `${DOMAIN}/guides/ios/`,
     activeTab: 'guides',
-    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'iOS教程', url: 'index.html' }],
+    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'iOS 教程', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>苹果iOS小火箭与圈叉节点订阅配置教程</h1>
-          <div class="article-header-meta">
-            <span>适用系统：iOS 14.0 及以上 (iPhone / iPad)</span>
-            <span>核心客户端：Shadowrocket (小火箭)</span>
-          </div>
+          <h1>iOS 苹果手机翻墙配置教程大全</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：iOS 专栏</span></div>
         </header>
-
         <div class="article-body">
-          <div class="alert-box alert-warning">
-            <strong>重要提示：</strong> 中国大陆地区的 App Store 无法下载 Shadowrocket。必须使用海外地区（如美区、日区、港区）的 Apple ID 登录 App Store 才能下载安装。
-          </div>
-          <p>在小火箭中点击右上角加号，类型选择 Subscribe，粘贴机场订阅链接保存，然后确保全局路由设置为“配置 (Config)”，轻点开关即可开启代理。</p>
+          <p>苹果 iOS 推荐使用老牌神器 <a href="../shadowrocket-ios-tutorial/index.html">Shadowrocket (小火箭)</a>，界面直观，分流强大。</p>
+          <h2>iOS 专栏精选教程推荐</h2>
+          <ul>
+            <li><a href="../shadowrocket-ios-tutorial/index.html">Shadowrocket (小火箭) iOS 完整配置图文教程 (从入门到精通)</a></li>
+            <li><a href="../quantumult-x-tutorial/index.html">Quantumult X (圈X) 进阶配置教程 · 策略组与分流重写指南</a></li>
+            <li><a href="../stash-ios-tutorial/index.html">Stash (Clash for iOS) 苹果手机使用教程 (完美兼容Clash规则)</a></li>
+            <li><a href="../ios-us-apple-id-guide/index.html">免信用卡注册美区 Apple ID 购买小火箭完整图文教学 (2026保姆级)</a></li>
+          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1802,27 +1876,28 @@ function generateGuidePages() {
   });
   writeHtml('guides/ios/index.html', iosHtml);
 
-  // 6.4 guides/macos/index.html
   const macHtml = renderHtmlPage({
     depth: 2,
-    title: '苹果Mac系统Clash与Surge节点订阅配置详细教程',
-    description: 'macOS苹果电脑翻墙配置指南，详解Clash Verge Rev在Mac端的安装设置、增强模式（TUN）开启与常见端口冲突排查。',
+    title: 'macOS 苹果电脑翻墙客户端使用教程大全 (Clash Verge/Surge/Stash)',
+    description: 'macOS 苹果电脑翻墙配置指南，适配 M1/M2/M3/M4 系列芯片，收录 Clash Verge Rev Mac、Surge Mac 与终端代理加速。',
     canonicalUrl: `${DOMAIN}/guides/macos/`,
     activeTab: 'guides',
-    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'macOS教程', url: 'index.html' }],
+    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: 'macOS 教程', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>macOS系统Clash与节点配置指南</h1>
-          <div class="article-header-meta">
-            <span>适用系统：macOS 11+ (Intel 及 Apple M1/M2/M3/M4芯片)</span>
-            <span>核心客户端：Clash Verge Rev for Mac</span>
-          </div>
+          <h1>macOS 苹果电脑翻墙客户端使用教程大全</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：macOS 专栏</span></div>
         </header>
-
         <div class="article-body">
-          <p>Mac 端推荐安装 Clash Verge Rev DMG 安装包。导入订阅后，建议在设置中开启“TUN 模式”，以确保终端命令行与所有后台应用均能顺利代理。</p>
+          <p>Mac 电脑原生支持 Apple Silicon M 芯片架构，推荐免费开源的 <a href="../clash-verge-rev-macos-tutorial/index.html">Clash Verge Rev Mac</a> 或专业网络调试工具 <a href="../surge-mac-tutorial/index.html">Surge Mac</a>。</p>
+          <h2>macOS 专栏精选教程推荐</h2>
+          <ul>
+            <li><a href="../clash-verge-rev-macos-tutorial/index.html">macOS 苹果电脑 Clash Verge Rev 配置教程 (Apple Silicon原生支持)</a></li>
+            <li><a href="../surge-mac-tutorial/index.html">Surge Mac 终极网络工具入门指南 · 代理接管与抓包分流</a></li>
+            <li><a href="../macos-system-proxy-terminal/index.html">macOS 终端 Terminal / iTerm2 命令行代理环境变量配置教学</a></li>
+          </ul>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1831,27 +1906,22 @@ function generateGuidePages() {
   });
   writeHtml('guides/macos/index.html', macHtml);
 
-  // 6.5 guides/rules-and-routing/index.html
   const rulesHtml = renderHtmlPage({
     depth: 2,
-    title: 'Clash分流规则与策略组设置进阶指南 · 国内外流量智能分流',
-    description: '深入浅出剖析Clash规则分流原理，讲解GEOIP、DOMAIN-SUFFIX、MATCH以及自动故障转移Fallback策略组的高级配置方法。',
+    title: '代理规则分流与策略组调优指南 · 解决断流与国内直连加速',
+    description: '深度讲解 Clash、Sing-box 与小火箭的规则分流语法，手把手教你配置 GEOIP、白名单直连与 DNS 防泄露策略。',
     canonicalUrl: `${DOMAIN}/guides/rules-and-routing/`,
     activeTab: 'guides',
-    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: '分流规则进阶', url: 'index.html' }],
+    breadcrumbs: [{ name: '配置教程', url: '../index.html' }, { name: '分流规则优化', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>规则分流与策略组设置进阶指南</h1>
-          <div class="article-header-meta">
-            <span>难度级别：中级进阶</span>
-            <span>核心概念：Rule-based Routing / Fallback / Load Balance</span>
-          </div>
+          <h1>代理规则分流与策略组深入调优指南</h1>
+          <div class="article-header-meta"><span>更新日期：2026-11-20</span><span>分类：高级调优</span></div>
         </header>
-
         <div class="article-body">
-          <p>规则分流能让访问国内网站走直连（秒开且不消耗套餐流量），访问海外受限网站走代理节点。配合 Fallback 自动故障转移策略组，可在节点波动时自动秒级切换备用节点。</p>
+          <p>精细化的规则分流是高品质网络体验的核心保证。详细内容可参考本站专项教程：<a href="../rules-and-routing-tutorial/index.html">Clash / Sing-box 规则分流与策略组深度调优指南</a> 与 <a href="../dns-leak-prevention-tutorial/index.html">翻墙如何防止 DNS 泄露？Fake-IP 终极防护教学</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1862,69 +1932,163 @@ function generateGuidePages() {
 }
 
 // ==========================================
-// 7. 生成深度文章博客系统 blog/
+// 7. 生成深度文章博客系统 blog/ (共 100 篇高质量文章)
 // ==========================================
 function generateBlogPages() {
+  const clusters = [
+    { key: 'recommend', name: '机场推荐与选购指南', icon: '🏆', desc: '权威实测推荐、人群细分方案与选购避坑指南' },
+    { key: 'tech', name: '专线架构与节点性能', icon: '⚡', desc: 'IPLC/IEPL专线、BGP中转、晚高峰延迟与流媒体解锁' },
+    { key: 'security', name: 'VPN协议与安全科普', icon: '🔒', desc: 'VLESS Reality、Hysteria 2、Shadowsocks与反审查博弈' },
+    { key: 'pricing', name: '商业模式与防坑实战', icon: '💰', desc: '按量付费、倍率陷阱、跑路征兆与退款规则揭秘' },
+    { key: 'troubleshooting', name: '故障排查与应急技巧', icon: '🛠️', desc: '特殊时期备用方案、节点超时排查与分流规则调优' }
+  ];
+
+  // 7.0 blog/index.html 聚合展示 100 篇完整文章
   const blogIndexHtml = renderHtmlPage({
     depth: 1,
-    title: '翻墙机场与VPN科普文章专栏 · 选购避坑与技术原理解析',
-    description: '收录由资深网络工程师撰写的翻墙科普文章，涵盖机场挑选避坑、传统VPN与机场区别、IEPL物理专线原理解析及应急排障指南。',
+    title: '翻墙机场推荐与VPN技术深度科普文章专栏 (100篇权威干货)',
+    description: '涵盖100篇专业深度文章，全方位解析机场选购推荐、IPLC专线架构、VLESS/Hysteria2协议原理、跑路避坑及特殊时期应急排障方案。',
     canonicalUrl: `${DOMAIN}/blog/`,
     activeTab: 'blog',
     breadcrumbs: [{ name: '深度科普', url: 'index.html' }],
     contentHtml: `
     <div class="container section">
       <div class="section-header text-center">
-        <h1 class="section-title">选购技巧与行业深度观察文章</h1>
-        <p class="section-desc">透彻搞清网络代理底层逻辑，掌握科学选型与隐私安全的硬核知识。</p>
+        <h1 class="section-title">翻墙机场与VPN技术科普文章专栏 (100篇精选)</h1>
+        <p class="section-desc">透彻搞清网络代理底层逻辑与行业内幕，掌握科学选型与隐私安全的硬核知识体系。</p>
       </div>
 
-      <div class="articles-grid">
-        <article class="article-card">
-          <div class="article-meta"><span class="article-tag">选购避坑</span><time>2026-11-16</time></div>
-          <h3><a href="how-to-choose-reliable-airport/index.html">2026新手如何挑选靠谱的机场与梯子？避坑全指南</a></h3>
-          <p class="article-summary">梳理选购梯子的“五看原则”：看线路架构、看计费周期、看倍率透明度、看售后工单、看退款策略，避免成为跑路受害者。</p>
-          <a href="how-to-choose-reliable-airport/index.html" class="category-link">阅读文章 →</a>
-        </article>
-
-        <article class="article-card">
-          <div class="article-meta"><span class="article-tag">技术科普</span><time>2026-11-14</time></div>
-          <h3><a href="vpn-vs-airport-difference/index.html">传统VPN与节点机场到底有什么区别？原理、速度与安全性对比</a></h3>
-          <p class="article-summary">厘清大众认知误区：为什么商用VPN（Nord/Express）在中国大陆频频失灵，而基于Shadowsocks/V2Ray的节点机场却能稳定高速运行？</p>
-          <a href="vpn-vs-airport-difference/index.html" class="category-link">阅读文章 →</a>
-        </article>
-
-        <article class="article-card">
-          <div class="article-meta"><span class="article-tag">专线解析</span><time>2026-11-10</time></div>
-          <h3><a href="iplc-iepl-transit-direct-explained/index.html">直连、中转、IEPL与IPLC专线到底差在哪？一文学懂线路分类</a></h3>
-          <p class="article-summary">深度剖析公网直连、BGP中转与物理内网专线的底层路由差异，解答为什么专线能在晚高峰做到极低延迟与零丢包。</p>
-          <a href="iplc-iepl-transit-direct-explained/index.html" class="category-link">阅读文章 →</a>
-        </article>
-
-        <article class="article-card">
-          <div class="article-meta"><span class="article-tag">安全警示</span><time>2026-11-08</time></div>
-          <h3><a href="why-avoid-free-vpn/index.html">为什么千万不要使用免费VPN和免费机场节点？安全与隐私风险深度解析</a></h3>
-          <p class="article-summary">免费往往是最昂贵的代价：揭露免费节点背后的凭证窃取、中间人劫持及个人设备沦为僵尸肉鸡的黑产内幕。</p>
-          <a href="why-avoid-free-vpn/index.html" class="category-link">阅读文章 →</a>
-        </article>
-
-        <article class="article-card">
-          <div class="article-meta"><span class="article-tag">应急自救</span><time>2026-11-02</time></div>
-          <h3><a href="what-to-do-when-airport-node-blocked/index.html">特殊时期机场节点大面积超时断连怎么办？排查自救手册</a></h3>
-          <p class="article-summary">重大敏感节点期间遭遇节点大面积超时断连时的逐步自检清单：订阅更新、DNS刷新、Fallback多梯子切换全流程。</p>
-          <a href="what-to-do-when-airport-node-blocked/index.html" class="category-link">阅读文章 →</a>
-        </article>
-      </div>
+      ${clusters.map(c => {
+        const cArticles = articlesData.filter(a => a.cluster === c.key);
+        return `
+        <div style="margin-bottom: 48px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+            <span style="font-size:1.6rem;">${c.icon}</span>
+            <h2 style="font-size:1.35rem; font-weight:700; margin:0;">${c.name}</h2>
+            <span style="font-size:0.85rem; color:#64748b; margin-left:auto;">共 ${cArticles.length} 篇深度分析</span>
+          </div>
+          <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+            ${cArticles.map(art => `
+            <article class="article-card">
+              <div class="article-meta">
+                <span class="article-tag">${art.clusterName}</span>
+                <time>${art.date}</time>
+                <span style="margin-left:auto; font-size:0.75rem; color:#64748b;">⏱️ ${art.readTime}</span>
+              </div>
+              <h3 style="font-size:1.05rem; line-height:1.4;"><a href="${art.slug}/index.html">${art.title}</a></h3>
+              <p class="article-summary">${art.description}</p>
+              <a href="${art.slug}/index.html" class="category-link">阅读文章 →</a>
+            </article>
+            `).join('')}
+          </div>
+        </div>
+        `;
+      }).join('')}
     </div>
     `
   });
   writeHtml('blog/index.html', blogIndexHtml);
 
-  // 7.1 blog/how-to-choose-reliable-airport/index.html
+  // 7.1 逐一生成全部 100 篇独立文章页面
+  articlesData.forEach(art => {
+    const related = articlesData.filter(a => a.cluster === art.cluster && a.slug !== art.slug).slice(0, 3);
+    const matchedAirports = (art.airports || []).map(id => airports.find(a => a.id === id || a.slug === id)).filter(Boolean);
+
+    const articleHtml = renderHtmlPage({
+      depth: 2,
+      title: art.seoTitle,
+      description: art.description,
+      canonicalUrl: `${DOMAIN}/blog/${art.slug}/`,
+      activeTab: 'blog',
+      breadcrumbs: [
+        { name: '深度科普', url: '../index.html' },
+        { name: art.title.substring(0, 18) + '...', url: 'index.html' }
+      ],
+      contentHtml: `
+      <div class="container article-layout">
+        <div class="content-article">
+          <header class="article-header">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <span class="article-tag">${art.clusterName}</span>
+              <span style="font-size:0.8rem; color:#64748b;">关键词：${art.keywords}</span>
+            </div>
+            <h1>${art.title}</h1>
+            <div class="article-header-meta">
+              <span>发布日期：${art.date}</span>
+              <span>阅读预计：${art.readTime}</span>
+              <span>编辑审校：翻墙VPN技术测试组</span>
+            </div>
+          </header>
+
+          <div class="article-body">
+            <div class="alert-box alert-info">
+              <strong>💡 核心观点提要：</strong>
+              <p style="margin:4px 0 0;">${art.description}</p>
+            </div>
+
+            ${art.h2List.map(item => `
+              <h2>${item.h2}</h2>
+              <div>${item.content}</div>
+            `).join('')}
+
+            ${matchedAirports.length > 0 ? `
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
+                <h3 style="margin-top:0; font-size:1.15rem; color:#0f172a;">🎯 本文相关实测推荐机场方案</h3>
+                <p style="font-size:0.875rem; color:#64748b; margin-bottom:16px;">结合本文讨论的技术场景，以下机场节点经长期压测表现优异：</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
+                  ${matchedAirports.map(ap => `
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                        <strong style="font-size:0.95rem;"><a href="../../airport/${ap.slug}/index.html">${ap.name}</a></strong>
+                        <span style="font-size:0.75rem; color:#2563eb; font-weight:600;">${ap.plans[0].nodeType}</span>
+                      </div>
+                      <div style="font-size:0.8rem; color:#64748b; margin-bottom:8px;">起步套餐：¥${ap.startingPrice} / ${ap.plans[0].trafficGB}GB (¥${ap.plans[0].calculatedUnitPrice}/GB)</div>
+                      <div style="display:flex; gap:6px;">
+                        <a href="../../review/${ap.slug}/index.html" class="btn btn-secondary btn-sm" style="flex:1; text-align:center; padding:3px 6px; font-size:0.75rem;">评测详情</a>
+                        <a href="${ap.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="flex:1; text-align:center; padding:3px 6px; font-size:0.75rem;">直达官网 ↗</a>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${art.faqs && art.faqs.length > 0 ? `
+              <h2>常见问题解答 (FAQ)</h2>
+              <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
+                ${art.faqs.map(item => `
+                  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
+                    <h4 style="margin:0 0 8px; color:#0f172a; font-size:1rem;">❓ ${item.q}</h4>
+                    <p style="margin:0; font-size:0.9rem; color:#475569;">${item.a}</p>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+
+            ${related.length > 0 ? `
+              <div style="margin-top:40px; padding-top:20px; border-top:1px solid #e2e8f0;">
+                <h3 style="font-size:1.15rem; margin-bottom:12px;">延伸阅读推荐</h3>
+                <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">
+                  ${related.map(r => `
+                    <li><a href="../${r.slug}/index.html" style="font-size:0.95rem; font-weight:500;">📝 ${r.title}</a></li>
+                  `).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+        ${renderSidebar(2)}
+      </div>
+      `
+    });
+    writeHtml(`blog/${art.slug}/index.html`, articleHtml);
+  });
+
+  // 保留历史 5 篇经典文章，保证存量链接 100% 畅通
   const blog1Html = renderHtmlPage({
     depth: 2,
-    title: '2026新手如何挑选靠谱的机场与梯子？避坑全指南',
-    description: '2026年选购翻墙机场梯子的终极避坑手册，详细讲解线路架构、计费周期陷阱、节点倍率透明度及如何识别即将跑路的商家。',
+    title: '2026新手挑选靠谱机场与梯子全指南 · 避开跑路与慢速陷阱',
+    description: '讲解线路架构、计费周期陷阱、节点倍率透明度及如何识别即将跑路的商家。',
     canonicalUrl: `${DOMAIN}/blog/how-to-choose-reliable-airport/`,
     activeTab: 'blog',
     breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '如何挑选靠谱机场', url: 'index.html' }],
@@ -1933,14 +2097,10 @@ function generateBlogPages() {
       <div class="content-article">
         <header class="article-header">
           <h1>2026新手如何挑选靠谱的机场与梯子？避坑全指南</h1>
-          <div class="article-header-meta">
-            <span>发布日期：2026-11-16</span>
-            <span>阅读时长：约 6 分钟</span>
-          </div>
+          <div class="article-header-meta"><span>发布日期：2026-11-16</span><span>阅读时长：约 6 分钟</span></div>
         </header>
-
         <div class="article-body">
-          <p>在当前纷繁复杂的网络服务市场中，各种“平价大带宽”、“极速千兆”的广告让人眼花缭乱。新手选购请遵循“五看原则”：看线路架构（专线优于公网）、看计费周期（优先月付）、看倍率透明度、看工单支持与退款保障。</p>
+          <p>详见本站最新专栏：<a href="../2026-best-airport-recommendation-master-guide/index.html">2026年度优质机场推荐与梯子选购终极指南</a>，获取最新评测数据。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1949,7 +2109,6 @@ function generateBlogPages() {
   });
   writeHtml('blog/how-to-choose-reliable-airport/index.html', blog1Html);
 
-  // 7.2 blog/vpn-vs-airport-difference/index.html
   const blog2Html = renderHtmlPage({
     depth: 2,
     title: 'VPN是什么？传统VPN与代理机场节点的本质区别深度对比',
@@ -1965,7 +2124,7 @@ function generateBlogPages() {
           <div class="article-header-meta"><span>发布日期：2026-11-14</span></div>
         </header>
         <div class="article-body">
-          <p>传统商用VPN是全局加密隧道，特征明显易被GFW阻断；而现代机场节点采用VLESS、Shadowsocks等先进伪装协议或IEPL专线，速度快且具备精细的分流能力。</p>
+          <p>详见专栏文章：<a href="../top-10-vpn-vs-airport-comparison-review/index.html">2026全球主流翻墙VPN与国内机场节点全面对比测评</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1974,23 +2133,22 @@ function generateBlogPages() {
   });
   writeHtml('blog/vpn-vs-airport-difference/index.html', blog2Html);
 
-  // 7.3 blog/iplc-iepl-transit-direct-explained/index.html
   const blog3Html = renderHtmlPage({
     depth: 2,
-    title: '直连、中转、IEPL与IPLC专线到底差在哪？一文学懂线路分类',
-    description: '详解翻墙机场节点的底层线路架构，剖析公网直连、BGP中转服务器与物理内网专线的延迟差异与抗干扰能力。',
+    title: '直连、中转、IEPL专线有何不同？翻墙网络架构底层技术全解',
+    description: '从物理光缆、过境协议与抗封锁能力深度解析直连、公网BGP中转与物理IEPL/IPLC内网专线。',
     canonicalUrl: `${DOMAIN}/blog/iplc-iepl-transit-direct-explained/`,
     activeTab: 'blog',
-    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '线路架构科普', url: 'index.html' }],
+    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '专线架构解析', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>直连、中转、IEPL与IPLC专线到底差在哪？一文学懂线路分类</h1>
-          <div class="article-header-meta"><span>发布日期：2026-11-10</span></div>
+          <h1>直连、中转、IEPL专线有何不同？一文搞懂机场架构</h1>
+          <div class="article-header-meta"><span>发布日期：2026-11-12</span></div>
         </header>
         <div class="article-body">
-          <p>公网直连抗封锁差；BGP中转性价比高；而IEPL/IPLC内网专线由于物理层不过公网防火墙，是晚高峰稳定看视频与远程办公的首选方案。</p>
+          <p>详见技术专栏：<a href="../iplc-vs-iepl-leased-line-architecture-explained/index.html">IPLC与IEPL专线到底有什么区别？一文看懂物理海底光缆代理原理</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -1999,23 +2157,22 @@ function generateBlogPages() {
   });
   writeHtml('blog/iplc-iepl-transit-direct-explained/index.html', blog3Html);
 
-  // 7.4 blog/why-avoid-free-vpn/index.html
   const blog4Html = renderHtmlPage({
     depth: 2,
     title: '为什么千万不要使用免费VPN和免费机场节点？安全与隐私风险深度解析',
-    description: '深入揭露免费VPN背后的黑色产业链：用户敏感凭证窃取、DNS中间人劫持、后台挖矿以及设备被当作肉鸡代理的巨大安全隐患。',
+    description: '揭开免费翻墙工具背后的数据买卖、明文窃密与流量劫持黑幕，保障个人网络安全。',
     canonicalUrl: `${DOMAIN}/blog/why-avoid-free-vpn/`,
     activeTab: 'blog',
-    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '为什么远离免费VPN', url: 'index.html' }],
+    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '远离免费VPN风险', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>为什么千万不要使用免费VPN和免费机场节点？安全与隐私风险深度解析</h1>
-          <div class="article-header-meta"><span>发布日期：2026-11-08</span></div>
+          <h1>为什么千万不要使用免费VPN和免费机场节点？</h1>
+          <div class="article-header-meta"><span>发布日期：2026-11-10</span></div>
         </header>
         <div class="article-body">
-          <p>免费往往是最昂贵的代价。大量免费工具会在后台植入广告、解密嗅探用户数据甚至将用户设备当作代理肉鸡，安全风险极大。</p>
+          <p>详见专栏文章：<a href="../free-vpn-node-vs-paid-airport-security-truth/index.html">免费VPN节点背后的致命代价：隐私窃取与账号封禁真相</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2024,23 +2181,22 @@ function generateBlogPages() {
   });
   writeHtml('blog/why-avoid-free-vpn/index.html', blog4Html);
 
-  // 7.5 blog/what-to-do-when-airport-node-blocked/index.html
   const blog5Html = renderHtmlPage({
     depth: 2,
-    title: '特殊时期机场节点大面积超时断连怎么办？排查自救手册',
-    description: '手把手教你应对特殊敏感时期节点大面积超时超低速的应对策略：本地网络排查、强制更新订阅、切换备用机场节点与应急设置。',
+    title: '特殊时期节点全部超时断连如何排查？科学应急备用方案指南',
+    description: '遭遇大规模断连时的急救手册：排查本地配置、获取应急灾备节点与跨协议连接技巧。',
     canonicalUrl: `${DOMAIN}/blog/what-to-do-when-airport-node-blocked/`,
     activeTab: 'blog',
-    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '节点断连排查手册', url: 'index.html' }],
+    breadcrumbs: [{ name: '深度科普', url: '../index.html' }, { name: '节点断连应急指南', url: 'index.html' }],
     contentHtml: `
     <div class="container article-layout">
       <div class="content-article">
         <header class="article-header">
-          <h1>特殊时期机场节点大面积超时断连怎么办？排查自救手册</h1>
-          <div class="article-header-meta"><span>发布日期：2026-11-02</span></div>
+          <h1>特殊时期节点全部超时断连如何排查？应急指南</h1>
+          <div class="article-header-meta"><span>发布日期：2026-11-08</span></div>
         </header>
         <div class="article-body">
-          <p>遭遇断连首先在客户端中手动“更新订阅”以拉取后端调流节点；其次建议手头常备一个提供按量不限时套餐的服务商（如 <a href="../../airport/feiv/index.html">飞V</a>）作为应急备用。</p>
+          <p>详见实战专栏：<a href="../emergency-backup-plan-during-special-periods/index.html">重要会议与敏感时期所有节点全红超时？全套应急备用翻墙方案</a>。</p>
         </div>
       </div>
       ${renderSidebar(2)}
@@ -2411,6 +2567,16 @@ function generateSitemapAndRobots() {
   airports.forEach(a => {
     urls.push({ loc: `${DOMAIN}/airport/${a.slug}/`, priority: '0.8', changefreq: 'weekly' });
     urls.push({ loc: `${DOMAIN}/review/${a.slug}/`, priority: '0.8', changefreq: 'weekly' });
+  });
+
+  // 加入 30 篇全平台图文教程
+  guidesData.forEach(g => {
+    urls.push({ loc: `${DOMAIN}/guides/${g.slug}/`, priority: '0.8', changefreq: 'monthly' });
+  });
+
+  // 加入 100 篇高质量技术与选型文章
+  articlesData.forEach(a => {
+    urls.push({ loc: `${DOMAIN}/blog/${a.slug}/`, priority: '0.8', changefreq: 'monthly' });
   });
 
   const today = '2026-11-20';
