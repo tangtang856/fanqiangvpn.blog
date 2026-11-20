@@ -1326,10 +1326,15 @@ function generateAirportAndReviewPages() {
               <h1>${airport.name} 详细资料与套餐配置</h1>
               <span class="airport-badge">${airport.badge || ''}</span>
             </div>
-            <div class="article-header-meta">
-              <span>起步价格：¥${airport.startingPrice} ${airport.billingType === 'no-expiry' ? '一次性' : '元/月起'}</span>
-              <span>实测状态：<strong style="color:#10b981;">✓ 已核验</strong></span>
-              <span>最后核验日期：${airport.lastVerified}</span>
+            <div class="article-header-meta" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                <span>起步价格：¥${airport.startingPrice} ${airport.billingType === 'no-expiry' ? '一次性' : '元/月起'}</span>
+                <span>实测状态：<strong style="color:#10b981;">✓ 已核验</strong></span>
+                <span>最后核验日期：${airport.lastVerified}</span>
+              </div>
+              <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:6px 18px; font-size:0.875rem; font-weight:700; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.25); display:inline-flex; align-items:center; gap:6px;">
+                <span>前往官网 ↗</span>
+              </a>
             </div>
           </header>
 
@@ -1442,10 +1447,15 @@ function generateAirportAndReviewPages() {
         <div class="content-article">
           <header class="article-header">
             <h1>${airport.name}深度独立评测报告 (2026最新实测)</h1>
-            <div class="article-header-meta">
-              <span>评测日期：${airport.lastVerified}</span>
-              <span>数据来源：节点推荐网实测监控 + 官方公开资费</span>
-              <span>综合评分：<strong>${airport.summaryRating.stability} / 10.0</strong></span>
+            <div class="article-header-meta" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                <span>评测日期：${airport.lastVerified}</span>
+                <span>数据来源：节点推荐网实测监控 + 官方公开资费</span>
+                <span>综合评分：<strong style="color:#2563eb;">${airport.summaryRating.stability} / 10.0</strong></span>
+              </div>
+              <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary btn-sm" style="padding:6px 18px; font-size:0.875rem; font-weight:700; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.25); display:inline-flex; align-items:center; gap:6px;">
+                <span>前往官网 ↗</span>
+              </a>
             </div>
           </header>
 
