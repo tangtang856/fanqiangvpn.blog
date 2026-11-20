@@ -2039,3 +2039,273 @@ ul, ol {
     padding: 24px 18px;
   }
 }
+
+/* ==========================================================================
+   联络我们按钮与专业交互下拉面板 (Contact Us Header Button & Dropdown)
+   ========================================================================== */
+
+.header-contact-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-header-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.btn-header-contact:hover,
+.header-contact-wrapper.open .btn-header-contact {
+  background-color: #eff6ff;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.dropdown-chevron {
+  transition: transform 0.2s ease;
+}
+
+.header-contact-wrapper.open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+/* 下拉面板 */
+.contact-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 380px;
+  max-width: 92vw;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.16), 0 8px 16px -4px rgba(15, 23, 42, 0.08);
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  pointer-events: none;
+}
+
+.header-contact-wrapper.open .contact-dropdown-panel,
+.header-contact-wrapper:hover .contact-dropdown-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 顶部说明区 */
+.contact-panel-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.contact-panel-badge {
+  display: inline-block;
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  margin-bottom: 6px;
+}
+
+.contact-panel-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.contact-panel-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+/* 渠道列表 */
+.contact-channels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-channel-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: all 0.15s ease;
+}
+
+.contact-channel-item:hover {
+  background: #ffffff;
+  border-color: #93c5fd;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.contact-channel-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-channel-icon.gmail-icon {
+  background: #fee2e2;
+  color: #ea4335;
+}
+
+.contact-channel-icon.telegram-icon {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.contact-channel-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-channel-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.contact-channel-val {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-channel-tip {
+  font-size: 0.725rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.contact-channel-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-channel-mail {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+.btn-channel-mail:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.btn-channel-copy {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+.btn-channel-copy:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.btn-channel-copy.copied {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+
+.btn-channel-tg {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+.btn-channel-tg:hover {
+  background: #0369a1;
+  color: #ffffff;
+}
+
+/* 底部 SLA */
+.contact-panel-footer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.contact-sla-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.775rem;
+  color: #475569;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.sla-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.contact-detail-link {
+  display: block;
+  font-size: 0.775rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: right;
+}
+.contact-detail-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .contact-dropdown-panel {
+    right: -40px;
+    width: 320px;
+  }
+}

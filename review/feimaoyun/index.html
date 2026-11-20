@@ -65,6 +65,80 @@
       </nav>
 
       <div class="header-actions">
+        <!-- 联络我们按钮与专业交互下拉面板 -->
+        <div class="header-contact-wrapper" id="headerContactDropdown">
+          <button type="button" class="btn-header-contact" id="contactDropdownBtn" aria-haspopup="true" aria-expanded="false" title="联系站长与商务合作">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>联络我们</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="contact-dropdown-panel" id="contactDropdownPanel" role="dialog" aria-label="联系与合作面板">
+            <div class="contact-panel-header">
+              <div class="contact-panel-badge">官方直连 · 快速响应</div>
+              <div class="contact-panel-title">商务合作与读者咨询</div>
+              <p class="contact-panel-desc">承接机场品牌送测、深度评测委托、商务广告合作与读者使用咨询。</p>
+            </div>
+
+            <div class="contact-channels-list">
+              <!-- Gmail 渠道 -->
+              <div class="contact-channel-item">
+                <div class="contact-channel-icon gmail-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                </div>
+                <div class="contact-channel-info">
+                  <div class="contact-channel-label">官方 Gmail 邮箱</div>
+                  <div class="contact-channel-val">xintangtang888@gmail.com</div>
+                  <div class="contact-channel-tip">商务洽谈 / 节点收录 / 合作咨询</div>
+                </div>
+                <div class="contact-channel-actions">
+                  <a href="mailto:xintangtang888@gmail.com" class="btn-channel btn-channel-mail" title="直接发信">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span>发信</span>
+                  </a>
+                  <button type="button" class="btn-channel btn-channel-copy" onclick="copyContactText('xintangtang888@gmail.com', this)" title="复制邮箱">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>复制</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Telegram 渠道 -->
+              <div class="contact-channel-item">
+                <div class="contact-channel-icon telegram-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                  </svg>
+                </div>
+                <div class="contact-channel-info">
+                  <div class="contact-channel-label">Telegram 官方客服</div>
+                  <div class="contact-channel-val">@xintangtang</div>
+                  <div class="contact-channel-tip">官方实时在线 · 秒级极速沟通响应</div>
+                </div>
+                <div class="contact-channel-actions">
+                  <a href="https://t.me/xintangtang" target="_blank" rel="noopener noreferrer nofollow" class="btn-channel btn-channel-tg" title="打开 Telegram 对话">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    <span>直达 TG ↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-panel-footer">
+              <div class="contact-sla-badge">
+                <span class="sla-dot"></span> 7×24小时在线对接 · 邮件/TG 通常 2 小时内必复
+              </div>
+              <a href="../../contact/index.html" class="contact-detail-link">访问完整联络中心与合作说明页 →</a>
+            </div>
+          </div>
+        </div>
+
         <a href="../../ranking/value/index.html" class="btn-header-cta">
           <span>⚡ 性价比榜单</span>
         </a>
@@ -86,6 +160,7 @@
       <a href="../../guides/index.html">📖 全平台客户端使用教程</a>
       <a href="../../blog/index.html">📝 选购技巧与深度科普</a>
       <a href="../../glossary/index.html">📚 代理协议技术百科</a>
+      <a href="../../contact/index.html" style="background: #eff6ff; color: #2563eb; font-weight: 700;">💬 联络我们 (Gmail & Telegram)</a>
     </div>
   </div>
   

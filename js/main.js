@@ -94,4 +94,66 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // 5. 联络我们下拉面板交互与一键复制功能
+  var contactDropdown = document.getElementById('headerContactDropdown');
+  var contactBtn = document.getElementById('contactDropdownBtn');
+
+  if (contactDropdown && contactBtn) {
+    contactBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = contactDropdown.classList.contains('open');
+      contactDropdown.classList.toggle('open');
+      contactBtn.setAttribute('aria-expanded', !isOpen);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!contactDropdown.contains(e.target)) {
+        contactDropdown.classList.remove('open');
+        contactBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        contactDropdown.classList.remove('open');
+        contactBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  window.copyContactText = function (text, btnElem) {
+    function onCopied() {
+      var oldHtml = btnElem.innerHTML;
+      btnElem.innerHTML = '<span>✓ 已复制</span>';
+      btnElem.classList.add('copied');
+      setTimeout(function () {
+        btnElem.innerHTML = oldHtml;
+        btnElem.classList.remove('copied');
+      }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(onCopied).catch(function () {
+        fallbackCopy(text, onCopied);
+      });
+    } else {
+      fallbackCopy(text, onCopied);
+    }
+  };
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      if (cb) cb();
+    } catch (err) {}
+    document.body.removeChild(ta);
+  }
+
 });
