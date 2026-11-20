@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,11 +102,35 @@
               <p style="margin:4px 0 0;">两大热门 UDP 协议面对运营商 QoS 限速时的不同表现横向实测对比。</p>
             </div>
 
+            <!-- 文章快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📑</span>
+                <span>本文快速阅读导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#section-1">一、🔬 测评环境公示与核心性能压测标准</a></li>
+                
+                  <li><a href="#section-2">二、📊 横向天梯对照与实测数据矩阵</a></li>
+                
+                  <li><a href="#section-3">三、⚖️ 优缺点深度红黑榜 (Pros & Cons)</a></li>
+                
+                  <li><a href="#section-4">四、🎯 真实应用场景落地测评报告</a></li>
+                
+                  <li><a href="#section-5">五、🏆 最终评测结论与极速选购决策</a></li>
+                
+                <li><a href="#section-airports">🎯 相关实测推荐机场方案</a></li>
+                <li><a href="#section-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#section-navigation">🧭 翻阅上下篇科普干货</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、🔬 测评环境公示与核心性能压测标准</h2>
+              <h2 id="section-1">一、🔬 测评环境公示与核心性能压测标准</h2>
               <div><p>为剔除偶然误差，本篇对<strong>TUIC v5 与 Hysteria 2 对比：哪款基于 QUIC/UDP 的协议更适合你？</strong>的测评在统一网络基准环境下展开：采用中国电信 1000M / 联通 500M 双线家庭千兆宽带，测试终端搭载 Intel i9 与 Apple M3 芯片，测试工具采用自主编译的最新版 Mihomo (Clash.Meta) 与 Python 多线程测速脚本。</p><p>重点考核四项核心指标：<strong>1. 晚高峰 20:00-23:00 黄金时段丢包率；2. 国际出口端到端网络抖动 (Jitter)；3. 8K 60FPS 极清视频峰值缓冲区吞吐；4. 海外主流 AI 与流媒体服务的原生解锁合规性。</strong></p></div>
             
-              <h2>二、📊 横向天梯对照与实测数据矩阵</h2>
+              <h2 id="section-2">二、📊 横向天梯对照与实测数据矩阵</h2>
               <div><p>以下为在晚高峰多轮压力测试下录得的真实数据汇总：</p>
       <div class="table-responsive" style="margin:16px 0;">
         <table class="data-table" style="font-size:0.85rem;">
@@ -146,7 +171,7 @@
         </table>
       </div></div>
             
-              <h2>三、⚖️ 优缺点深度红黑榜 (Pros & Cons)</h2>
+              <h2 id="section-3">三、⚖️ 优缺点深度红黑榜 (Pros & Cons)</h2>
               <div><div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;">
         <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:16px;">
           <h4 style="margin:0 0 10px; color:#065f46; font-size:1rem;">👍 核心亮点与竞争优势</h4>
@@ -166,7 +191,7 @@
         </div>
       </div></div>
             
-              <h2>四、🎯 真实应用场景落地测评报告</h2>
+              <h2 id="section-4">四、🎯 真实应用场景落地测评报告</h2>
               <div><p>在实际场景体验中，我们分别对以下三大高频应用进行了持续跟踪：</p>
       <ul>
         <li><strong>影音流媒体播放：</strong>在 Apple TV 4K 客户端连续播放《怪奇物语》杜比视界高规格片源，全程未出现画质下降或缓冲转圈，首帧渲染耗时均在 600ms 以内。</li>
@@ -174,12 +199,12 @@
         <li><strong>开发生产力加速：</strong>使用终端执行 <code>git clone</code> 深度大工程仓库以及拉取大型 Docker 镜像，下载速率可稳定跑满本地 500M 专线带宽峰值。</li>
       </ul></div>
             
-              <h2>五、🏆 最终评测结论与极速选购决策</h2>
+              <h2 id="section-5">五、🏆 最终评测结论与极速选购决策</h2>
               <div><p>综合各项客观指标与主观实测体验，围绕<strong>TUIC v5 与 Hysteria 2 对比</strong>，我们给出清晰的决策结论：</p><p>追求“晚高峰免折腾、随时打开即用”的高要求办公与游戏用户，应当坚定选择优质物理专线品牌；而对于预算极其有限、仅需偶尔查阅资料的轻度用户，则建议以月付小额套餐为首选。</p></div>
             
 
             
-              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
+              <div id="section-airports" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
                 <h3 style="margin-top:0; font-size:1.15rem; color:#0f172a;">🎯 本文相关实测推荐机场方案</h3>
                 <p style="font-size:0.875rem; color:#64748b; margin-bottom:16px;">结合本文讨论的技术场景，以下机场节点经长期压测表现优异：</p>
                 <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
@@ -225,7 +250,7 @@
             
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="section-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -252,9 +277,47 @@
                   
                     <li><a href="../shadowsocks-protocol-evolution-history/index.html" style="font-size:0.95rem; font-weight:500;">📝 从传统SS到AEAD加密：Shadowsocks这十年来的演进与生存历程</a></li>
                   
+                    <li><a href="../trojan-protocol-https-camouflage-explained/index.html" style="font-size:0.95rem; font-weight:500;">📝 Trojan 协议原理全景图：如何把翻墙流量完美伪装成合法HTTPS网站</a></li>
+                  
                 </ul>
               </div>
             
+
+            <!-- Section Navigation: 上一篇 / 下一篇智能连载导读 -->
+            <nav id="section-navigation" class="article-pagination-box" aria-label="文章上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">🧭 智能文章导读</span>
+                <span class="pagination-hint">已阅读完本文，点击翻阅上下篇继续探索</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../hysteria-2-udp-brutal-speed-boost/index.html" class="pagination-item prev-item" title="上一篇：Hysteria 2 协议深度解析：基于魔改QUIC的暴力抗丢包与弱网起飞神器">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇科普</span>
+                  </div>
+                  <div class="pagination-title">Hysteria 2 协议深度解析：基于魔改QUIC的暴力抗丢包与弱网起飞神器</div>
+                  <div class="pagination-meta">专栏：VPN协议与安全科普 · 7 分钟</div>
+                </a>
+
+                <a href="../shadowsocks-protocol-evolution-history/index.html" class="pagination-item next-item" title="下一篇：从传统SS到AEAD加密：Shadowsocks这十年来的演进与生存历程">
+                  <div class="pagination-dir">
+                    <span>下一篇科普</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">从传统SS到AEAD加密：Shadowsocks这十年来的演进与生存历程</div>
+                  <div class="pagination-meta">专栏：VPN协议与安全科普 · 9 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📚 返回科普专栏 (100篇目录)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">🏆 2026综合实力排行榜</a>
+                <a href="../../ranking/value/index.html" class="btn-pagination-nav">💰 性价比单GB测算榜</a>
+                <a href="../../guides/index.html" class="btn-pagination-nav">📖 全平台客户端教程</a>
+                <a href="../../compare/index.html" class="btn-pagination-nav">⚖ 机场在线对比工具</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -352,6 +415,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

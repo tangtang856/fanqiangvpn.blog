@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,12 +102,34 @@
               <p style="margin:4px 0 0;">Clash Verge Rev 是当前 Windows 平台最受欢迎的开源代理客户端。本教程手把手教你如何下载安装、导入机场订阅、开启系统代理并配置 TUN 虚拟网卡接管全系统流量。</p>
             </div>
 
+            <!-- 教程快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📖</span>
+                <span>教程核心步骤导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#guide-sec-1">一、Clash Verge Rev 客户端简介与下载</a></li>
+                
+                  <li><a href="#guide-sec-2">二、获取并导入机场订阅链接</a></li>
+                
+                  <li><a href="#guide-sec-3">三、选择分流策略组与节点选择</a></li>
+                
+                  <li><a href="#guide-sec-4">四、开启系统代理与 TUN 虚拟网卡模式</a></li>
+                
+                <li><a href="#guide-sec-recom">🔥 实测高稳定性专线机场搭配</a></li>
+                <li><a href="#guide-sec-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#guide-sec-navigation">🧭 翻阅上下篇教程</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、Clash Verge Rev 客户端简介与下载</h2>
+              <h2 id="guide-sec-1">一、Clash Verge Rev 客户端简介与下载</h2>
               <div><p>由于原版 Clash for Windows 已停止维护，基于开源 <strong>Mihomo (Clash.Meta)</strong> 内核开发的 <strong>Clash Verge Rev</strong> 已成为目前 Windows 上最稳定、界面最现代化且功能最强大的代理工具。它完全支持最新的 Hysteria 2、TUIC、Vless Reality 等前沿翻墙协议。</p><p>建议始终从官方 GitHub Release 页面下载以 <code>.msi</code> 或 <code>.exe</code> 结尾的最新 64 位安装包。首次安装完成后建议在“设置”中将语言切换为简体中文。</p></div>
               
             
-              <h2>二、获取并导入机场订阅链接</h2>
+              <h2 id="guide-sec-2">二、获取并导入机场订阅链接</h2>
               <div><p>登录你所购买的优质机场后台（如本站实测推荐的微风网络、暮光网络或隐形人专线），找到“一键导入”或“复制订阅链接”。</p><ol><li>打开 Clash Verge Rev，点击左侧菜单栏的 <strong>“订阅” (Profiles)</strong>。</li><li>在顶部输入框中粘贴你的机场专属订阅链接。</li><li>点击 <strong>“导入” (Import)</strong>，客户端会自动下载远程节点列表并在本地保存配置。</li><li>右键该订阅卡片，可设置定时自动更新周期（建议设置为 24 小时自动更新）。</li></ol></div>
               
                 <div class="alert-box alert-tip">
@@ -114,11 +137,11 @@
                 </div>
               
             
-              <h2>三、选择分流策略组与节点选择</h2>
+              <h2 id="guide-sec-3">三、选择分流策略组与节点选择</h2>
               <div><p>点击左侧的 <strong>“代理” (Proxy)</strong> 标签页，你会看到机场提供的节点分类：</p><ul><li><strong>节点选择 (PROXY / Auto)：</strong>通常建议手动选择稳定性最高、延迟最低的专线节点（如香港 IEPL 01、日本 IPLC 01），或者选择“自动选择/负载均衡”。</li><li><strong>规则模式 (Rule)：</strong>请务必将出站模式设置为 <strong>“规则 (Rule)”</strong> 模式，国内网站（如百度、淘宝）将直连不消耗流量，外网网站（如 Google、YouTube、GitHub）则自动走代理。</li></ul></div>
               
             
-              <h2>四、开启系统代理与 TUN 虚拟网卡模式</h2>
+              <h2 id="guide-sec-4">四、开启系统代理与 TUN 虚拟网卡模式</h2>
               <div><p>在左侧 <strong>“设置” (Settings)</strong> 中，开启 <strong>“系统代理” (System Proxy)</strong> 开关，此时浏览器即可正常访问海外网络。</p><p>如果你需要给无法设置代理的软件翻墙（如部分外服网游、Epic Games、Steam 下载、WSL2 或命令行 Git），请在设置中开启 <strong>“TUN 模式”</strong>。TUN 模式会创建虚拟网卡接管系统底层所有 TCP/UDP 流量，实现真正的全局翻墙。</p></div>
               
                 <div class="alert-box alert-warning">
@@ -127,7 +150,7 @@
               
             
 
-            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+            <div id="guide-sec-recom" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
               <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
               <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -138,7 +161,7 @@
             </div>
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="guide-sec-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -165,9 +188,48 @@
                   
                     <li><a href="../clash-nyanpasu-tutorial/index.html" style="font-size:0.95rem; font-weight:500;">📖 Clash Nyanpasu 极简高颜值 Windows 翻墙客户端使用手册</a></li>
                   
+                    <li><a href="../hiddify-windows-tutorial/index.html" style="font-size:0.95rem; font-weight:500;">📖 Hiddify Next 全协议 Windows 客户端配置教程 (小白友好全自动分流)</a></li>
+                  
                 </ul>
               </div>
             
+
+            <!-- Guide Navigation: 上一篇 / 下一篇教程连载导读 -->
+            <nav id="guide-sec-navigation" class="article-pagination-box" aria-label="教程上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">📖 教程连载导读</span>
+                <span class="pagination-hint">掌握当前教程后，点击翻阅上下篇进阶配置</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../airport-speedtest-latency-guide/index.html" class="pagination-item prev-item" title="上一篇教程：机场节点测速全方位指南：Ping、TCP延迟、Jitter与真实下载速率分析">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇教程</span>
+                  </div>
+                  <div class="pagination-title">机场节点测速全方位指南：Ping、TCP延迟、Jitter与真实下载速率分析</div>
+                  <div class="pagination-meta">平台：进阶调优 · 预计 8 分钟</div>
+                </a>
+
+                <a href="../v2rayn-windows-tutorial/index.html" class="pagination-item next-item" title="下一篇教程：v2rayN 7.x Windows 客户端最新配置教程 (Xray/Sing-box双核心)">
+                  <div class="pagination-dir">
+                    <span>下一篇教程</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">v2rayN 7.x Windows 客户端最新配置教程 (Xray/Sing-box双核心)</div>
+                  <div class="pagination-meta">平台：Windows 教程 · 预计 7 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📖 返回配置教程中心 (30篇图文)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">✈ 搭配专线节点订阅推荐</a>
+                <a href="../windows/index.html" class="btn-pagination-nav">Windows专题</a>
+                <a href="../android/index.html" class="btn-pagination-nav">Android专题</a>
+                <a href="../ios/index.html" class="btn-pagination-nav">iOS专题</a>
+                <a href="../macos/index.html" class="btn-pagination-nav">macOS专题</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -265,6 +327,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

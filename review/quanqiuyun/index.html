@@ -45,6 +45,7 @@
 </script>
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -159,6 +160,41 @@
             <div style="text-align:center; margin-top:32px;">
               <a href="https://sswdh.gcvipaff.com/#/?code=9SF0oyg0" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="padding:12px 32px; font-size:1.05rem;">前往 全球云 官网订购 ↗</a>
             </div>
+
+            <!-- Review Navigation: 上一家 / 下一家机场评测导读 -->
+            <nav class="article-pagination-box" aria-label="机场评测上下篇导航">
+              <div class="pagination-header">
+                <span class="pagination-badge">✈ 14家品牌横向深度评测</span>
+                <span class="pagination-hint">对比查看其他经过真实压测的优质专线品牌</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../lingdongcloud/index.html" class="pagination-item prev-item" title="查看上一家：灵动云">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一家评测</span>
+                  </div>
+                  <div class="pagination-title">灵动云 深度测评</div>
+                  <div class="pagination-meta">起步：¥20 · 单GB: ¥0.2</div>
+                </a>
+
+                <a href="../breezenet/index.html" class="pagination-item next-item" title="查看下一家：微风网络 Breezenet">
+                  <div class="pagination-dir">
+                    <span>下一家评测</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">微风网络 Breezenet 深度测评</div>
+                  <div class="pagination-meta">起步：¥8 · 单GB: ¥0.04</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📑 返回全部评测列表</a>
+                <a href="../../compare/index.html" class="btn-pagination-nav btn-pagination-nav-accent">⚖ 机场在线横向对比工具</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav">🏆 2026综合实力排行榜</a>
+                <a href="../../ranking/value/index.html" class="btn-pagination-nav">💰 性价比单GB测算榜</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -256,6 +292,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

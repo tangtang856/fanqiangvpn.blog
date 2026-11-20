@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,13 +102,29 @@
               <p style="margin:4px 0 0;">完美适配 Apple Silicon M 系列芯片，原生运行极其省电，菜单栏常驻轻巧美观。</p>
             </div>
 
+            <!-- 教程快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📖</span>
+                <span>教程核心步骤导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#guide-sec-1">一、DMG 安装与安全性设置</a></li>
+                
+                <li><a href="#guide-sec-recom">🔥 实测高稳定性专线机场搭配</a></li>
+                <li><a href="#guide-sec-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#guide-sec-navigation">🧭 翻阅上下篇教程</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、DMG 安装与安全性设置</h2>
+              <h2 id="guide-sec-1">一、DMG 安装与安全性设置</h2>
               <div><p>从 GitHub 下载对应架构的 DMG 文件（M 系列芯片下载 <code>aarch64.dmg</code>，Intel 芯片下载 <code>x64.dmg</code>）。拖拽到 Applications 完成安装。若提示“无法打开未知名开发者应用”，前往“系统设置 -> 隐私与安全性”点击“仍要打开”。</p></div>
               
             
 
-            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+            <div id="guide-sec-recom" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
               <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
               <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -118,7 +135,7 @@
             </div>
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="guide-sec-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -143,6 +160,43 @@
                 </ul>
               </div>
             
+
+            <!-- Guide Navigation: 上一篇 / 下一篇教程连载导读 -->
+            <nav id="guide-sec-navigation" class="article-pagination-box" aria-label="教程上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">📖 教程连载导读</span>
+                <span class="pagination-hint">掌握当前教程后，点击翻阅上下篇进阶配置</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../ios-us-apple-id-guide/index.html" class="pagination-item prev-item" title="上一篇教程：免信用卡注册美区 Apple ID 购买小火箭完整图文教学 (2026保姆级)">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇教程</span>
+                  </div>
+                  <div class="pagination-title">免信用卡注册美区 Apple ID 购买小火箭完整图文教学 (2026保姆级)</div>
+                  <div class="pagination-meta">平台：iOS 教程 · 预计 10 分钟</div>
+                </a>
+
+                <a href="../surge-mac-tutorial/index.html" class="pagination-item next-item" title="下一篇教程：Surge Mac 终极网络工具入门指南 · 代理接管与抓包分流">
+                  <div class="pagination-dir">
+                    <span>下一篇教程</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">Surge Mac 终极网络工具入门指南 · 代理接管与抓包分流</div>
+                  <div class="pagination-meta">平台：macOS 教程 · 预计 9 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📖 返回配置教程中心 (30篇图文)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">✈ 搭配专线节点订阅推荐</a>
+                <a href="../windows/index.html" class="btn-pagination-nav">Windows专题</a>
+                <a href="../android/index.html" class="btn-pagination-nav">Android专题</a>
+                <a href="../ios/index.html" class="btn-pagination-nav">iOS专题</a>
+                <a href="../macos/index.html" class="btn-pagination-nav">macOS专题</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -240,6 +294,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

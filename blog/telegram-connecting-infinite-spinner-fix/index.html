@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,8 +102,32 @@
               <p style="margin:4px 0 0;">电脑和手机连了代理唯独电报死活连不上？教你在 TG 高级连接设置里正确挂载 SOCKS5。</p>
             </div>
 
+            <!-- 文章快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📑</span>
+                <span>本文快速阅读导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#section-1">一、🛑 故障特征定级与现象自查清单</a></li>
+                
+                  <li><a href="#section-2">二、⚡ 黄金5分钟快速自愈流程 (按顺序执行)</a></li>
+                
+                  <li><a href="#section-3">三、🛠️ 深度修复：命令行一键清理网络残留</a></li>
+                
+                  <li><a href="#section-4">四、🎒 极端时期的逃生备用网络军火库</a></li>
+                
+                  <li><a href="#section-5">五、🔒 根治预防：构建永不断连的高可用环境</a></li>
+                
+                <li><a href="#section-airports">🎯 相关实测推荐机场方案</a></li>
+                <li><a href="#section-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#section-navigation">🧭 翻阅上下篇科普干货</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、🛑 故障特征定级与现象自查清单</h2>
+              <h2 id="section-1">一、🛑 故障特征定级与现象自查清单</h2>
               <div><p>遇到突发网络故障时，切忌病急乱投医盲目改动配置。首先对照以下清单快速定位故障源头：</p>
       <ul>
         <li><strong>等级 A（全部超时）：</strong>客户端内所有节点测速均显示超时或 -1ms，无论是浏览器还是终端完全无法翻墙。</li>
@@ -110,7 +135,7 @@
         <li><strong>等级 C（关掉代理后电脑断网）：</strong>关闭客户端后，甚至连国内百度、微信都无法联网。</li>
       </ul></div>
             
-              <h2>二、⚡ 黄金5分钟快速自愈流程 (按顺序执行)</h2>
+              <h2 id="section-2">二、⚡ 黄金5分钟快速自愈流程 (按顺序执行)</h2>
               <div><p>面对突发断连，请严格按照以下标准化顺序排查：</p>
       <ol>
         <li><strong>第 1 分钟：检查本地系统时间。</strong>现代加密协议严格依赖时间戳同步，系统时间误差超过 90 秒会导致握手全部失败。右键任务栏时钟点击“立即同步”。</li>
@@ -119,7 +144,7 @@
         <li><strong>第 4 分钟：重置系统网络代理开关。</strong>进入 Windows“设置 -> 网络和 Internet -> 代理”，确保手动代理开关状态正常无残留锁定。</li>
       </ol></div>
             
-              <h2>三、🛠️ 深度修复：命令行一键清理网络残留</h2>
+              <h2 id="section-3">三、🛠️ 深度修复：命令行一键清理网络残留</h2>
               <div><p>若因软件非正常关闭导致电脑彻底无法上网，以管理员身份打开 CMD 或 PowerShell，逐行运行以下修复命令：</p>
       <pre style="background:#0f172a; color:#f8fafc; padding:14px; border-radius:8px; font-family:monospace; font-size:0.85rem; line-height:1.6; overflow-x:auto;"><code># 1. 强制清空本地 DNS 污染缓存
 ipconfig /flushdns
@@ -131,19 +156,19 @@ netsh winsock reset
 netsh int ip reset</code></pre>
       <p style="margin-top:10px;">执行完毕后重启电脑，网络即可彻底恢复初始健康状态。</p></div>
             
-              <h2>四、🎒 极端时期的逃生备用网络军火库</h2>
+              <h2 id="section-4">四、🎒 极端时期的逃生备用网络军火库</h2>
               <div><p>成熟用户绝不会把所有鸡蛋放在同一个篮子里。我们强烈建议手头常备：</p>
       <ul>
         <li><strong>备选冗余机场：</strong>推荐常备一个像<strong>飞V</strong>这样的低门槛按量不限时套餐，平日里不花月租，关键时刻作为应急救生艇随时顶上。</li>
         <li><strong>小众冷门地区节点：</strong>在香港、日本等热门地区大堵车时，主动切换至英国、德国或台湾节点，往往能有出其不意的极速体验。</li>
       </ul></div>
             
-              <h2>五、🔒 根治预防：构建永不断连的高可用环境</h2>
+              <h2 id="section-5">五、🔒 根治预防：构建永不断连的高可用环境</h2>
               <div><p>在日常配置中，可利用 Clash 的 <code>fallback</code> 策略组机制，将两家不同机场的专线节点聚合进同一选择器中。客户端会自动以固定间隔检测连通性，当主节点出现故障瞬间，系统将在零点几秒内无感切换至备用节点，真正实现 365 天永不掉线的极致体验。</p></div>
             
 
             
-              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
+              <div id="section-airports" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
                 <h3 style="margin-top:0; font-size:1.15rem; color:#0f172a;">🎯 本文相关实测推荐机场方案</h3>
                 <p style="font-size:0.875rem; color:#64748b; margin-bottom:16px;">结合本文讨论的技术场景，以下机场节点经长期压测表现优异：</p>
                 <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
@@ -189,7 +214,7 @@ netsh int ip reset</code></pre>
             
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="section-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -216,9 +241,47 @@ netsh int ip reset</code></pre>
                   
                     <li><a href="../subscription-link-update-failed-error-solutions/index.html" style="font-size:0.95rem; font-weight:500;">📝 订阅链接更新失败 (Network Error / Format Error) 的8种排查绝招</a></li>
                   
+                    <li><a href="../dns-poisoning-cleaning-and-browser-cache-flush/index.html" style="font-size:0.95rem; font-weight:500;">📝 本地DNS污染清洗指南：Windows/Mac一键刷新DNS缓存实操</a></li>
+                  
                 </ul>
               </div>
             
+
+            <!-- Section Navigation: 上一篇 / 下一篇智能连载导读 -->
+            <nav id="section-navigation" class="article-pagination-box" aria-label="文章上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">🧭 智能文章导读</span>
+                <span class="pagination-hint">已阅读完本文，点击翻阅上下篇继续探索</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../chatgpt-access-denied-error-1020-bypass-tips/index.html" class="pagination-item prev-item" title="上一篇：ChatGPT 报错 Access Denied 1020 或 IP 被拉黑的终极解决技巧">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇科普</span>
+                  </div>
+                  <div class="pagination-title">ChatGPT 报错 Access Denied 1020 或 IP 被拉黑的终极解决技巧</div>
+                  <div class="pagination-meta">专栏：排障与实战技巧 · 7 分钟</div>
+                </a>
+
+                <a href="../ios-shadowrocket-all-timeout-diagnostic-guide/index.html" class="pagination-item next-item" title="下一篇：小火箭 Shadowrocket 节点全部超时显示感叹号？5步排查法">
+                  <div class="pagination-dir">
+                    <span>下一篇科普</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">小火箭 Shadowrocket 节点全部超时显示感叹号？5步排查法</div>
+                  <div class="pagination-meta">专栏：排障与实战技巧 · 9 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📚 返回科普专栏 (100篇目录)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">🏆 2026综合实力排行榜</a>
+                <a href="../../ranking/value/index.html" class="btn-pagination-nav">💰 性价比单GB测算榜</a>
+                <a href="../../guides/index.html" class="btn-pagination-nav">📖 全平台客户端教程</a>
+                <a href="../../compare/index.html" class="btn-pagination-nav">⚖ 机场在线对比工具</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -316,6 +379,12 @@ netsh int ip reset</code></pre>
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

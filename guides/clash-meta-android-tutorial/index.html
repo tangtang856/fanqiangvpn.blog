@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,17 +102,35 @@
               <p style="margin:4px 0 0;">安卓平台上最成熟稳健的代理客户端。本文详细演示如何导入机场订阅配置、选择分流节点，并设置分应用代理以避免国内 APP 误走代理。</p>
             </div>
 
+            <!-- 教程快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📖</span>
+                <span>教程核心步骤导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#guide-sec-1">一、CMFA 客户端获取与安装</a></li>
+                
+                  <li><a href="#guide-sec-2">二、配置导入与分应用代理 (核心技巧)</a></li>
+                
+                <li><a href="#guide-sec-recom">🔥 实测高稳定性专线机场搭配</a></li>
+                <li><a href="#guide-sec-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#guide-sec-navigation">🧭 翻阅上下篇教程</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、CMFA 客户端获取与安装</h2>
+              <h2 id="guide-sec-1">一、CMFA 客户端获取与安装</h2>
               <div><p>原版 Clash for Android 已下架，目前主流维护版本为 <strong>Clash Meta for Android (简称 CMFA)</strong>。支持最新的 Xray 与 Mihomo 协议。建议从 GitHub Release 下载适合你手机 CPU 架构的 APK（现代安卓机一般选择 <code>arm64-v8a</code>）。</p></div>
               
             
-              <h2>二、配置导入与分应用代理 (核心技巧)</h2>
+              <h2 id="guide-sec-2">二、配置导入与分应用代理 (核心技巧)</h2>
               <div><p>点击“配置” -> “新配置” -> “URL”，粘贴机场提供的订阅链接，点击右上角保存并下载。回到主页点击“配置”激活刚刚导入的卡片。</p><p>进入“设置” -> “网络” -> 勾选 <strong>“自动绕过局域网”</strong>；点击 <strong>“分应用代理”</strong>，勾选“仅允许已勾选的应用使用代理”，然后只勾选海外软件（如 Chrome、YouTube、Twitter、Telegram、ChatGPT），国内软件完全直连，既省流量又省电！</p></div>
               
             
 
-            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+            <div id="guide-sec-recom" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
               <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
               <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -122,7 +141,7 @@
             </div>
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="guide-sec-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -144,9 +163,48 @@
                   
                     <li><a href="../nekobox-android-tutorial/index.html" style="font-size:0.95rem; font-weight:500;">📖 NekoBox for Android 极致多协议客户端使用全攻略</a></li>
                   
+                    <li><a href="../hiddify-android-tutorial/index.html" style="font-size:0.95rem; font-weight:500;">📖 Hiddify Android 手机端一键连接与节点自动测速指南</a></li>
+                  
                 </ul>
               </div>
             
+
+            <!-- Guide Navigation: 上一篇 / 下一篇教程连载导读 -->
+            <nav id="guide-sec-navigation" class="article-pagination-box" aria-label="教程上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">📖 教程连载导读</span>
+                <span class="pagination-hint">掌握当前教程后，点击翻阅上下篇进阶配置</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../windows-tun-mode-setup/index.html" class="pagination-item prev-item" title="上一篇教程：Windows 全局 TUN 模式虚拟网卡深度配置指南 (游戏/Git/全系统代理)">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇教程</span>
+                  </div>
+                  <div class="pagination-title">Windows 全局 TUN 模式虚拟网卡深度配置指南 (游戏/Git/全系统代理)</div>
+                  <div class="pagination-meta">平台：Windows 教程 · 预计 9 分钟</div>
+                </a>
+
+                <a href="../v2rayng-android-tutorial/index.html" class="pagination-item next-item" title="下一篇教程：v2rayNG 安卓手机客户端快速入门与使用教程">
+                  <div class="pagination-dir">
+                    <span>下一篇教程</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">v2rayNG 安卓手机客户端快速入门与使用教程</div>
+                  <div class="pagination-meta">平台：Android 教程 · 预计 6 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📖 返回配置教程中心 (30篇图文)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">✈ 搭配专线节点订阅推荐</a>
+                <a href="../windows/index.html" class="btn-pagination-nav">Windows专题</a>
+                <a href="../android/index.html" class="btn-pagination-nav">Android专题</a>
+                <a href="../ios/index.html" class="btn-pagination-nav">iOS专题</a>
+                <a href="../macos/index.html" class="btn-pagination-nav">macOS专题</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -244,6 +302,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

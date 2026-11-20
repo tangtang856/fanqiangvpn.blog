@@ -24,6 +24,7 @@
   
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   
   <header class="site-header">
     <div class="container header-inner">
@@ -101,13 +102,29 @@
               <p style="margin:4px 0 0;">软件里显示的几十毫秒绿色数值往往只是 ICMP 假握手！掌握真正的测速方法才能准确评估机场性价比。</p>
             </div>
 
+            <!-- 教程快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📖</span>
+                <span>教程核心步骤导航</span>
+              </div>
+              <ul class="article-toc-list">
+                
+                  <li><a href="#guide-sec-1">一、为什么客户端测速数字不可全信？</a></li>
+                
+                <li><a href="#guide-sec-recom">🔥 实测高稳定性专线机场搭配</a></li>
+                <li><a href="#guide-sec-faq">❓ 常见问题解答 (FAQ)</a></li>
+                <li><a href="#guide-sec-navigation">🧭 翻阅上下篇教程</a></li>
+              </ul>
+            </div>
+
             
-              <h2>一、为什么客户端测速数字不可全信？</h2>
+              <h2 id="guide-sec-1">一、为什么客户端测速数字不可全信？</h2>
               <div><p>许多机场设置了国内中转入口，客户端测试的延迟往往只是你到国内入口机器的延迟（Ping 只要 15ms），而入口到境外落地机的越洋传输延迟甚至可能高达 300ms 且严重丢包。必须用真实 TCP/HTTP 下载流量来测定性能。</div>
               
             
 
-            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+            <div id="guide-sec-recom" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
               <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
               <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -118,7 +135,7 @@
             </div>
 
             
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="guide-sec-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -143,6 +160,43 @@
                 </ul>
               </div>
             
+
+            <!-- Guide Navigation: 上一篇 / 下一篇教程连载导读 -->
+            <nav id="guide-sec-navigation" class="article-pagination-box" aria-label="教程上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">📖 教程连载导读</span>
+                <span class="pagination-hint">掌握当前教程后，点击翻阅上下篇进阶配置</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../dns-leak-prevention-tutorial/index.html" class="pagination-item prev-item" title="上一篇教程：翻墙如何防止 DNS 泄露？Fake-IP 与 DoH 终极防护教学">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇教程</span>
+                  </div>
+                  <div class="pagination-title">翻墙如何防止 DNS 泄露？Fake-IP 与 DoH 终极防护教学</div>
+                  <div class="pagination-meta">平台：进阶调优 · 预计 9 分钟</div>
+                </a>
+
+                <a href="../clash-verge-rev-windows-tutorial/index.html" class="pagination-item next-item" title="下一篇教程：Clash Verge Rev Windows 图文配置全教程 (Mihomo内核与TUN模式)">
+                  <div class="pagination-dir">
+                    <span>下一篇教程</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">Clash Verge Rev Windows 图文配置全教程 (Mihomo内核与TUN模式)</div>
+                  <div class="pagination-meta">平台：Windows 教程 · 预计 8 分钟</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📖 返回配置教程中心 (30篇图文)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">✈ 搭配专线节点订阅推荐</a>
+                <a href="../windows/index.html" class="btn-pagination-nav">Windows专题</a>
+                <a href="../android/index.html" class="btn-pagination-nav">Android专题</a>
+                <a href="../ios/index.html" class="btn-pagination-nav">iOS专题</a>
+                <a href="../macos/index.html" class="btn-pagination-nav">macOS专题</a>
+              </div>
+            </nav>
           </div>
         </div>
         
@@ -240,6 +294,12 @@
     </div>
   </footer>
   
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="../../js/main.js" defer></script>
   

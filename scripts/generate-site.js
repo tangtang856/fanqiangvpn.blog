@@ -208,6 +208,7 @@ function renderHtmlPage({
   ${schemaScript}
 </head>
 <body>
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
   ${renderHeader(depth, activeTab)}
   ${breadcrumbsHtml}
   
@@ -216,6 +217,12 @@ function renderHtmlPage({
   </main>
 
   ${renderFooter(depth)}
+
+  <div id="floatingTools" class="floating-tools" aria-label="快捷工具栏">
+    <button id="backToTopBtn" class="floating-btn" title="返回顶部" aria-label="返回顶部">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+  </div>
 
   <script src="${rel}js/main.js" defer></script>
   ${extraScripts ? `${extraScripts}` : ''}
@@ -1298,7 +1305,9 @@ function generateAirportAndReviewPages() {
   writeHtml('review/index.html', reviewIndexHtml);
 
   // 4.2 生成每家机场的资料页 airport/[slug]/index.html 与评测页 review/[slug]/index.html
-  airports.forEach(airport => {
+  airports.forEach((airport, index) => {
+    const prevAirport = index > 0 ? airports[index - 1] : airports[airports.length - 1];
+    const nextAirport = index < airports.length - 1 ? airports[index + 1] : airports[0];
     const couponNotice = airport.coupon ? `<div class="alert-box alert-tip"><strong>专属优惠码：</strong> 结算时输入 <code>${airport.coupon}</code> 可享受专属折扣优惠！</div>` : '';
 
     // 资料页
@@ -1487,6 +1496,41 @@ function generateAirportAndReviewPages() {
             <div style="text-align:center; margin-top:32px;">
               <a href="${airport.affiliateUrl}" target="_blank" rel="noopener noreferrer nofollow" class="btn btn-primary" style="padding:12px 32px; font-size:1.05rem;">前往 ${airport.name} 官网订购 ↗</a>
             </div>
+
+            <!-- Review Navigation: 上一家 / 下一家机场评测导读 -->
+            <nav class="article-pagination-box" aria-label="机场评测上下篇导航">
+              <div class="pagination-header">
+                <span class="pagination-badge">✈ 14家品牌横向深度评测</span>
+                <span class="pagination-hint">对比查看其他经过真实压测的优质专线品牌</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../${prevAirport.slug}/index.html" class="pagination-item prev-item" title="查看上一家：${prevAirport.name}">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一家评测</span>
+                  </div>
+                  <div class="pagination-title">${prevAirport.name} 深度测评</div>
+                  <div class="pagination-meta">起步：¥${prevAirport.startingPrice} · 单GB: ¥${prevAirport.plans[0].calculatedUnitPrice}</div>
+                </a>
+
+                <a href="../${nextAirport.slug}/index.html" class="pagination-item next-item" title="查看下一家：${nextAirport.name}">
+                  <div class="pagination-dir">
+                    <span>下一家评测</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">${nextAirport.name} 深度测评</div>
+                  <div class="pagination-meta">起步：¥${nextAirport.startingPrice} · 单GB: ¥${nextAirport.plans[0].calculatedUnitPrice}</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📑 返回全部评测列表</a>
+                <a href="../../compare/index.html" class="btn-pagination-nav btn-pagination-nav-accent">⚖ 机场在线横向对比工具</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav">🏆 2026综合实力排行榜</a>
+                <a href="../../ranking/value/index.html" class="btn-pagination-nav">💰 性价比单GB测算榜</a>
+              </div>
+            </nav>
           </div>
         </div>
         ${renderSidebar(2)}
@@ -1707,8 +1751,10 @@ function generateGuidePages() {
   writeHtml('guides/index.html', guidesIndexHtml);
 
   // 6.1 逐一生成全部 30 篇图文教程独立页面
-  guidesData.forEach(guide => {
-    const related = guidesData.filter(g => g.platform === guide.platform && g.slug !== guide.slug).slice(0, 3);
+  guidesData.forEach((guide, index) => {
+    const prevGuide = index > 0 ? guidesData[index - 1] : guidesData[guidesData.length - 1];
+    const nextGuide = index < guidesData.length - 1 ? guidesData[index + 1] : guidesData[0];
+    const related = guidesData.filter(g => g.platform === guide.platform && g.slug !== guide.slug).slice(0, 4);
 
     const guideHtml = renderHtmlPage({
       depth: 2,
@@ -1742,8 +1788,24 @@ function generateGuidePages() {
               <p style="margin:4px 0 0;">${guide.summary}</p>
             </div>
 
-            ${guide.sections.map(sec => `
-              <h2>${sec.h2}</h2>
+            <!-- 教程快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📖</span>
+                <span>教程核心步骤导航</span>
+              </div>
+              <ul class="article-toc-list">
+                ${guide.sections.map((sec, idx) => `
+                  <li><a href="#guide-sec-${idx + 1}">${sec.h2}</a></li>
+                `).join('')}
+                <li><a href="#guide-sec-recom">🔥 实测高稳定性专线机场搭配</a></li>
+                ${guide.faq && guide.faq.length > 0 ? `<li><a href="#guide-sec-faq">❓ 常见问题解答 (FAQ)</a></li>` : ''}
+                <li><a href="#guide-sec-navigation">🧭 翻阅上下篇教程</a></li>
+              </ul>
+            </div>
+
+            ${guide.sections.map((sec, idx) => `
+              <h2 id="guide-sec-${idx + 1}">${sec.h2}</h2>
               <div>${sec.content}</div>
               ${sec.callout ? `
                 <div class="alert-box alert-${sec.callout.type || 'tip'}">
@@ -1752,7 +1814,7 @@ function generateGuidePages() {
               ` : ''}
             `).join('')}
 
-            <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
+            <div id="guide-sec-recom" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:32px 0;">
               <h3 style="margin-top:0; color:#1e40af; font-size:1.15rem;">🔥 2026年度实测高稳定性物理专线机场推荐</h3>
               <p style="font-size:0.9rem; color:#1e3a8a; margin-bottom:14px;">有了好用的客户端，更需要搭配延迟低、晚高峰不卡顿的优质内网专线节点订阅。以下为本站长期监测的标杆品牌：</p>
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -1763,7 +1825,7 @@ function generateGuidePages() {
             </div>
 
             ${guide.faq && guide.faq.length > 0 ? `
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="guide-sec-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 ${guide.faq.map(item => `
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -1784,6 +1846,43 @@ function generateGuidePages() {
                 </ul>
               </div>
             ` : ''}
+
+            <!-- Guide Navigation: 上一篇 / 下一篇教程连载导读 -->
+            <nav id="guide-sec-navigation" class="article-pagination-box" aria-label="教程上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">📖 教程连载导读</span>
+                <span class="pagination-hint">掌握当前教程后，点击翻阅上下篇进阶配置</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../${prevGuide.slug}/index.html" class="pagination-item prev-item" title="上一篇教程：${prevGuide.title}">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇教程</span>
+                  </div>
+                  <div class="pagination-title">${prevGuide.title}</div>
+                  <div class="pagination-meta">平台：${prevGuide.platformName} · 预计 ${prevGuide.readTime}</div>
+                </a>
+
+                <a href="../${nextGuide.slug}/index.html" class="pagination-item next-item" title="下一篇教程：${nextGuide.title}">
+                  <div class="pagination-dir">
+                    <span>下一篇教程</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">${nextGuide.title}</div>
+                  <div class="pagination-meta">平台：${nextGuide.platformName} · 预计 ${nextGuide.readTime}</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📖 返回配置教程中心 (30篇图文)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">✈ 搭配专线节点订阅推荐</a>
+                <a href="../windows/index.html" class="btn-pagination-nav">Windows专题</a>
+                <a href="../android/index.html" class="btn-pagination-nav">Android专题</a>
+                <a href="../ios/index.html" class="btn-pagination-nav">iOS专题</a>
+                <a href="../macos/index.html" class="btn-pagination-nav">macOS专题</a>
+              </div>
+            </nav>
           </div>
         </div>
         ${renderSidebar(2)}
@@ -2002,8 +2101,10 @@ function generateBlogPages() {
   writeHtml('blog/index.html', blogIndexHtml);
 
   // 7.1 逐一生成全部 100 篇独立文章页面
-  articlesData.forEach(art => {
-    const related = articlesData.filter(a => a.cluster === art.cluster && a.slug !== art.slug).slice(0, 3);
+  articlesData.forEach((art, index) => {
+    const prevArt = index > 0 ? articlesData[index - 1] : articlesData[articlesData.length - 1];
+    const nextArt = index < articlesData.length - 1 ? articlesData[index + 1] : articlesData[0];
+    const related = articlesData.filter(a => a.cluster === art.cluster && a.slug !== art.slug).slice(0, 4);
     const matchedAirports = (art.airports || []).map(id => airports.find(a => a.id === id || a.slug === id)).filter(Boolean);
 
     const articleHtml = renderHtmlPage({
@@ -2038,13 +2139,29 @@ function generateBlogPages() {
               <p style="margin:4px 0 0;">${art.description}</p>
             </div>
 
-            ${art.h2List.map(item => `
-              <h2>${item.h2}</h2>
+            <!-- 文章快速阅读目录导航 -->
+            <div class="article-toc-box">
+              <div class="article-toc-header">
+                <span>📑</span>
+                <span>本文快速阅读导航</span>
+              </div>
+              <ul class="article-toc-list">
+                ${art.h2List.map((item, idx) => `
+                  <li><a href="#section-${idx + 1}">${item.h2}</a></li>
+                `).join('')}
+                ${matchedAirports.length > 0 ? `<li><a href="#section-airports">🎯 相关实测推荐机场方案</a></li>` : ''}
+                ${art.faqs && art.faqs.length > 0 ? `<li><a href="#section-faq">❓ 常见问题解答 (FAQ)</a></li>` : ''}
+                <li><a href="#section-navigation">🧭 翻阅上下篇科普干货</a></li>
+              </ul>
+            </div>
+
+            ${art.h2List.map((item, idx) => `
+              <h2 id="section-${idx + 1}">${item.h2}</h2>
               <div>${item.content}</div>
             `).join('')}
 
             ${matchedAirports.length > 0 ? `
-              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
+              <div id="section-airports" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:32px 0;">
                 <h3 style="margin-top:0; font-size:1.15rem; color:#0f172a;">🎯 本文相关实测推荐机场方案</h3>
                 <p style="font-size:0.875rem; color:#64748b; margin-bottom:16px;">结合本文讨论的技术场景，以下机场节点经长期压测表现优异：</p>
                 <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
@@ -2066,7 +2183,7 @@ function generateBlogPages() {
             ` : ''}
 
             ${art.faqs && art.faqs.length > 0 ? `
-              <h2>常见问题解答 (FAQ)</h2>
+              <h2 id="section-faq">常见问题解答 (FAQ)</h2>
               <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px;">
                 ${art.faqs.map(item => `
                   <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px;">
@@ -2087,6 +2204,42 @@ function generateBlogPages() {
                 </ul>
               </div>
             ` : ''}
+
+            <!-- Section Navigation: 上一篇 / 下一篇智能连载导读 -->
+            <nav id="section-navigation" class="article-pagination-box" aria-label="文章上下篇导读">
+              <div class="pagination-header">
+                <span class="pagination-badge">🧭 智能文章导读</span>
+                <span class="pagination-hint">已阅读完本文，点击翻阅上下篇继续探索</span>
+              </div>
+
+              <div class="pagination-grid">
+                <a href="../${prevArt.slug}/index.html" class="pagination-item prev-item" title="上一篇：${prevArt.title}">
+                  <div class="pagination-dir">
+                    <span>←</span>
+                    <span>上一篇科普</span>
+                  </div>
+                  <div class="pagination-title">${prevArt.title}</div>
+                  <div class="pagination-meta">专栏：${prevArt.clusterName || '深度科普'} · ${prevArt.readTime || '8分钟'}</div>
+                </a>
+
+                <a href="../${nextArt.slug}/index.html" class="pagination-item next-item" title="下一篇：${nextArt.title}">
+                  <div class="pagination-dir">
+                    <span>下一篇科普</span>
+                    <span>→</span>
+                  </div>
+                  <div class="pagination-title">${nextArt.title}</div>
+                  <div class="pagination-meta">专栏：${nextArt.clusterName || '深度科普'} · ${nextArt.readTime || '8分钟'}</div>
+                </a>
+              </div>
+
+              <div class="pagination-footer-nav">
+                <a href="../index.html" class="btn-pagination-nav">📚 返回科普专栏 (100篇目录)</a>
+                <a href="../../ranking/overall/index.html" class="btn-pagination-nav btn-pagination-nav-accent">🏆 2026综合实力排行榜</a>
+                <a href="../../ranking/value/index.html" class="btn-pagination-nav">💰 性价比单GB测算榜</a>
+                <a href="../../guides/index.html" class="btn-pagination-nav">📖 全平台客户端教程</a>
+                <a href="../../compare/index.html" class="btn-pagination-nav">⚖ 机场在线对比工具</a>
+              </div>
+            </nav>
           </div>
         </div>
         ${renderSidebar(2)}
