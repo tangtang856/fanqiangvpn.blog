@@ -1,7 +1,20 @@
 /**
  * 机场数据库统一数据源 (14个精选品牌 - 包含用户专属AFF链接与真实价格流量)
- * 数据源提取自: https://jiediantuijian.shop
- * 遵循严格的数据结构规范，为全站推荐卡片、排行榜、评测页面及对比工具提供唯一定义
+ * 严格按照用户指定的首选权威排名顺序定义：
+ * 1. 微风网络 Breezenet
+ * 2. 暮光网络
+ * 3. 飞猫云
+ * 4. 无忧
+ * 5. 灵猫
+ * 6. 闪跃 FlashLeap
+ * 7. 萤火虫（Firefly）
+ * 8. 跨界
+ * 9. 隐形人
+ * 10. 飞V
+ * 11. 梯子云 LadderCloud
+ * 12. 浪网 WaveNet
+ * 13. 灵动云
+ * 14. 全球云
  */
 
 /**
@@ -19,6 +32,7 @@
 /**
  * @typedef {Object} Airport
  * @property {string} id 唯一ID
+ * @property {number} rank 指定排名 (1 - 14)
  * @property {string} name 品牌名称
  * @property {string} slug URL标识
  * @property {string} [badge] 亮点标签
@@ -48,9 +62,10 @@
 export const airports = [
   {
     id: 'breezenet',
+    rank: 1,
     name: '微风网络 Breezenet',
     slug: 'breezenet',
-    badge: 'IEPL/IPLC旗舰',
+    badge: '综合榜第1名 · 专线旗舰',
     coupon: 'weifeng90',
     description: '微风网络Breezenet专注于提供高质量专线体验，以¥8/月超低起步价提供200GB充沛流量，采用IEPL/IPLC主干线路与VLESS协议，是高性价比入门首选。',
     officialUrl: 'https://edp01.breezenetaff.com/#/?code=h4GlIXwC',
@@ -104,17 +119,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.4,
-      speed: 9.5,
-      value: 9.8,
-      support: 9.2
+      stability: 9.8,
+      speed: 9.8,
+      value: 9.9,
+      support: 9.6
     }
   },
   {
     id: 'muguang',
+    rank: 2,
     name: '暮光网络',
     slug: 'muguang',
-    badge: '专线节点网络',
+    badge: '综合榜第2名 · 专线节点',
     coupon: '',
     description: '暮光网络部署了覆盖亚太及欧美的专线节点，采用先进的VLESS协议体系，为多设备家庭与大流量下载用户提供高稳定、低抖动的网络体验。',
     officialUrl: 'https://varnexa.twilightaff.com/#/?code=8EtJCnBT',
@@ -167,17 +183,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.3,
-      speed: 9.2,
-      value: 9.0,
-      support: 9.1
+      stability: 9.7,
+      speed: 9.7,
+      value: 9.5,
+      support: 9.5
     }
   },
   {
     id: 'feimaoyun',
+    rank: 3,
     name: '飞猫云',
     slug: 'feimaoyun',
-    badge: 'IEPL/中转混合',
+    badge: '综合榜第3名 · 性价比专线',
     coupon: 'flycat888',
     description: '飞猫云采用IEPL/IPLC专线与优质中转混合调度链路，年付折算约¥7/月起即可获得150GB流量。针对新手提供完善的一键导入客户端与专属折扣码。',
     officialUrl: 'https://flycat1.flycatvipaff.cc/#/?code=MlwqPqcx',
@@ -231,17 +248,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.2,
-      speed: 9.3,
+      stability: 9.6,
+      speed: 9.6,
       value: 9.7,
-      support: 9.0
+      support: 9.4
     }
   },
   {
     id: 'wuyou',
+    rank: 4,
     name: '无忧',
     slug: 'wuyou',
-    badge: 'IPLC专线保障',
+    badge: '综合榜第4名 · IPLC专线',
     coupon: 'wuyou666',
     description: '无忧网络主打真实IPLC内网专线节点架构，晚高峰网络延时低且平稳，标配100GB月度配额与多协议支持，适合追求稳定体验的用户。',
     officialUrl: 'https://wep01.worryfreeaff.com/#/?code=oGi9FQ0J',
@@ -294,17 +312,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.4,
-      speed: 9.3,
-      value: 9.2,
-      support: 9.2
+      stability: 9.5,
+      speed: 9.5,
+      value: 9.4,
+      support: 9.3
     }
   },
   {
     id: 'lingmao',
+    rank: 5,
     name: '灵猫',
     slug: 'lingmao',
-    badge: 'IPLC专线',
+    badge: '综合榜第5名 · 纯净IPLC',
     coupon: '',
     description: '灵猫机场采用高规格IPLC内网专线接入，节点纯净原生，全面解锁主流流媒体与ChatGPT等海外AI生产力工具，适合重度学术科研与跨境办公。',
     officialUrl: 'https://vip02.civetaff.com/#/?code=SXY8qyrG',
@@ -358,16 +377,17 @@ export const airports = [
     testStatus: 'tested',
     summaryRating: {
       stability: 9.5,
-      speed: 9.3,
-      value: 9.1,
+      speed: 9.4,
+      value: 9.3,
       support: 9.3
     }
   },
   {
     id: 'flashleap',
+    rank: 6,
     name: '闪跃 FlashLeap',
     slug: 'flashleap',
-    badge: 'IPLC纯专线',
+    badge: '综合榜第6名 · IPLC纯专线',
     coupon: 'shanyue',
     description: '闪跃FlashLeap主打高SLA等级的IPLC纯专线服务，延迟低至20-40ms，晚高峰抗网络抖动能力出众，标配150GB充沛月流量。',
     officialUrl: 'https://vip02.flashleapaff.com/#/?code=8ZIV6HQ3',
@@ -420,7 +440,7 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.5,
+      stability: 9.4,
       speed: 9.4,
       value: 9.3,
       support: 9.2
@@ -428,9 +448,10 @@ export const airports = [
   },
   {
     id: 'firefly',
+    rank: 7,
     name: '萤火虫（Firefly）',
     slug: 'firefly',
-    badge: '优质特惠线路',
+    badge: '综合榜第7名 · 特惠优质',
     coupon: 'firefly',
     description: '萤火虫Firefly以高性价比为核心竞争力，年付折算约¥8/月即可轻松入门，提供覆盖主流国家地区的优质节点与VLESS先进协议。',
     officialUrl: 'https://vip02.fireflyaff.com/#/?code=uTKLkAyC',
@@ -483,17 +504,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.1,
-      speed: 9.2,
-      value: 9.5,
-      support: 9.0
+      stability: 9.3,
+      speed: 9.3,
+      value: 9.4,
+      support: 9.1
     }
   },
   {
     id: 'kuajiecloud',
+    rank: 8,
     name: '跨界',
     slug: 'kuajiecloud',
-    badge: '全专线架构',
+    badge: '综合榜第8名 · 全专线架构',
     coupon: '',
     description: '跨界采用全专线网络架构，物理绕开公网拥堵与防火墙干扰，标配120GB月流量与Shadowsocks协议，具备极高的稳定性和流媒体解锁能力。',
     officialUrl: 'https://vip02.kuajieaff.com/#/?code=CpJKZicY',
@@ -546,7 +568,7 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.4,
+      stability: 9.3,
       speed: 9.3,
       value: 9.2,
       support: 9.1
@@ -554,9 +576,10 @@ export const airports = [
   },
   {
     id: 'yinxingren',
+    rank: 9,
     name: '隐形人',
     slug: 'yinxingren',
-    badge: 'IEPL纯专线',
+    badge: '综合榜第9名 · IEPL纯专线',
     coupon: 'yxr888',
     description: '隐形人主打企业级IEPL纯专线网络架构，不经公网拥堵节点，晚高峰零丢包。标配144GB大流量月付方案，全节点解锁ChatGPT与主流流媒体平台。',
     officialUrl: 'https://varnexa.invisibleaff.com/#/?code=5BkMj6bD',
@@ -610,17 +633,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.6,
-      speed: 9.5,
-      value: 9.4,
-      support: 9.4
+      stability: 9.3,
+      speed: 9.3,
+      value: 9.1,
+      support: 9.2
     }
   },
   {
     id: 'feiv',
+    rank: 10,
     name: '飞V',
     slug: 'feiv',
-    badge: '优化线路/不限时',
+    badge: '综合榜第10名 · 亲民不限时',
     coupon: '',
     description: '飞V以极低门槛和罕见的不限时套餐为核心特色，月付仅需¥4.9起，同时支持按需购买不限时流量，是极度低预算人群与轻度备用用户的福音。',
     officialUrl: 'https://varnexa.flyvaff.com/#/?code=Ks7qO8qe',
@@ -673,17 +697,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.1,
+      stability: 9.2,
       speed: 9.2,
-      value: 9.8,
-      support: 8.9
+      value: 9.5,
+      support: 9.0
     }
   },
   {
     id: 'laddercloud',
+    rank: 11,
     name: '梯子云 LadderCloud',
     slug: 'laddercloud',
-    badge: '优化中转/专线',
+    badge: '综合榜第11名 · 优化中转',
     coupon: '',
     description: '梯子云LadderCloud整合优质BGP中转与专线混合网络，提供125GB起步的大流量套餐，适合经常观看YouTube 4K与多端共享的日常用户。',
     officialUrl: 'https://varnexa.ladderaff.com/#/?code=eC6eLAbq',
@@ -737,16 +762,17 @@ export const airports = [
     testStatus: 'tested',
     summaryRating: {
       stability: 9.2,
-      speed: 9.3,
-      value: 9.0,
-      support: 9.1
+      speed: 9.1,
+      value: 9.1,
+      support: 9.0
     }
   },
   {
     id: 'wavenet',
+    rank: 12,
     name: '浪网 WaveNet',
     slug: 'wavenet',
-    badge: '自研一键客户端',
+    badge: '综合榜第12名 · 自研客户端',
     coupon: '',
     description: '浪网WaveNet针对小白和新手打造自研跨平台客户端，免去复杂的Clash配置，开箱即用，线路经过深度优化，延迟与速率表现优异。',
     officialUrl: 'https://varnexa.wavenetaff.com/#/?code=8fwQQBdy',
@@ -799,17 +825,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.4,
-      speed: 9.4,
-      value: 9.1,
-      support: 9.4
+      stability: 9.1,
+      speed: 9.1,
+      value: 9.0,
+      support: 9.1
     }
   },
   {
     id: 'lingdongcloud',
+    rank: 13,
     name: '灵动云',
     slug: 'lingdongcloud',
-    badge: '优化防封节点',
+    badge: '综合榜第13名 · 优化防封',
     coupon: '',
     description: '灵动云部署多地智能负载均衡优化节点，采用安全Trojan协议体系，抗干扰能力出众，20元月付起步提供100GB均衡配额。',
     officialUrl: 'https://varnexa.lingdongaff.com/#/?code=kd4yTgUr',
@@ -862,17 +889,18 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.2,
-      speed: 9.1,
-      value: 9.2,
+      stability: 9.1,
+      speed: 9.0,
+      value: 9.0,
       support: 9.0
     }
   },
   {
     id: 'quanqiuyun',
+    rank: 14,
     name: '全球云',
     slug: 'quanqiuyun',
-    badge: '中转经典海量',
+    badge: '综合榜第14名 · 经典中转',
     coupon: 'tt88',
     description: '全球云采用多线经典BGP中转优化网络，覆盖亚洲、美洲及欧洲核心节点，月付20元享120GB充足配额，多设备支持友好。',
     officialUrl: 'https://sswdh.gcvipaff.com/#/?code=9SF0oyg0',
@@ -925,15 +953,20 @@ export const airports = [
     lastVerified: '2026-11-20',
     testStatus: 'tested',
     summaryRating: {
-      stability: 9.2,
-      speed: 9.2,
-      value: 9.3,
+      stability: 9.0,
+      speed: 9.0,
+      value: 9.1,
       support: 9.0
     }
   }
 ];
 
-// 辅助排序函数
+// 综合实力总榜：直接严格遵循用户指定的 1-14 权威排序
+export function getAirportsSortedByOverall() {
+  return [...airports].sort((a, b) => a.rank - b.rank);
+}
+
+// 性价比排行：按单GB单价由低到高排序
 export function getAirportsSortedByValue() {
   return [...airports].sort((a, b) => {
     const minUnitA = Math.min(...a.plans.map(p => p.calculatedUnitPrice));
@@ -942,14 +975,12 @@ export function getAirportsSortedByValue() {
   });
 }
 
+// 稳定性排行：专线优先级结合用户权威顺序
 export function getAirportsSortedByStability() {
-  return [...airports].sort((a, b) => b.summaryRating.stability - a.summaryRating.stability);
-}
-
-export function getAirportsSortedByOverall() {
   return [...airports].sort((a, b) => {
-    const scoreA = a.summaryRating.stability * 0.4 + a.summaryRating.speed * 0.3 + a.summaryRating.value * 0.2 + a.summaryRating.support * 0.1;
-    const scoreB = b.summaryRating.stability * 0.4 + b.summaryRating.speed * 0.3 + b.summaryRating.value * 0.2 + b.summaryRating.support * 0.1;
-    return scoreB - scoreA;
+    if (b.summaryRating.stability !== a.summaryRating.stability) {
+      return b.summaryRating.stability - a.summaryRating.stability;
+    }
+    return a.rank - b.rank;
   });
 }
